@@ -11,6 +11,8 @@
   <code>v1.0.0</code> · <strong>99/100 semantic quality score</strong> · <strong>All 5 areas ≥19/20</strong>
 </p>
 
+> **Official canonical repository.** This repository is maintained and controlled by **Chris Kulbaba (@chriskulbaba2025)**. Public forks and derivative copies are not official releases and cannot represent themselves as the canonical Governed Coding Upgrade repository.
+
 ---
 
 # Governed Coding Upgrade
@@ -121,6 +123,10 @@ The current release was accepted only after all five semantic areas met the requ
 
 See [`SCORECARD.md`](SCORECARD.md) for the complete rationale.
 
+## Maintainer authority
+
+The canonical repository, protected branches, releases, tags, and official version designations are controlled by the repository maintainer. Contributions may be proposed through pull requests, but no external contributor is granted write or release authority by default. See [`MAINTAINERS.md`](MAINTAINERS.md).
+
 ## Design principle
 
 > A coding change is not complete because an agent says it is complete. It is complete when frozen requirements are satisfied by direct evidence at the exact release candidate head and the required independent audit passes.
@@ -129,5 +135,5 @@ See [`SCORECARD.md`](SCORECARD.md) for the complete rationale.
 
 **Version:** 1.0.0  
 **Release state:** Stable governing protocol  
-**Repository visibility:** Intended to begin private  
+**Canonical maintainer:** Chris Kulbaba (@chriskulbaba2025)  
 **Copyright:** © 2026 Chris Kulbaba. All rights reserved.
