@@ -21,10 +21,18 @@ if ($Unexpected.Count -gt 0) {
     throw "Unexpected collaborator(s) with repository access: $Names"
 }
 
-Write-Host 'Making repository public and preserving maintainer-controlled merge settings...'
+if ($RepoInfo.visibility -ne 'PUBLIC') {
+    Write-Host 'Making repository public...'
+    gh repo edit $Repo `
+      --visibility public `
+      --accept-visibility-change-consequences
+    if ($LASTEXITCODE -ne 0) { throw 'Repository visibility update failed.' }
+} else {
+    Write-Host 'Repository is already public; skipping visibility mutation.'
+}
+
+Write-Host 'Applying maintainer-controlled merge settings...'
 gh repo edit $Repo `
-  --visibility public `
-  --accept-visibility-change-consequences `
   --enable-issues=true `
   --enable-wiki=false `
   --enable-projects=false `
@@ -34,7 +42,6 @@ gh repo edit $Repo `
   --delete-branch-on-merge=true
 if ($LASTEXITCODE -ne 0) { throw 'Repository settings update failed.' }
 
-Write-Host 'Protecting main...'
 $Protection = @{
     required_status_checks = @{
         strict = $true
@@ -57,13 +64,40 @@ $Protection = @{
     allow_fork_syncing = $false
 } | ConvertTo-Json -Depth 10
 
-$Protection | gh api `
-  --method PUT `
-  -H 'Accept: application/vnd.github+json' `
-  -H 'X-GitHub-Api-Version: 2022-11-28' `
-  "repos/$Repo/branches/$Branch/protection" `
-  --input - | Out-Null
-if ($LASTEXITCODE -ne 0) { throw 'Branch protection update failed.' }
+Write-Host 'Protecting main...'
+$ProtectionApplied = $false
+$LastProtectionError = ''
+
+for ($Attempt = 1; $Attempt -le 8; $Attempt++) {
+    $PreviousPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    $ProtectionOutput = $Protection | gh api `
+      --method PUT `
+      -H 'Accept: application/vnd.github+json' `
+      -H 'X-GitHub-Api-Version: 2022-11-28' `
+      "repos/$Repo/branches/$Branch/protection" `
+      --input - 2>&1
+    $ProtectionExit = $LASTEXITCODE
+    $ErrorActionPreference = $PreviousPreference
+
+    if ($ProtectionExit -eq 0) {
+        $ProtectionApplied = $true
+        break
+    }
+
+    $LastProtectionError = ($ProtectionOutput | Out-String).Trim()
+    if ($LastProtectionError -match 'Repository has been locked') {
+        Write-Host "GitHub still has the repository transition-locked; retrying protection ($Attempt/8)..."
+        Start-Sleep -Seconds 5
+        continue
+    }
+
+    throw "Branch protection update failed: $LastProtectionError"
+}
+
+if (-not $ProtectionApplied) {
+    throw "Branch protection update failed after transition retries: $LastProtectionError"
+}
 
 Write-Host 'Verifying final repository state...'
 $FinalRepo = gh repo view $Repo --json nameWithOwner,visibility,defaultBranchRef | ConvertFrom-Json
