@@ -1,0 +1,19 @@
+name: Repository Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact candidate head
+        uses: actions/checkout@v7.0.1
+
+      - name: Validate governed package
+        run: python3 scripts/validate-package.py

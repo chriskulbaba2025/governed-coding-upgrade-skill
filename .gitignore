@@ -1,0 +1,16 @@
+# OS/editor artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local validation/runtime artifacts
+__pycache__/
+*.pyc
+.tmp/
+tmp/
+
+# Secrets/local environment
+.env
+.env.*
+!.env.example

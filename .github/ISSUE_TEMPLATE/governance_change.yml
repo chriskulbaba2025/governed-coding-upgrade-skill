@@ -1,0 +1,30 @@
+name: Governance change
+description: Propose a bounded change to the governed execution protocol
+labels: ["governance"]
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Measurable objective
+      description: State the exact behavior or control that should change.
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current governed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed governed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: proof
+    attributes:
+      label: Required proof
+      description: Describe how the change can be verified without relying on prose claims.
+    validations:
+      required: true

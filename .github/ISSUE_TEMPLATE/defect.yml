@@ -1,0 +1,23 @@
+name: Protocol defect
+description: Report a reproducible defect in the skill, templates, or validation
+labels: ["defect"]
+body:
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Governed expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction evidence
+      description: Include exact file, section, command, or test evidence.
+    validations:
+      required: true
