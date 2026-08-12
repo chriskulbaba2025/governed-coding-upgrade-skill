@@ -4,35 +4,33 @@
 
 <p align="center">
   <strong>A deterministic governance and production-closure protocol for AI-assisted software changes.</strong><br>
-  Frozen scope. Real-path proof. Fail-closed verification. Exact-head audit. Evidence-based release.
+  Frozen scope. Sequential proof. Real-path acceptance. Balanced machine checks. Exact-head audit. Evidence-based release.
 </p>
 
 <p align="center">
-  <code>v1.1.0 — Production Closure</code> · <strong>99/100 semantic quality score</strong> · <strong>All 5 areas ≥19/20</strong>
+  <code>v1.2.0 — Sequential Evidence Gates</code> · <strong>99/100 semantic quality score</strong> · <strong>All 5 areas ≥19/20</strong>
 </p>
 
 > **Official canonical repository.** This repository is maintained and controlled by **Chris Kulbaba (@chriskulbaba2025)**. Public forks and derivative copies are not official releases and cannot represent themselves as the canonical Governed Coding Upgrade repository.
 
 ---
 
-# Governed Coding Upgrade v1.1.0 — Production Closure
+# Governed Coding Upgrade v1.2.0 — Sequential Evidence Gates
 
-**Governed Coding Upgrade (GCU)** is a project-agnostic execution skill for coding agents and engineering teams. It converts software changes from an informal edit/test loop into a controlled lifecycle with explicit scope, checklist IDs, direct evidence, deterministic verification, independent exact-head audit, governed correction, and release authorization.
+**Governed Coding Upgrade (GCU)** is a project-agnostic execution skill for coding agents and engineering teams. It converts software changes from an informal edit/test loop into a controlled lifecycle with explicit scope, stable checklist IDs, direct proof, sequential section gates, real-production-path acceptance, balanced machine verification, independent exact-head audit, and evidence-based release authorization.
 
-Version 1.1.0 adds **Production Closure Mode** for the failure pattern where repeated audits identify more repository-owned infrastructure and the coding loop keeps ending with another partial report. Production closure turns the complete governed production path into one acceptance package and requires the agent to continue implementing repository-controlled dependencies until the path passes or a genuine external blocker remains.
+The machine-facing skill name remains `governed-coding-upgrade` so existing v1.x installations continue to work.
 
-The machine-facing skill name remains `governed-coding-upgrade` so existing installations and invocation rules do not break when upgrading from v1.0.0.
+## What v1.2.0 adds
 
-## What v1.1.0 adds
-
-- **Production Closure Mode** for end-to-end production-readiness correction.
-- **Repository-owned blocker classification:** migrations, tables, validators, queues, caches, endpoints, transport abstractions, recovery harnesses, and negative proofs are implementation work when already required by the governed production contract.
-- **Dirty-tree continuation:** active correction work is captured, mapped, preserved, and corrected rather than reset solely to create a clean baseline.
-- **Real production path acceptance:** production adapters/services run with injected controlled transports instead of fabricated downstream success objects.
-- **Validation-before-transition:** complete objects are validated before persistence, lifecycle advancement, rendering, publication, or exposure.
-- **Durability and recovery proof:** restart/resume, completed-step call counts, retry classification, paid-task idempotency, and abort propagation are first-class closure responsibilities when applicable.
-- **Keep-going correction:** production closure continues through repository-controlled failures after governed process review instead of handing ordinary infrastructure gaps back as a new discovery report.
-- **Reusable production-closure template** under [`templates/PRODUCTION_CLOSURE_TEMPLATE.md`](templates/PRODUCTION_CLOSURE_TEMPLATE.md).
+- **Sequential Evidence Gates:** complex closure work runs section by section using `inspect → define proof → implement → narrow verify → section audit → auto-continue on PASS`.
+- **Balanced machine verification:** narrow checks after each section, affected integration checks only when boundaries are crossed, then one full terminal verification after all sections pass.
+- **Terminal machine release gate:** a repository command such as `change:release-gate` becomes the authoritative machine decision for release readiness; agent prose cannot override a failed gate.
+- **Governance-hold state:** mandatory external CI/platform unavailability no longer gets mislabeled as a code defect or falsely converted into PASS. Verified code can be reported as `CODE VERIFIED / GOVERNANCE HOLD` until the unchanged exact SHA receives the required external proof.
+- **Controlled credential isolation:** provider/LLM acceptance should sandbox real credentials, inject controlled transports below production adapters, fail unexpected live network calls, and measure actual call counters.
+- **Interrupted-session resume:** API/agent connection loss resumes from repository evidence and the last proven section rather than restarting completed work.
+- **Cross-section integration review:** upstream validated objects are checked against downstream consumers before the full release gate.
+- **Reusable machine gate template:** [`templates/MACHINE_RELEASE_GATE_TEMPLATE.md`](templates/MACHINE_RELEASE_GATE_TEMPLATE.md).
 
 See [`CHANGELOG.md`](CHANGELOG.md) for release history.
 
@@ -62,7 +60,7 @@ RE-AUDIT
 CLOSE / RELEASE
 ```
 
-### Production Closure Mode
+### Production Closure Mode v1.2.0
 
 ```text
 INTAKE
@@ -71,21 +69,19 @@ PREFLIGHT
   ↓
 ONE PRODUCTION-CLOSURE CHECKLIST
   ↓
-PROVE FAILURES
+SEQUENTIAL EVIDENCE GATES
   ↓
-IMPLEMENT REPOSITORY-OWNED DEPENDENCIES
+CROSS-SECTION REVIEW
   ↓
-REAL-PATH ACCEPTANCE
+FULL TERMINAL VERIFICATION
   ↓
-FULL REGRESSION
+MACHINE RELEASE GATE
   ↓
 INDEPENDENT EXACT-HEAD AUDIT
   ↓
-CONSOLIDATED CORRECTION
+CORRECTION / RE-AUDIT WHEN REQUIRED
   ↓
-RE-AUDIT
-  ↓
-PASS OR GENUINE EXTERNAL BLOCKER
+RELEASE READY OR GOVERNANCE HOLD / BLOCKED
 ```
 
 ## Non-negotiable controls
@@ -94,24 +90,27 @@ PASS OR GENUINE EXTERNAL BLOCKER
 - Every checklist item has a stable ID and direct proof.
 - Permitted and prohibited files are explicit.
 - Protected invariants are identified before editing.
-- Completion requires executable evidence rather than prose or confidence.
+- Multi-section work closes each section before dependent work proceeds.
 - Acceptance executes the real production implementation with controlled dependencies.
+- Controlled tests must not silently use real credentials or network paths when isolation is feasible.
 - Negative paths prove persisted state and prohibited side effects, not only thrown exceptions.
-- Repository-owned missing infrastructure is not relabeled as a final blocker during production closure.
-- CI and audit correspond to the exact final head.
-- The implementation cannot authorize its own release.
+- Repository-owned missing infrastructure is implementation work during Production Closure Mode.
+- Full regression is balanced: narrow verification during sections, full terminal verification after all sections pass.
+- Required exact-head CI cannot be replaced by a local substitute.
+- The implementation cannot authorize its own release or override the machine release gate.
 - Merge, deploy, release, activation, and live paid calls remain subject to explicit authorization.
 
 ## Repository structure
 
 | Path | Purpose |
 |---|---|
-| [`SKILL.md`](SKILL.md) | Authoritative Governed Coding Upgrade v1.1.0 skill |
+| [`SKILL.md`](SKILL.md) | Authoritative Governed Coding Upgrade v1.2.0 skill |
 | [`GLOBAL_CLAUDE_RULE.md`](GLOBAL_CLAUDE_RULE.md) | Mandatory global invocation rule |
 | [`SCORECARD.md`](SCORECARD.md) | Five-area semantic quality assessment |
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Control model, gates, roles, and project adapter architecture |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Control model and machine-gate architecture |
 | [`docs/ADOPTION_GUIDE.md`](docs/ADOPTION_GUIDE.md) | Installation and repository onboarding procedure |
-| [`templates/PRODUCTION_CLOSURE_TEMPLATE.md`](templates/PRODUCTION_CLOSURE_TEMPLATE.md) | Reusable full production-closure execution prompt |
+| [`templates/PRODUCTION_CLOSURE_TEMPLATE.md`](templates/PRODUCTION_CLOSURE_TEMPLATE.md) | Reusable production-closure execution prompt |
+| [`templates/MACHINE_RELEASE_GATE_TEMPLATE.md`](templates/MACHINE_RELEASE_GATE_TEMPLATE.md) | Repository-level terminal release-gate contract |
 | [`templates/`](templates/) | Profile, checklist, audit, correction, and final-report templates |
 | [`.github/`](.github/) | Pull-request, issue, security, ownership, and CI governance |
 | [`scripts/validate-package.py`](scripts/validate-package.py) | Zero-dependency package integrity validator |
@@ -122,49 +121,75 @@ PASS OR GENUINE EXTERNAL BLOCKER
 GCU has two layers:
 
 1. **Execution skill** — install `SKILL.md` wherever the coding agent loads reusable skills.
-2. **Mandatory invocation rule** — add `GLOBAL_CLAUDE_RULE.md` to the global instruction layer so qualifying coding changes cannot silently bypass the skill.
+2. **Mandatory invocation rule** — add `GLOBAL_CLAUDE_RULE.md` to the global instruction layer.
 
-Each codebase supplies repository-specific facts through a **Governed Change Profile**. The profile maps the universal protocol to the repository's actual commands, CI, protected invariants, migration rules, external-call rules, persistence/recovery conventions, rollback mechanism, and release controls.
+Each repository supplies its actual commands and invariants through a **Governed Change Profile**. v1.2.0 adds fields for affected-integration verification, controlled-test credential policy, and the terminal machine release gate.
 
 Start with [`docs/ADOPTION_GUIDE.md`](docs/ADOPTION_GUIDE.md).
 
-## Production Closure Mode
+## Sequential closure rule
 
-Activate Production Closure Mode when the request is materially equivalent to:
+For complex production closure, each section follows:
 
-- finish the production-readiness correction;
-- fix all known blockers and verify the complete path;
-- continue until all governed defects are clean;
-- stop returning partial audits and make the system work.
+```text
+inspect
+→ define proof
+→ reproduce failure when safe/feasible
+→ implement complete section
+→ narrow verify
+→ section audit
+→ automatically continue on PASS
+```
 
-The root rule is simple:
+A failed section is corrected before dependent sections proceed. Routine PASS does not require user approval to continue unless the next step crosses an explicit authorization boundary.
 
-> If a missing component is repository-owned and required by an already-governed production contract, it is implementation work. It is not a final blocker merely because it requires infrastructure.
+## Balanced verification rule
 
-A valid final blocker must be genuinely external or explicitly prohibited, such as unavailable third-party authorization or withheld deployment/merge permission.
+Use the lightest check that proves the current boundary, then pay the cost of full verification once at the terminal point:
+
+```text
+section narrow proof
+→ affected integration when needed
+→ all sections PASS
+→ cross-section review
+→ full acceptance/regression/invariant/scope verification
+→ machine release gate
+```
+
+This is designed to reduce active cycle time without weakening final proof.
+
+## Machine release rule
+
+The preferred repository responsibility is:
+
+```text
+change:release-gate
+```
+
+The coding agent may not output `RELEASE READY` unless the configured required terminal gate passes. A mandatory external CI outage produces `CODE VERIFIED / GOVERNANCE HOLD`, not final PASS.
 
 ## Proof model
 
-A completion claim is valid only when the relevant evidence is inspectable. Examples include:
+Strong proof includes:
 
-- exact test assertions;
+- exact assertions;
 - exact lifecycle/state history;
-- persisted state and round-trip values;
+- persisted round-trip values;
 - stored artifacts and hashes;
-- provider/adapter call counts;
+- real production adapter/service execution with injected controlled dependencies;
+- controlled/live provider and model call counts;
 - retry and duplicate-task counts;
-- abort/cancellation side-effect counts;
 - restart/resume proof;
+- object identity/equality where governed;
 - exact changed-file list;
 - exact final SHA;
-- CI tied to that SHA;
-- independent audit result.
+- required CI tied to that SHA;
+- terminal release-gate result;
+- independent exact-head audit.
 
-Test names, comments, green CI by itself, prose claims, manually constructed success objects, and confidence percentages are not substitutes for governed proof.
+Test names, comments, fabricated success objects, hardcoded PASS counters, prose, confidence, and green CI by itself are not substitutes for governed proof.
 
 ## Semantic quality gate
-
-Version 1.1.0 preserves the five-area quality threshold used by the project.
 
 | Area | Score |
 |---|---:|
@@ -185,21 +210,17 @@ The repository uses semantic versioning for the protocol artifact:
 - minor: backward-compatible governance capability;
 - major: incompatible invocation or protocol contract changes.
 
-Version 1.1.0 is a minor release because Production Closure Mode adds capability while preserving the stable `governed-coding-upgrade` invocation name.
-
-## Maintainer authority
-
-The canonical repository, protected branches, releases, tags, and official version designations are controlled by the repository maintainer. Contributions may be proposed through pull requests, but no external contributor is granted write or release authority by default. See [`MAINTAINERS.md`](MAINTAINERS.md).
+Version 1.2.0 is a minor release because sequential evidence gates and machine release controls add backward-compatible capability while preserving the stable `governed-coding-upgrade` invocation name.
 
 ## Design principle
 
-> A coding change is not complete because an agent says it is complete. It is complete when governed requirements are satisfied by direct evidence at the exact release-candidate head and the required independent audit passes.
+> A coding change is not complete because an agent says it is complete. It is complete when governed requirements are directly proven at the exact candidate head and the configured machine and independent release gates agree.
 
 ## Status
 
-**Display name:** Governed Coding Upgrade v1.1.0 — Production Closure  
+**Display name:** Governed Coding Upgrade v1.2.0 — Sequential Evidence Gates  
 **Machine-facing name:** `governed-coding-upgrade`  
-**Version:** 1.1.0  
+**Version:** 1.2.0  
 **Release state:** Proposed stable minor release pending PR review/merge  
 **Canonical maintainer:** Chris Kulbaba (@chriskulbaba2025)  
 **Copyright:** © 2026 Chris Kulbaba. All rights reserved.
