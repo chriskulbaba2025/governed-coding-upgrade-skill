@@ -1,235 +1,180 @@
 ---
 name: governed-coding-upgrade
 description: >-
-  Mandatory governed execution protocol for any task that changes source code,
-  tests, schemas, dependencies, configuration, infrastructure-as-code, build
-  logic, migrations, or generated application behavior. Use for features, bug
-  fixes, refactors, upgrades, migrations, performance work, security fixes,
-  dependency changes, and corrective work. Requires frozen scope, checklist
-  IDs, direct proof, verification gates, exact-head independent audit,
-  controlled correction, and evidence-based closure before merge.
+  Mandatory governed execution and production-closure protocol for any task that
+  changes source code, tests, schemas, dependencies, configuration,
+  infrastructure-as-code, build/release logic, migrations, or runtime behavior.
+  Use for features, defects, refactors, upgrades, migrations, security fixes,
+  corrective work, and production-readiness closure. Requires verified starting
+  state, frozen checklist IDs, direct executable proof, real-path acceptance with
+  controlled dependencies, fail-closed negative proof, exact-head independent
+  audit, governed correction, and evidence-based closure before merge or release.
 ---
 
-# Governed Coding Upgrade Skill
+# Governed Coding Upgrade Skill v1.1.0 — Production Closure
 
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **Status:** Governing execution skill  
-**Scope:** Any repository change that modifies executable behavior, runtime contracts, build/release behavior, tests, schemas, dependencies, infrastructure-as-code, configuration, or generated application output.
+**Machine-facing skill name:** `governed-coding-upgrade`  
+**Compatibility:** The invocation name remains stable across versions.  
+**Scope:** Any repository change that can alter executable behavior, runtime contracts, build/release behavior, tests, schemas, dependencies, infrastructure-as-code, configuration, persistence, or generated application output.
 
 ## 0. Governing intent
 
 This skill converts coding work from an informal edit/test cycle into a deterministic governed change protocol.
 
-Every governed change MUST move through this sequence:
+Every ordinary governed change follows:
 
-**INTAKE → PREFLIGHT → PROFILE → FROZEN CHECKLIST → EXECUTION PLAN → BUILD → VERIFY → EXACT-HEAD AUDIT → CORRECT → RE-AUDIT → CLOSE**
+**INTAKE → PREFLIGHT → PROFILE → FROZEN CHECKLIST → BUILD → VERIFY → EXACT-HEAD AUDIT → CORRECT → RE-AUDIT → CLOSE**
 
-The skill has four non-negotiable properties:
+When the user asks to finish a production-readiness correction, close all known defects, make the complete path work, or continue until clean, activate **PRODUCTION CLOSURE MODE**:
 
-1. **Scope is frozen before implementation.**
-2. **Completion is proved by executable evidence, not prose.**
-3. **The implementation cannot authorize its own release.**
-4. **A change is not complete until the exact final head is independently audited.**
+**INTAKE → PREFLIGHT → CLOSURE CHECKLIST → PROVE FAILURES → IMPLEMENT REPOSITORY-OWNED DEPENDENCIES → INTEGRATED VERIFY → EXACT-HEAD AUDIT → CONSOLIDATED CORRECTION → RE-AUDIT → CLOSE**
 
-Speed is optimized by reducing rediscovery, fragmented fixes, repeated prompts, avoidable correction rounds, and manual checks. Speed NEVER overrides product, security, data, evidence, compatibility, rollback, or release invariants.
+The skill has six non-negotiable properties:
+
+1. Scope is explicit and frozen before implementation.
+2. Completion is proved by executable evidence, not prose or confidence.
+3. Acceptance exercises the real production implementation with controlled dependencies.
+4. Repository-owned missing infrastructure is implementation work, not a final blocker.
+5. The implementation cannot authorize its own release.
+6. A change is not complete until the exact final head is independently audited.
+
+Speed is optimized by reducing rediscovery, fragmented fixes, repeated prompts, avoidable correction rounds, and manual checks. Speed never overrides product, security, data, evidence, compatibility, rollback, cost, or release invariants.
 
 ---
 
 # 1. Mandatory invocation rule
 
-Invoke this skill whenever the requested task would intentionally change one or more of the following:
+Invoke this skill for any intentional change to:
 
-- application source code;
-- service or library code;
-- tests or test harnesses;
-- API behavior or schemas;
+- application or service code;
+- tests or acceptance harnesses;
+- APIs or schemas;
 - database schemas or migrations;
-- dependency versions or lockfiles;
-- configuration affecting executable behavior;
+- persistence or durable job state;
+- dependencies or lockfiles;
+- executable configuration;
 - infrastructure-as-code;
-- CI/CD behavior;
-- build, packaging, deployment, or release logic;
-- generated runtime artifacts;
+- CI/CD, build, packaging, deployment, or release logic;
 - security controls;
-- data transformation behavior;
-- user-visible application behavior;
-- defect corrections;
-- refactors that can alter behavior or contracts.
+- data transformations;
+- generated application/report behavior;
+- defect corrections and production-readiness work.
 
-Do NOT bypass this skill because the change appears small.
+Do not bypass governance because the change appears small.
 
-Read-only inspection, explanation, research, or documentation-only work that cannot affect executable behavior does not require the full execution lifecycle unless repository governance says otherwise.
+Read-only inspection or explanation does not require the full lifecycle unless repository governance says otherwise.
 
 ---
 
 # 2. Authority and precedence
 
-Before editing, resolve authority in this order:
+Resolve authority in this order before editing:
 
-1. Applicable platform, safety, legal, privacy, and security constraints that the coding agent cannot waive.
-2. Explicit user instruction for the current task, including scope and authorization boundaries.
+1. Platform, safety, legal, privacy, and security constraints.
+2. Explicit user instruction for the current task and authorization boundaries.
 3. Repository governance and security rules.
-4. Product, API, schema, data, compatibility, and release contracts.
-5. Protected invariants and golden/reference artifacts.
+4. Product, API, schema, persistence, data, compatibility, and release contracts.
+5. Protected invariants, golden masters, and reference artifacts.
 6. This skill.
-7. The repository's governed change profile.
-8. The frozen change checklist.
-9. The compiled execution plan.
-10. Implementation notes or model suggestions.
+7. Repository Governed Change Profile.
+8. Frozen checklist.
+9. Implementation notes or model suggestions.
 
-A lower-level instruction MUST NOT override a higher-level rule. A user instruction may narrow scope or withhold authorization at any time; it does not silently waive a stricter safety, security, data, or repository requirement. A deliberate governance-rule change must itself be explicitly scoped and governed.
+A lower-level instruction cannot override a higher-level rule.
 
-If authoritative sources conflict and the conflict changes implementation or proof requirements, STOP under the blocked protocol.
-
----
-
-# 3. Core operating rules
-
-Every governed coding change MUST satisfy all of these rules:
-
-- [ ] One measurable change package is active per governed branch/PR unless repository governance explicitly permits otherwise.
-- [ ] Exact repository root is verified before editing.
-- [ ] Exact starting branch and SHA are recorded.
-- [ ] Working-tree state is recorded and unexplained pre-existing changes are protected.
-- [ ] Governing documents are identified before implementation.
-- [ ] Protected invariants are identified before implementation.
-- [ ] One frozen checklist exists before code changes.
-- [ ] Every checklist item has a stable ID.
-- [ ] Every checklist item describes one observable behavior or one verifiable repository condition.
-- [ ] Every checklist item names direct proof.
-- [ ] Permitted and prohibited file boundaries are explicit.
-- [ ] Scope changes after freeze require reclassification before implementation continues.
-- [ ] One consolidated implementation pass is preferred over symptom-by-symptom edits.
-- [ ] Verification is run against the actual implementation.
-- [ ] Full regression is run when the repository provides a regression suite.
-- [ ] Scope is checked against the frozen file boundary.
-- [ ] Complete diff is inspected before the implementation commit is considered ready.
-- [ ] An independent audit inspects the exact final head.
-- [ ] Failed audit IDs are corrected as one consolidated correction package.
-- [ ] The corrected exact head is audited again.
-- [ ] Merge/release occurs only after all required evidence is PASS and authorization rules are satisfied.
-- [ ] The next governed change does not begin until this change is closed or explicitly suspended.
+When authoritative sources conflict and the conflict changes implementation or proof requirements, use the blocked protocol.
 
 ---
 
-# 4. Project adapter layer
+# 3. Governed Change Profile
 
-The skill is universal because repository-specific facts are loaded into a **Governed Change Profile** rather than hard-coded into the skill.
-
-## 4.1 Profile location
-
-Use the first existing repository-governed location that fits local conventions. If none exists, create:
+Use the first repository-governed location that fits local conventions. If none exists, prefer:
 
 ```text
 .governance/GOVERNED_CHANGE_PROFILE.md
 ```
 
-Creating the profile is governance/setup work. Do not silently add it during a narrowly scoped product change when the permitted-file list does not allow it. In that case, build an in-memory profile for the current change and report that no persistent profile was written.
+The profile records repository-specific facts rather than hard-coding them into this skill.
 
-## 4.2 Required profile fields
-
-The profile MUST record, where applicable:
+Required fields where applicable:
 
 ```text
 Repository root:
 Primary branch:
-Package/build system:
-Runtime(s):
-Test framework(s):
-Static-analysis commands:
-Type-check commands:
-Build commands:
-Narrow-test convention:
-Acceptance/integration-test convention:
+Runtime/build system:
+Test framework:
+Narrow-test command:
+Acceptance/integration command:
 Full-regression command:
-Scope/diff-check convention:
-Security/secret-scan convention:
-Generated-artifact policy:
-Dependency/lockfile policy:
+Type/static/build commands:
+Scope/diff check:
+Security/secret scan:
 Migration policy:
+Persistence policy:
 Live external-call policy:
-CI provider and exact-head verification method:
+CI exact-head verification method:
 Merge/release authorization rule:
-Rollback mechanism:
+Rollback/recovery mechanism:
 Protected invariant registry:
 Canonical governance sources:
-Known repository-specific stop conditions:
 ```
 
-Unknown fields MUST be marked `UNRESOLVED`, not guessed.
+Unknown facts are `UNRESOLVED`, never guessed.
 
-## 4.3 Protected invariant registry
-
-Translate project-specific invariants into generic protected invariant classes.
-
-Examples include:
-
-| Invariant class | Examples |
-|---|---|
-| Interface | API shape, CLI contract, public function signature |
-| Data | schema, migration ordering, serialization, tenant isolation |
-| State | lifecycle transitions, idempotency, concurrency behavior |
-| Security | auth, authorization, secret handling, sandbox boundaries |
-| Evidence | audit artifacts, stored hashes, provenance, logs |
-| Output | report templates, golden masters, snapshots, generated assets |
-| Compatibility | supported runtime, protocol, dependency, browser, platform |
-| Cost/external | paid API calls, provider quotas, LLM calls |
-| Release | feature flags, deployment state, rollback target |
-| Performance | governed latency, memory, throughput, bundle limits |
-
-A change MAY have zero invariants in a class. It MUST NOT assume an invariant exists without repository evidence.
+Protected invariant classes include interface, data, state, security, evidence, output, compatibility, cost/external, release, and performance.
 
 ---
 
-# 5. Change classification
+# 4. Change classification
 
-At Gate 0 classify the change so proof is proportionate but governance remains intact.
+Choose one primary class:
 
-Choose exactly one primary class:
+- `DEFECT`
+- `FEATURE`
+- `REFACTOR`
+- `MIGRATION`
+- `DEPENDENCY`
+- `SECURITY`
+- `PERFORMANCE`
+- `CONFIGURATION`
+- `CORRECTION`
+- `PRODUCTION_CLOSURE`
 
-- **DEFECT** — existing governed behavior is incorrect.
-- **FEATURE** — new product/runtime behavior is added.
-- **REFACTOR** — internal structure changes while governed external behavior is intended to remain stable.
-- **MIGRATION** — data, schema, runtime, platform, framework, or architecture is moved between governed states.
-- **DEPENDENCY** — dependency or toolchain version changes.
-- **SECURITY** — threat, vulnerability, permission, authentication, authorization, isolation, or secret-handling behavior changes.
-- **PERFORMANCE** — governed resource or latency behavior changes.
-- **CONFIGURATION** — executable behavior changes through config, CI, build, or infrastructure code.
-- **CORRECTION** — a failed governed checklist/audit item is being repaired.
+Use `PRODUCTION_CLOSURE` when the task is to close a set of known production-readiness defects that collectively prevent a real end-to-end path from satisfying its contracts.
 
-The class changes which proofs are required; it does NOT remove frozen scope, direct evidence, audit, or closure gates.
+Do not split one production-path root cause into artificial future work merely to obtain a PASS.
 
 ---
 
-# 6. Gate 0 — Intake and disposition
+# 5. Gate 0 — Intake
 
-No code changes.
-
-Complete:
+Before code changes:
 
 - [ ] State one measurable objective.
 - [ ] Classify the change.
-- [ ] Identify the requested outcome.
 - [ ] Identify governing sources.
-- [ ] Identify upstream dependencies.
-- [ ] Identify downstream systems/work that must remain untouched.
-- [ ] Determine whether executable behavior is expected to change.
-- [ ] Determine whether protected outputs or contracts are expected to change.
-- [ ] Determine whether a migration or compatibility obligation exists.
+- [ ] Identify protected invariants.
+- [ ] Identify upstream and downstream boundaries.
+- [ ] Determine whether executable behavior changes.
+- [ ] Determine whether migrations or compatibility obligations exist.
 - [ ] Determine whether live external services are permitted.
-- [ ] Determine whether merge/release is authorized or explicitly prohibited.
-- [ ] Identify the baseline for any claimed speed/performance improvement.
-- [ ] Stop if a required governing contract is unresolved.
+- [ ] Determine whether merge/deploy/release is authorized.
+- [ ] For production closure, enumerate all currently known blockers on the same production path.
 
-**Required output:** a short disposition containing objective, class, governing sources, expected invariant impact, and any blocking condition.
+Production closure objective form:
+
+```text
+Make <production path> satisfy <governing contracts> from <entry boundary>
+through <terminal boundary>, and prove it with deterministic controlled tests.
+```
 
 ---
 
-# 7. Gate 1 — Repository preflight
+# 6. Gate 1 — Repository preflight
 
-Before editing, verify actual repository state.
-
-Required evidence:
+Verify actual repository state:
 
 ```text
 Repository root:
@@ -238,42 +183,35 @@ HEAD SHA:
 Working tree status:
 Remote identity when relevant:
 Active PR when relevant:
-Governance sources found:
-Governed Change Profile found/derived:
+Governance sources:
+Governed Change Profile:
 ```
 
 Rules:
 
-- A starting SHA mismatch is a STOP condition.
-- Unexplained dirty-tree changes are a STOP condition unless they can be protected without touching them.
-- Never reset, discard, overwrite, stage, or commit pre-existing user work unless explicitly authorized.
-- Never infer repository identity from conversation history when the repository can be inspected.
+- Starting SHA mismatch is a stop condition.
+- Never infer repository identity when it can be inspected.
+- Never reset, discard, overwrite, stage, or commit pre-existing user work without authorization.
+
+## 6.1 Dirty-tree continuation rule
+
+A dirty working tree is not automatically a blocker when the user explicitly asks to continue the current correction and the modifications belong to that correction.
+
+In that case:
+
+1. capture `git status`, `git diff --stat`, and complete `git diff`;
+2. map each existing modification to a checklist ID;
+3. preserve valid work;
+4. correct invalid work in place;
+5. do not create an artificial clean baseline by resetting or stashing the user's active correction.
+
+An unexplained or unrelated dirty-tree conflict remains a blocker.
 
 ---
 
-# 8. Gate 2 — Scope and architecture resolution
+# 7. Gate 2 — Freeze the scope
 
-Resolve the implementation boundary before checklist freeze.
-
-## 8.1 One architectural boundary
-
-Group confirmed defects/requirements that share the same relevant boundary:
-
-- responsibility;
-- contract;
-- state transition;
-- schema;
-- storage path;
-- adapter/provider boundary;
-- API surface;
-- security boundary;
-- build/release boundary;
-- acceptance harness;
-- failure mode.
-
-Do not send piecemeal symptom fixes when one bounded change can address the same root cause.
-
-## 8.2 File boundary
+Group confirmed requirements sharing the same responsibility, contract, state transition, schema, storage path, adapter boundary, API surface, security boundary, acceptance harness, or failure mode.
 
 Define:
 
@@ -285,46 +223,25 @@ Prohibited files:
 - protected files or path patterns
 ```
 
-A permitted pattern MUST be narrow enough that unrelated edits can be detected.
+A permitted pattern must be narrow enough to detect unrelated edits.
 
-## 8.3 Architecture decision rule
+For ordinary changes, unresolved architecture decisions affecting implementation must equal zero before build.
 
-Before build begins, unresolved architectural decisions affecting the change MUST equal zero.
-
-If implementation reveals a material architecture decision not represented in the frozen checklist, STOP and reclassify scope.
+For `PRODUCTION_CLOSURE`, a repository-owned missing boundary discovered during implementation may be added to the closure checklist when it is strictly required to satisfy an already-governed production-path requirement. It is not deferred merely because it requires a new schema, migration, table, worker, validator, transport abstraction, endpoint, cache, or test harness.
 
 ---
 
-# 9. Gate 3 — Frozen checklist
+# 8. Gate 3 — Frozen checklist
 
-Create the checklist BEFORE implementation.
+Create the checklist before new implementation.
 
-Suggested repository path when no stronger convention exists:
+Preferred path when no stronger convention exists:
 
 ```text
 .governance/changes/<CHANGE-ID>_CHECKLIST.md
 ```
 
-## 9.1 Checklist header
-
-```text
-Change ID:
-Version:
-Change class:
-Branch:
-PR:
-Required starting SHA:
-Objective:
-Governing sources:
-Protected invariants:
-Permitted files:
-Prohibited files:
-Baseline metric when applicable:
-```
-
-## 9.2 Checklist item contract
-
-Every item MUST contain:
+Every item contains:
 
 | Field | Requirement |
 |---|---|
@@ -333,168 +250,102 @@ Every item MUST contain:
 | Boundary | Exact file/function/module/schema/config surface |
 | Positive proof | Exact assertion, command, artifact, state, output, or diff evidence |
 | Negative proof | Required when failure/absence matters |
-| Acceptance proof | End-to-end/real-path proof where applicable |
-| Protected invariant | Invariant preserved or intentionally versioned |
-| Failure result | Exact fail-closed result when applicable |
+| Acceptance proof | Real-path proof where applicable |
+| Protected invariant | Preserved or intentionally versioned invariant |
+| Failure result | Exact fail-closed result |
 | Final evidence | Evidence required in the close report |
 | Status | `[ ]` or `[x]` only |
 
-## 9.3 Checklist quality rules
+Checklist rules:
 
-- One behavior per item.
-- No aspirational wording.
-- No item without direct proof.
-- No proof based only on comments, test names, source-string searches, or green CI.
-- No `A OR B` acceptance when only one governed result is correct.
-- No combined checkbox for independent behaviors.
-- No optional improvements inside current scope.
-- No hidden requirements in prose outside checklist IDs.
+- one behavior per item;
+- no aspirational language;
+- no item without direct proof;
+- no proof based only on comments, test names, source searches, or green CI;
+- no `A OR B` when only one governed result is correct;
+- no hidden requirements outside checklist IDs;
+- no moving governing requirements into `known limitations`.
 
-## 9.4 Observable language
-
-Prohibited:
+Observable requirement form:
 
 ```text
-improve reliability
-make robust
-clean up
-optimize
-handle edge cases
-strengthen validation
-ensure quality
-make deterministic
-```
-
-Required form:
-
-```text
-Given <precondition>, when <operation>, then <exact observable result>,
+Given <precondition>, when <operation>, then <exact result>,
 and <prohibited result> does not occur.
 ```
 
-## 9.5 Frozen scope rule
+---
 
-When implementation begins, the checklist is frozen.
+# 9. Gate 4 — Proof-first build
 
-A later scope addition requires:
+Required order:
 
-1. STOP;
-2. classify it as blocker, in-scope defect, or future change;
-3. version the checklist if current scope truly changes;
-4. update permitted/prohibited boundaries;
-5. update the baseline when the scope change materially affects measurement;
-6. restart implementation only from the newly governed scope.
+1. Re-run preflight.
+2. Add or correct direct proof for each checklist item.
+3. Reproduce each defect with a failing proof when technically safe and feasible.
+4. Implement the complete frozen checklist.
+5. Run narrow tests until green.
+6. Run acceptance/integration against the real production path.
+7. Run type/static/security/build checks where applicable.
+8. Run persistence/migration/recovery checks where applicable.
+9. Run full regression.
+10. Run protected-invariant checks.
+11. Run scope check.
+12. Inspect the complete diff.
+13. Commit/push according to repository governance.
+
+Do not return a completion report while a required item is open or failing.
 
 ---
 
-# 10. Gate 4 — Compile the execution plan
+# 10. Real production path acceptance
 
-The implementation instructions MUST be compiled from the frozen checklist, not reconstructed from memory.
+Acceptance must prove production behavior, not a hand-written imitation.
 
-Required execution-plan fields:
+When external providers are involved, prefer:
 
 ```text
-Repository root
-Branch
-PR when applicable
-Required starting SHA
-One objective
-Change class
-Governing sources
-Protected invariants
-Permitted files
-Prohibited files
-Checklist IDs
-Required narrow tests
-Required acceptance/integration proofs
-Required negative-path proofs
-Required full regression
-Required build/static/type/security checks
-Required scope check
-Required diff review
-Commit policy
-Push policy
-Exact-head CI requirement
-Independent-audit requirement
-Merge/release authorization rule
-Required final report format
+real production adapter
++
+injected controlled transport/client
++
+production validator
++
+real normalization/artifact/persistence boundary
++
+real orchestrator/service boundary
 ```
 
-Do not include future work, opportunistic refactors, or model-preferred cleanup.
+Controlled fixtures may emulate provider responses. The adapter/orchestrator under test must be the production implementation.
+
+Do not fabricate a successful normalized result and inject it downstream as proof that the production adapter works.
+
+Measure exact call counts whenever idempotency, retry, paid tasks, polling, writes, or side effects matter.
+
+Live paid/provider/LLM calls are zero in tests and CI unless explicitly authorized by the frozen checklist and governing sources.
 
 ---
 
-# 11. Gate 5 — Build
+# 11. Validation-before-transition rule
 
-Follow this order unless a repository-governed migration or security procedure requires a stricter sequence:
+Whenever an artifact or contract controls persistence, lifecycle advancement, rendering, publication, or exposure:
 
-1. Re-run preflight and confirm the required starting state.
-2. Add or correct proof for each checklist behavior when proof does not already exist.
-3. For defect work, reproduce the defect with a failing test/acceptance proof when technically feasible and safe.
-4. Record the expected pre-fix failure.
-5. Implement only the frozen checklist.
-6. Run the narrow verification set until green.
-7. Build/update acceptance or integration proof where applicable.
-8. Run the governed acceptance path.
-9. Run required static analysis/type checks.
-10. Run required security and secret checks.
-11. Run build/package validation.
-12. Run full regression when available.
-13. Run migration/compatibility checks when applicable.
-14. Run protected-invariant checks.
-15. Run scope check.
-16. Inspect the complete diff.
-17. Confirm no generated/untracked artifact violates policy.
-18. Commit/push according to repository governance.
+```text
+assemble complete object
+→ validate complete object
+→ persist/advance/use the validated object
+```
 
-Do NOT produce a completion report while any required checklist item is open or failing.
+Do not validate a partial object and add production fields afterward.
+
+If a renderer or downstream consumer must receive the validated model, prove exact equality or identity at that boundary.
+
+Malformed `AVAILABLE`, `SUCCESS`, `READY`, or equivalent states must fail closed rather than being promoted into usable canonical evidence.
 
 ---
 
-# 12. Proof standard
+# 12. Negative-path and fail-closed proof
 
-A checklist item is complete only when direct evidence proves it.
-
-Valid evidence includes:
-
-- exact assertion output;
-- exact expected/actual value;
-- exact ordered state history;
-- persisted database state;
-- stored artifact content;
-- byte count;
-- SHA-256 or repository-governed hash;
-- adapter/provider call count;
-- artifact write count;
-- HTTP status/body/schema result;
-- CLI exit code and output;
-- database row count/value;
-- migration version/state;
-- snapshot/golden/reference hash;
-- build artifact manifest;
-- dependency resolution/lockfile evidence;
-- benchmark measurement when performance is governed;
-- security scanner result when security is governed;
-- exact changed-file list;
-- exact-head CI result tied to the final SHA.
-
-Invalid evidence by itself includes:
-
-- comments;
-- test names;
-- prose claims;
-- confidence scores;
-- source-code string search;
-- green CI without behavior-specific proof;
-- manually constructed success summaries;
-- unused variables presented as proof;
-- broad "works" statements.
-
----
-
-# 13. Negative-path and fail-closed rules
-
-When a checklist item governs failure behavior, proof MUST show all applicable dimensions:
+For governed failure behavior, prove all applicable dimensions:
 
 ```text
 operation rejects/fails with governed classification
@@ -510,69 +361,166 @@ AND
 protected prior state remains unchanged where required
 ```
 
-Do not accept a negative-path test that proves only an exception was thrown.
+Throwing an exception alone is insufficient.
+
+Every confirmed production defect and every independently discovered false-positive proof adds a permanent regression test or executable guard when technically feasible.
 
 ---
 
-# 14. Determinism rules
+# 13. Production Closure Mode
 
-Where order, exclusivity, identity, or count matters, use exact assertions.
+Production Closure Mode exists for work where repeated partial audits would otherwise keep rediscovering repository-owned missing boundaries.
 
-Examples:
+## 13.1 Single closure package
+
+Convert all known defects on the same production path into one bounded checklist. Typical closure responsibilities include:
+
+- complete request/config persistence;
+- source-specific contract validation;
+- real production adapters with controlled transports;
+- artifact integrity and provenance;
+- finding/score/output validation before state transition;
+- finalization gates;
+- complete validated render/view model;
+- durable job execution;
+- restart/recovery;
+- retry classification;
+- task/payment idempotency;
+- abort/cancellation propagation;
+- replay/cache execution;
+- live-client budget and retry controls tested with fake clients;
+- publication/terminal state;
+- actual web/API path;
+- negative proofs.
+
+Only include responsibilities required by the product/repository contracts for the path being closed.
+
+## 13.2 Repository-owned work is not a final blocker
+
+The following phrases describe implementation work when the repository owns the boundary:
 
 ```text
-actual == expected
-actual sequence == exact expected sequence
-call count == exact expected count
-written artifacts == exact expected set
-changed files == permitted changed-file set
+requires DB migration
+requires a new table
+requires durable job state
+requires source-specific schema
+requires transport abstraction
+requires validation module
+requires endpoint
+requires replay cache
+requires model-client interface
+requires budget gate
+requires integration harness
+requires recovery test
+requires negative proof
 ```
 
-Do not use containment, partial matching, truthiness, or `A OR B` when the governed contract defines one exact result.
+Do not end a production-closure run with one of these as the sole blocker. Implement the required repository-owned boundary within governed scope.
 
-Use deterministic clocks, IDs, random seeds, fixtures, and providers where the repository permits them.
+## 13.3 Genuine external blockers
 
-Live paid/external/LLM/provider calls MUST be zero in tests and CI unless the frozen checklist and governing sources explicitly authorize them.
+A final blocker is valid only when the remaining dependency cannot be created or simulated from the repository without an unavailable or prohibited external action, for example:
+
+- unavailable credentials or account authorization;
+- destructive production mutation without authorization;
+- deployment or merge authorization explicitly withheld;
+- a live paid provider proof explicitly forbidden and no controlled boundary can prove the repository behavior;
+- an external platform capability outside repository control.
+
+Complete every repository-controlled item first and report the smallest external action required.
+
+## 13.4 Keep-going rule
+
+Within Production Closure Mode, continue through repository-controlled failures:
+
+```text
+inspect
+→ prove failure
+→ implement
+→ narrow verify
+→ integrated verify
+→ regression
+→ exact-head audit
+→ consolidated correction
+→ re-audit
+```
+
+until either:
+
+1. all closure checklist items PASS; or
+2. a genuine external blocker is proved.
+
+Do not hand ordinary repository-owned implementation gaps back to the user as a new discovery-only report.
+
+If more than one correction round is required, perform a short process review identifying why the prior proof/checklist missed the issue, update the governed checklist if necessary, then continue the same closure objective. Do not weaken acceptance criteria.
+
+---
+
+# 14. Durability, restart, retry, idempotency, and abort extension
+
+When the governed path includes background work or paid/task-based providers, add applicable checklist IDs for:
+
+- durable execution identity and status;
+- persisted checkpoints;
+- recovery after process restart;
+- zero repeat calls for already completed steps unless explicitly governed;
+- retryable versus terminal failure classification;
+- retry-budget exhaustion;
+- provider task/request ID persistence before later retryable operations;
+- duplicate paid-task prevention;
+- AbortSignal/cancellation propagation through polling and transports;
+- zero prohibited side effects after abort.
+
+Required recovery proof pattern:
+
+```text
+start
+→ persist checkpoint
+→ destroy first worker/process instance
+→ construct new instance
+→ reload durable state
+→ resume
+→ complete
+```
+
+Use controlled dependencies, not live paid calls.
 
 ---
 
 # 15. Verification matrix
 
-Run every applicable row. Mark a row `N/A` only with evidence that the repository/change has no such responsibility.
+Run every applicable row. `N/A` requires evidence that the repository/change has no such responsibility.
 
-| Verification responsibility | Required result |
+| Responsibility | Required result |
 |---|---|
 | Preflight | exact repo/branch/SHA/tree verified |
-| Narrow unit tests | PASS |
-| Acceptance/integration | PASS where applicable |
+| Narrow tests | PASS |
+| Acceptance/integration | PASS |
 | Negative-path proof | PASS where applicable |
 | Full regression | PASS when suite exists |
-| Static analysis/lint | PASS when configured |
-| Type check | PASS when configured |
-| Build/package | PASS when configured |
-| Schema validation | PASS when applicable |
-| Migration validation | PASS when applicable |
-| Compatibility | PASS when applicable |
-| Security scan | PASS when configured/relevant |
-| Secret scan | PASS when configured/relevant |
-| Dependency integrity | PASS when applicable |
-| Protected invariant checks | PASS |
-| Generated-artifact policy | PASS |
+| Static/type/build | PASS when configured |
+| Schema/contract validation | PASS when applicable |
+| Migration/persistence | PASS when applicable |
+| Restart/recovery | PASS when applicable |
+| Idempotency/retry/abort | PASS when applicable |
+| Security/secret scan | PASS when applicable |
+| Protected invariants | PASS |
+| Generated artifacts | PASS |
 | Live external-call policy | PASS |
 | Scope/permitted files | PASS |
 | Prohibited files | untouched |
 | Complete diff review | PASS |
 | Exact-head CI | PASS when CI exists |
 
-Any required verification failure means the change is NOT complete.
+Any required failure means the change is incomplete.
 
 ---
 
 # 16. Scope-check contract
 
-At minimum, compare the full changed-file set from the starting SHA to final head against the frozen file boundary.
+Compare the complete changed-file set from starting SHA to final head against the frozen boundary.
 
-Proof MUST establish:
+Required proof:
 
 ```text
 unexpected changed files == 0
@@ -581,39 +529,31 @@ prohibited changed files == 0
 
 Do not rely only on `git status`; committed out-of-scope files must also be detected.
 
-If the repository has a reusable scope-check command, use it. Otherwise inspect the diff from the exact starting SHA.
-
 ---
 
 # 17. Independent exact-head audit
 
-The implementation pass MUST NOT self-authorize release.
+The implementation pass cannot self-authorize release.
 
-An independent audit MUST inspect the actual final commit/head, not merely the implementation report.
-
-**Independence requirement:** the audit must run in a separate review context that did not author the implementation changes. Acceptable forms include a separate coding-agent context, a dedicated audit agent, an independent reviewer, or a repository/CI audit job that evaluates the frozen checklist against the exact head. The auditor MUST begin from repository evidence and governing sources rather than trusting the implementation report. If no independent review context is available, this gate is unsatisfied and the change MUST NOT be reported as independently audited.
+The audit runs in a separate review context that did not author the changes and begins from repository evidence, not the implementation report.
 
 The auditor verifies:
 
-- [ ] repository/PR head equals reported final SHA;
-- [ ] CI, when required, ran against that exact SHA;
-- [ ] changed files match the frozen scope;
-- [ ] prohibited files are untouched;
-- [ ] every checklist ID maps to real implementation and real proof;
-- [ ] tests assert governed behavior rather than implementation trivia;
-- [ ] acceptance executes the real governed path using controlled dependencies;
-- [ ] failure behavior proves exact rejection and resulting state/effects;
-- [ ] order/count/hash/identity claims are exact when governed;
-- [ ] protected invariants are preserved or intentionally versioned by scope;
-- [ ] migrations are forward-safe and rollback/recovery obligations are satisfied when applicable;
-- [ ] dependency/config changes are actually reflected in resolved state when applicable;
-- [ ] no live provider/paid/LLM call violates policy;
-- [ ] no out-of-scope generated artifacts are committed;
-- [ ] no unmet governing requirement is relabeled as a limitation;
-- [ ] the final report is supported by repository evidence;
-- [ ] merge/release authorization requirements are satisfied or remain explicitly pending.
+- exact final SHA;
+- exact-head CI when applicable;
+- changed-file scope;
+- prohibited files untouched;
+- each checklist ID maps to implementation and direct proof;
+- acceptance executes the real governed path with controlled dependencies;
+- failure proofs include persisted state and prohibited side effects;
+- order/count/hash/identity claims are exact when governed;
+- protected invariants remain intact;
+- migrations/recovery obligations pass;
+- no prohibited live provider/paid/LLM call occurred;
+- no unmet governing requirement is hidden as a limitation;
+- merge/release authorization is truthful.
 
-Audit result is exactly one of:
+Audit result is exactly:
 
 ```text
 PASS
@@ -628,75 +568,72 @@ Evidence:
 Smallest required correction:
 ```
 
-No `PASS WITH NOTES`, `MOSTLY PASS`, or equivalent status is allowed.
+No `PASS WITH NOTES` or `MOSTLY PASS`.
 
 ---
 
-# 18. Consolidated correction gate
+# 18. Correction protocol
 
-If audit returns BLOCKED:
+If audit returns `BLOCKED`:
 
-- [ ] Correct only failed checklist IDs and dependencies strictly required by those IDs.
-- [ ] Start from the exact failed-head SHA.
-- [ ] Preserve original frozen scope unless a proven contract defect forces a versioned checklist update.
-- [ ] Fix missing/false proof before changing working implementation when the original claim was simply unproven.
-- [ ] Do not revisit accepted architecture without direct dependency.
-- [ ] Do not add optional improvements.
-- [ ] Re-run the complete applicable verification matrix.
-- [ ] Re-run scope check.
-- [ ] Inspect complete correction diff.
-- [ ] Commit/push according to repository governance.
-- [ ] Run a new independent audit against the corrected exact head.
+1. reproduce failed IDs;
+2. correct missing/false proof first when appropriate;
+3. correct implementation only as required by governed evidence;
+4. re-run the complete applicable verification matrix;
+5. re-run scope check;
+6. inspect the correction diff;
+7. commit/push under repository governance;
+8. audit the corrected exact head independently.
 
-Default maximum consolidated correction rounds: **1**.
+For ordinary changes, one consolidated correction round is the default target; a second round requires process review.
 
-A required second correction round triggers a process review before more coding. The review MUST identify why the frozen checklist, proof design, or first correction failed to bound the work.
+For `PRODUCTION_CLOSURE`, process review does not end the objective. After reviewing why the prior closure proof missed the issue, continue correcting repository-owned failed IDs until PASS or a genuine external blocker is proved.
 
 ---
 
 # 19. Close and release gate
 
-A governed change may be declared complete only when:
+A governed change is complete only when:
 
-- [ ] every checklist ID is `[x] PASS`;
+- [ ] every required checklist ID is PASS;
 - [ ] every applicable verification responsibility is PASS;
 - [ ] changed-file scope is exact;
-- [ ] prohibited files are untouched;
 - [ ] protected invariants are preserved or explicitly versioned;
 - [ ] exact-head CI passes when required;
 - [ ] independent exact-head audit returns PASS;
 - [ ] repository/PR state matches the reported SHA;
-- [ ] rollback/recovery obligation is satisfied when applicable;
-- [ ] working tree is clean except for explicitly protected pre-existing work;
+- [ ] rollback/recovery obligations are satisfied;
+- [ ] working tree is clean except explicitly protected pre-existing work;
 - [ ] final evidence report is complete;
 - [ ] merge/release authorization is satisfied.
 
-If the user or governance rules require explicit merge approval, STOP after audit PASS and report **READY FOR MERGE — NOT MERGED**.
+If explicit merge approval is required, stop after audit PASS with:
 
-Never infer merge authorization from successful tests.
+```text
+READY FOR MERGE — NOT MERGED
+```
+
+Never infer merge/deploy/release authorization from successful tests.
 
 ---
 
 # 20. Blocked protocol
 
-Stop implementation immediately when any applicable condition occurs:
+Stop and return `BLOCKED` for a material condition the current governed run cannot safely resolve, including:
 
-- starting SHA mismatch;
-- wrong repository or branch;
+- wrong repository/branch or starting SHA mismatch;
 - unexplained dirty-tree conflict;
 - authoritative source conflict;
-- required contract/invariant cannot be determined;
-- proof cannot be constructed from available repository/runtime evidence;
-- implementation requires a prohibited file;
-- scope expands materially after freeze;
-- protected invariant changes unexpectedly;
-- migration requires an unapproved destructive step;
+- unresolved product/contract decision requiring user authority;
+- required implementation would alter a prohibited invariant/file without scope authorization;
+- destructive migration or production mutation lacks authorization;
 - security boundary cannot be preserved;
-- test requires a prohibited live provider/paid/LLM call;
-- exact-head CI cannot be tied to the reported commit when required;
-- merge/release authorization is absent when required;
-- a second correction round would be required;
-- user input is required for a materially ambiguous product/contract decision.
+- proof requires a prohibited live call and no controlled repository boundary can establish the required behavior;
+- required external credential/account authorization is unavailable;
+- exact-head audit/CI cannot be established where mandatory;
+- merge/deploy/release authorization is absent for that action.
+
+Do not use the blocked protocol merely because repository-owned infrastructure must be added to satisfy an already-governed requirement.
 
 Return:
 
@@ -705,135 +642,31 @@ BLOCKED
 Reason:
 Failed/affected checklist ID:
 Exact evidence:
-Smallest required decision:
+Repository-controlled work completed:
+Smallest external decision/action required:
 ```
 
-Do not guess around a governance conflict.
-
 ---
 
-# 21. Defect regression rule
+# 21. Automation requirements
 
-Every confirmed production defect and every independently discovered false-positive proof MUST add a permanent regression test or equivalent permanent executable check when technically feasible.
+Automate stable repeatable rules where technically reasonable:
 
-The regression proof MUST fail against the defective behavior and pass against the corrected behavior, unless reproducing the prior state is unsafe or impossible. If reproduction is impossible, record the exact reason and use the strongest executable surrogate proof available.
-
----
-
-# 22. Migration-specific extension
-
-For MIGRATION changes, add checklist IDs for every applicable obligation:
-
-- source state identified;
-- target state identified;
-- compatibility window defined;
-- forward migration proved;
-- data preservation proved;
-- idempotent/retry behavior proved where required;
-- partial failure behavior proved;
-- rollback or forward-recovery strategy proved;
-- old-path removal is separately governed;
-- deployment ordering is explicit when multiple components are involved.
-
-Never combine migration execution and irreversible cleanup into one checklist item.
-
----
-
-# 23. Dependency-upgrade extension
-
-For DEPENDENCY changes, add checklist IDs for:
-
-- requested dependency/version scope;
-- manifest change;
-- lock/resolved dependency change;
-- runtime/build compatibility;
-- affected public/deprecated API behavior;
-- security/advisory obligation when relevant;
-- full regression;
-- generated artifact/bundle change when relevant.
-
-Do not treat a manifest edit alone as proof that the dependency upgrade is effective.
-
----
-
-# 24. Security-change extension
-
-For SECURITY changes, the checklist MUST name the threat/control being changed and prove both:
-
-```text
-unauthorized/unsafe path is rejected
-AND
-authorized/safe path still functions as governed
-```
-
-Never weaken security validation to make tests pass.
-
-Security-sensitive secrets, credentials, tokens, or production access MUST NOT be written into reports, fixtures, logs, or committed files.
-
----
-
-# 25. Performance-change extension
-
-For PERFORMANCE changes, define before implementation:
-
-```text
-metric
-measurement method
-environment/control conditions
-baseline
-required target
-tolerance
-regression guard
-```
-
-A performance claim without recorded before/after measurement is not proof.
-
-Correctness and protected invariants MUST pass before performance improvement is accepted.
-
----
-
-# 26. Refactor-specific extension
-
-For REFACTOR changes, the primary governed objective is behavioral preservation.
-
-Proof MUST identify the stable external contract and show that the refactor does not unintentionally change it.
-
-If a behavior change is required, reclassify that checklist item as FEATURE/DEFECT behavior instead of hiding it inside a refactor.
-
----
-
-# 27. Automation requirements
-
-Repeated repository rules SHOULD become executable checks rather than repeated prompt text.
-
-Automate where technically reasonable:
-
-- repository/branch/SHA preflight;
-- clean-tree/protected-work check;
-- permitted-file diff check;
-- prohibited-file diff check;
-- invariant/reference hash checks;
-- schema checks;
-- migration checks;
+- repo/branch/SHA preflight;
+- dirty-tree/protected-work check;
+- permitted/prohibited diff check;
+- invariant/golden/reference hash checks;
+- schema and migration checks;
 - generated-artifact checks;
-- secret scans;
-- prohibited live-call scans;
-- dependency integrity checks;
-- full regression sequence;
-- work-package acceptance;
+- secret/live-call scans;
+- full regression;
+- production-path acceptance;
+- restart/recovery tests;
 - exact-head CI lookup;
-- PR open/draft/unmerged state checks;
+- PR state checks;
 - final evidence collection.
 
-Manual prose MUST NOT remain the sole enforcement mechanism for a repeatable repository rule once the rule is stable enough to automate.
-
----
-
-# 28. Reusable command interface
-
-When repository conventions permit, expose a stable command responsibility set. Names may vary, responsibilities may not.
-
-Recommended interface:
+Preferred responsibility interface when repository conventions permit:
 
 ```text
 change:preflight
@@ -844,72 +677,31 @@ change:verify
 change:audit-support
 ```
 
-`change:verify` SHOULD aggregate every applicable verification responsibility for the current repository.
-
 Any failure exits non-zero.
-
-Do not hard-code a universal package manager. Use the repository's actual command system.
 
 ---
 
-# 29. Efficiency and context rules
+# 22. Efficiency and work-in-progress rules
 
-## 29.1 Source-first
+Persist stable repository facts in the Governed Change Profile to avoid repeated discovery.
 
-Read governing repository sources and the Governed Change Profile before broad rediscovery.
+Execution prompts contain only current scope, governing sources, checklist IDs, executable proof, boundaries, required commands, and final output.
 
-## 29.2 No repeated discovery
+Exclude future work, motivational prose, optional cleanup, repeated architecture summaries, and confidence scores used as proof.
 
-Persist stable repository facts in the profile so future changes do not repeatedly rediscover:
-
-- canonical test commands;
-- protected invariants;
-- standard release rules;
-- migration rules;
-- provider-call restrictions;
-- golden/reference artifacts;
-- scope-check commands;
-- CI exact-head lookup method;
-- rollback convention.
-
-## 29.3 Prompt boundedness
-
-Execution instructions include only:
-
-- current change;
-- confirmed blockers;
-- required files;
-- checklist IDs;
-- executable proof;
-- required final output.
-
-Exclude:
-
-- future work;
-- motivational language;
-- broad architecture summaries already stored in sources;
-- optional cleanup;
-- repeated explanations;
-- confidence scores used as substitutes for evidence.
-
-## 29.4 Work-in-progress limit
-
-Default:
+Default WIP:
 
 ```text
 active governed change packages: 1
 active correction package: 1
-unresolved architecture decisions affecting build: 0
 unplanned changed files: 0
 ```
 
 ---
 
-# 30. Performance record
+# 23. Process performance record
 
-After closure, record process performance when comparable baseline data exists.
-
-Required fields:
+When comparable baseline data exists, record:
 
 ```text
 Change ID:
@@ -925,23 +717,20 @@ Preventable CI reruns:
 Repeated manual check to automate next:
 ```
 
-Default acceleration target for teams adopting this skill: **≥55% lower active cycle time compared with the prior comparable unguided or fragmented change process**, measured without weakening acceptance quality.
+Default adoption target: at least 55% lower active cycle time than the prior comparable fragmented process, without weakening acceptance quality.
 
-Do not claim a speed improvement without recorded baseline and actual measurement.
-
-A missed speed target is a process defect to analyze, not permission to skip governance.
+Do not claim speed improvement without measurement.
 
 ---
 
-# 31. Mandatory final report
+# 24. Mandatory final report
 
-Return evidence, not narrative completion claims.
-
-Use this format:
+Use evidence, not narrative completion claims:
 
 ```text
-CHANGE REPORT
+GOVERNED CHANGE REPORT
 
+Skill version: 1.1.0
 Change ID:
 Change class:
 Objective:
@@ -951,11 +740,8 @@ Starting SHA:
 Final SHA:
 PR:
 
-Governing sources:
-Protected invariants:
-
 Exact files changed:
-- path
+- ...
 
 CHECKLIST
 [x] CHANGE-ID-01 — PASS — exact evidence
@@ -965,289 +751,87 @@ VERIFICATION
 [x] preflight — PASS — evidence
 [x] narrow tests — PASS — command/result
 [x] acceptance — PASS/N/A — evidence
-[x] full regression — PASS/N/A — command/result
-[x] static/type/build/security — PASS/N/A — evidence
+[x] negative proofs — PASS/N/A — evidence
+[x] persistence/migration/recovery — PASS/N/A — evidence
+[x] full regression — PASS/N/A — evidence
 [x] invariant checks — PASS — evidence
-[x] scope check — PASS — unexpected files 0; prohibited files 0
-[x] exact-head CI — PASS/N/A — exact SHA evidence
+[x] scope check — PASS — unexpected 0; prohibited 0
+[x] exact-head CI — PASS/N/A — exact SHA
 
 AUDIT
 Independent exact-head audit: PASS/BLOCKED
 Audit head SHA:
 Correction rounds:
 
+EXTERNAL EFFECTS
+Live provider calls:
+Live LLM calls:
+Paid task calls:
+Production mutations:
+
 REPOSITORY STATE
 Working tree:
 PR state:
-Merge/release state:
+Merge/deploy/release state:
 Rollback/recovery state:
-
-PERFORMANCE
-Baseline active cycle time:
-Actual active cycle time:
-Measured reduction:
-First-pass pass rate:
 
 FINAL STATUS:
 PASS — READY FOR AUTHORIZED MERGE/RELEASE
 or
-PASS — MERGED/RELEASED (only when explicitly authorized and actually completed)
-or
-BLOCKED — exact failed IDs and evidence
+BLOCKED — exact failed IDs and genuine external evidence
 ```
 
 Rules:
 
-- No prose-only completion claim.
-- No confidence percentage in place of proof.
-- No hidden failed requirement under `known limitations`.
-- No PASS while any required checklist item is open or failing.
-- No claim of merge/release unless it actually occurred.
+- no prose-only completion claim;
+- no confidence percentage in place of proof;
+- no hidden failed requirement under `known limitations`;
+- no PASS while a required item is open or failing;
+- no claim of merge/deploy/release unless it actually occurred.
 
 ---
 
-# 32. Checklist template
+# 25. Production closure prompt template
 
-```markdown
-# <CHANGE-ID> Governed Change Checklist
-
-**Version:** 1.0.0
-**Change class:**
-**Repository:**
-**Branch:**
-**PR:**
-**Required starting SHA:**
-**Objective:**
-**Governing sources:**
-**Protected invariants:**
-**Baseline active cycle time:**
-
-## Permitted files
-
-- `path`
-
-## Prohibited files
-
-- `path/**`
-
-## Requirements
-
-### <CHANGE-ID>-AREA-01 — <observable behavior>
-
-- [ ] Requirement:
-- [ ] Boundary:
-- [ ] Positive proof:
-- [ ] Negative proof:
-- [ ] Acceptance proof:
-- [ ] Protected invariant:
-- [ ] Failure result:
-- [ ] Final-report evidence:
-
-## Verification
-
-- [ ] Preflight PASS
-- [ ] Narrow tests PASS
-- [ ] Acceptance/integration PASS or governed N/A
-- [ ] Full regression PASS or governed N/A
-- [ ] Static/type/build/security checks PASS or governed N/A
-- [ ] Protected invariant checks PASS
-- [ ] Scope check PASS
-- [ ] Complete diff reviewed
-- [ ] Exact-head CI PASS or governed N/A
-- [ ] Independent audit PASS
-
-## Closure
-
-- [ ] All checklist IDs PASS
-- [ ] Final SHA recorded
-- [ ] Repository state recorded
-- [ ] Rollback/recovery requirement satisfied
-- [ ] Merge/release authorization satisfied or explicitly pending
-```
+Use [`templates/PRODUCTION_CLOSURE_TEMPLATE.md`](templates/PRODUCTION_CLOSURE_TEMPLATE.md) when a repository has accumulated multiple production-readiness defects and the objective is to close the real path rather than perform another discovery-only audit.
 
 ---
 
-# 33. Execution-plan template
+# 26. Global invocation contract
 
-```text
-Read and obey the governed-coding-upgrade skill before editing.
-
-Read the frozen checklist:
-<CHECKLIST PATH>
-
-Repository:
-<ROOT>
-
-Branch:
-<BRANCH>
-
-PR:
-<PR OR N/A>
-
-Required starting SHA:
-<SHA>
-
-Objective:
-<ONE MEASURABLE OBJECTIVE>
-
-Change class:
-<CLASS>
-
-Governing sources:
-<SOURCES>
-
-Protected invariants:
-<INVARIANTS>
-
-Complete every checklist ID in the frozen checklist.
-Do not add scope, optional refactors, or future work.
-Do not modify files outside the permitted boundary.
-Do not merge/release unless explicitly authorized.
-
-Required order:
-1. Verify preflight.
-2. Establish/confirm direct proof for every checklist ID.
-3. Record expected pre-fix failure when required.
-4. Implement the complete frozen checklist.
-5. Run narrow verification.
-6. Run acceptance/integration where applicable.
-7. Run static/type/security/build checks where applicable.
-8. Run full regression where available.
-9. Run protected-invariant checks.
-10. Run scope check.
-11. Inspect complete diff.
-12. Commit/push under repository governance.
-13. Confirm exact-head CI when applicable.
-14. Run independent exact-head audit.
-15. Correct only failed IDs if audit blocks.
-16. Re-verify and re-audit the corrected exact head.
-17. Return the evidence report only.
-
-A checklist item is complete only when direct proof exists.
-Do not claim completion while any required item is FAIL, open, or in progress.
-```
-
----
-
-# 34. Independent-audit template
-
-```text
-Audit the governed change at exact head <SHA>.
-Do not modify, merge, deploy, or release.
-
-Read:
-- governed-coding-upgrade skill
-- repository governance sources
-- Governed Change Profile
-- frozen checklist
-
-For every checklist ID:
-1. inspect actual implementation;
-2. inspect exact proof;
-3. inspect acceptance/runtime behavior where applicable;
-4. inspect failure-state/effect proof where applicable;
-5. inspect protected-invariant evidence;
-6. mark PASS or BLOCKED.
-
-Also verify:
-- exact-head identity;
-- exact-head CI when applicable;
-- permitted-file scope;
-- prohibited files untouched;
-- complete diff;
-- migration/dependency/security obligations where applicable;
-- no false completion proof;
-- repository/PR state;
-- merge/release authorization state.
-
-Return only:
-PASS
-
-or:
-BLOCKED
-Failed checklist IDs:
-Evidence:
-Smallest required correction:
-```
-
----
-
-# 35. Consolidated-correction template
-
-```text
-Correct only these failed checklist IDs:
-<FAILED IDS>
-
-Required starting SHA:
-<FAILED HEAD SHA>
-
-Preserve the frozen scope unless a proven contract defect requires a versioned checklist update.
-Do not revisit accepted IDs unless directly required by a failed ID.
-Do not add optional improvements.
-Do not merge/release unless explicitly authorized.
-
-For each failed ID:
-- correct missing/false proof first when appropriate;
-- change implementation only as required by governed evidence;
-- run the complete applicable verification matrix;
-- run scope check;
-- inspect complete diff;
-- commit/push under repository governance;
-- audit the corrected exact head independently;
-- return checklist evidence only.
-```
-
----
-
-# 36. Global invocation contract
-
-A skill can be available without being invoked consistently. To make this protocol mandatory across coding work, the coding agent's global/project instructions MUST include an invocation rule equivalent to:
+A skill is not reliably installed unless the coding environment also contains a global/project rule equivalent to:
 
 ```text
 For every task that changes code, tests, schemas, dependencies, executable
 configuration, infrastructure-as-code, build/release logic, migrations, or
-runtime behavior, invoke and obey the `governed-coding-upgrade` skill before
-editing. Do not bypass it because a change appears small. Complete its frozen
-checklist, verification, independent exact-head audit, and closure gates before
-claiming the change is complete.
+runtime behavior, invoke and obey `governed-coding-upgrade` before editing.
+For production-readiness closure, do not stop on repository-owned missing
+infrastructure; implement and prove the governed path until PASS or a genuine
+external blocker remains. Do not merge/deploy/release without authorization.
 ```
 
-This invocation contract is part of the skill's governance architecture, not an optional recommendation.
-
 ---
 
-# 37. Adoption rule
+# 27. Self-check before PASS
 
-The skill is considered installed for a coding environment only when BOTH are true:
-
-1. the skill is available to the coding agent; and
-2. the global/project instruction layer contains the mandatory invocation contract.
-
-For each repository, establish or derive the Governed Change Profile before the first governed implementation.
-
-From that point forward, every qualifying coding change follows the same governed lifecycle while repository-specific commands and invariants come from the profile.
-
----
-
-# 38. Self-check before declaring a governed change complete
-
-Before returning PASS, answer every statement with YES from evidence:
+Every required answer must be YES from evidence:
 
 ```text
 Was the exact starting state verified?
-Was scope frozen before implementation?
-Did every requirement receive a stable checklist ID?
+Was pre-existing work protected?
+Was scope/checklist frozen?
 Does every checklist ID have direct proof?
-Were repository-specific protected invariants identified?
-Were all applicable verification responsibilities executed?
+Did acceptance execute the real production implementation with controlled dependencies?
+Did malformed/negative paths fail closed where applicable?
+Were repository-owned dependencies implemented rather than relabeled as blockers?
+Were restart/recovery/idempotency/abort obligations proved where applicable?
+Were protected invariants preserved?
 Were unexpected changed files exactly zero?
-Were prohibited changed files exactly zero?
 Was the complete diff inspected?
-Was the final exact head independently audited?
-Were audit failures corrected only through governed IDs?
-Was the corrected exact head re-audited when needed?
-Is merge/release state reported truthfully?
+Was the exact final head independently audited?
+Were audit failures corrected and re-audited?
+Is merge/deploy/release state reported truthfully?
 Are all required checklist items PASS?
 ```
 
-If any required answer is NO, final status is BLOCKED.
+If any required answer is NO, final status is `BLOCKED`.
