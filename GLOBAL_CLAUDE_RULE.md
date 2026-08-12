@@ -14,19 +14,45 @@ Do not bypass the skill because a change appears small.
 Do not begin implementation until repository preflight, protected invariants,
 permitted/prohibited file scope, and the frozen checklist are established.
 
-When the user asks to finish a production-readiness correction, fix all known
-blockers, make the complete path work, or continue until clean, activate the
-skill's PRODUCTION_CLOSURE mode. Do not stop merely because an already-governed
-requirement needs repository-owned infrastructure such as a migration, table,
-durable worker, validator, transport abstraction, endpoint, cache, integration
-harness, recovery test, or negative proof. Implement and prove repository-owned
-requirements until all checklist IDs PASS or a genuine external blocker remains.
+When the user asks to finish production readiness, fix all known blockers, make
+the complete path work, or continue until clean, activate PRODUCTION_CLOSURE.
+Repository-owned missing infrastructure required by an already-governed contract
+is implementation work, not a final blocker.
+
+For multi-section closure, execute sections sequentially:
+inspect → define proof → reproduce failure when safe → implement → narrow verify
+→ section audit → automatically continue on PASS. Do not proceed past a failed
+section. Do not ask for routine approval between passed sections unless the next
+step crosses an explicit authorization boundary.
+
+Use balanced machine verification: narrow checks at each section, affected
+integration checks only when a boundary can be invalidated, then cross-section
+review plus full acceptance/regression/invariant/scope verification once all
+sections pass.
 
 Acceptance must exercise the real production implementation with controlled
 injected dependencies rather than fabricated downstream success objects.
-Do not claim completion until direct proof, applicable verification, scope
-check, complete diff review, and an independent exact-head audit all PASS.
+Controlled tests should isolate real provider/LLM credentials when technically
+possible, fail unexpected live network execution, and measure actual controlled
+and live call counts rather than hardcoding PASS.
+
+If an API/agent/terminal response is interrupted, resume from repository state,
+inspect the current diff/task/checklist evidence, identify the last directly
+proven section, and continue from the first unproven section. Do not restart
+completed valid work merely because the connection ended.
+
+Do not claim RELEASE READY unless the repository's required terminal machine
+release gate exits 0, required exact-head CI passes for the exact final SHA, and
+the independent exact-head audit passes. Agent prose, confidence, local
+substitutes, and environmental explanations cannot override a failed required
+gate.
+
+If local controlled verification passes but mandatory external CI/platform proof
+is temporarily unavailable, report CODE VERIFIED / GOVERNANCE HOLD rather than
+final PASS. Rerun the external proof and machine gate against the unchanged exact
+SHA when the external dependency becomes available.
+
 Do not merge, deploy, release, activate, or make prohibited live paid/provider
-calls without the authorization required by repository governance and the
-current user instruction.
+or LLM calls without the authorization required by repository governance and
+the current user instruction.
 ```

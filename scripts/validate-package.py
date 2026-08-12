@@ -12,11 +12,25 @@ REQUIRED = [
     'templates/INDEPENDENT_AUDIT_TEMPLATE.md',
     'templates/CORRECTION_TEMPLATE.md', 'templates/FINAL_REPORT_TEMPLATE.md',
     'templates/PRODUCTION_CLOSURE_TEMPLATE.md',
+    'templates/MACHINE_RELEASE_GATE_TEMPLATE.md',
     'branding/logo.svg', 'branding/icon.svg', 'branding/icon.png',
     'branding/social-card.svg', 'branding/social-card.png', 'branding/README.md',
     '.github/PULL_REQUEST_TEMPLATE.md', '.github/CODEOWNERS',
     '.github/workflows/repository-quality.yml',
 ]
+
+
+def normalized(text: str) -> str:
+    """Normalize formatting whitespace without weakening phrase requirements."""
+    return re.sub(r'\s+', ' ', text).strip().lower()
+
+
+def require_phrases(text: str, phrases, label: str, errors):
+    haystack = normalized(text)
+    for phrase in phrases:
+        if normalized(phrase) not in haystack:
+            errors.append(f'{label}: required control phrase absent: {phrase}')
+
 
 errors = []
 for rel in REQUIRED:
@@ -31,7 +45,7 @@ for rel in ['SKILL.md', 'README.md', 'SCORECARD.md', 'REPOSITORY_DESCRIPTOR.md',
         errors.append(f'{rel}: does not contain VERSION {version}')
 
 skill = (ROOT/'SKILL.md').read_text(encoding='utf-8') if (ROOT/'SKILL.md').exists() else ''
-for phrase in [
+require_phrases(skill, [
     'FROZEN CHECKLIST',
     'EXACT-HEAD AUDIT',
     'Governed Change Profile',
@@ -39,17 +53,46 @@ for phrase in [
     'repository-owned',
     'real production',
     'genuine external blocker',
-]:
-    if phrase.lower() not in skill.lower():
-        errors.append(f'SKILL.md: required control phrase absent: {phrase}')
+    'Sequential Evidence Gate',
+    'Balanced machine verification',
+    'Terminal machine release gate',
+    'GOVERNANCE HOLD',
+    'Interrupted-agent resume',
+    'Controlled external-call and credential isolation',
+], 'SKILL.md', errors)
 
 if not re.search(r'^name:\s*governed-coding-upgrade\s*$', skill, re.MULTILINE):
     errors.append('SKILL.md: machine-facing skill name must remain governed-coding-upgrade')
 
 closure = (ROOT/'templates/PRODUCTION_CLOSURE_TEMPLATE.md').read_text(encoding='utf-8') if (ROOT/'templates/PRODUCTION_CLOSURE_TEMPLATE.md').exists() else ''
-for phrase in ['PRODUCTION_CLOSURE', 'real production', 'genuine external blocker', 'Do not merge']:
-    if phrase.lower() not in closure.lower():
-        errors.append(f'PRODUCTION_CLOSURE_TEMPLATE.md: required phrase absent: {phrase}')
+require_phrases(closure, [
+    'PRODUCTION_CLOSURE',
+    'real production',
+    'genuine external blocker',
+    'MANDATORY SEQUENTIAL SECTION RULE',
+    'BALANCED MACHINE CHECKS',
+    'TERMINAL MACHINE RELEASE GATE',
+    'GOVERNANCE HOLD',
+    'Do not merge',
+], 'PRODUCTION_CLOSURE_TEMPLATE.md', errors)
+
+machine = (ROOT/'templates/MACHINE_RELEASE_GATE_TEMPLATE.md').read_text(encoding='utf-8') if (ROOT/'templates/MACHINE_RELEASE_GATE_TEMPLATE.md').exists() else ''
+require_phrases(machine, [
+    'Machine Release Gate Template',
+    'exit `0`',
+    'exact final SHA',
+    'GOVERNANCE HOLD',
+    'Local reruns do not substitute for mandatory exact-head CI',
+    'controlled transports',
+], 'MACHINE_RELEASE_GATE_TEMPLATE.md', errors)
+
+global_rule = (ROOT/'GLOBAL_CLAUDE_RULE.md').read_text(encoding='utf-8') if (ROOT/'GLOBAL_CLAUDE_RULE.md').exists() else ''
+require_phrases(global_rule, [
+    'automatically continue on PASS',
+    'balanced machine verification',
+    'terminal machine release gate',
+    'CODE VERIFIED / GOVERNANCE HOLD',
+], 'GLOBAL_CLAUDE_RULE.md', errors)
 
 score = (ROOT/'SCORECARD.md').read_text(encoding='utf-8') if (ROOT/'SCORECARD.md').exists() else ''
 nums = [int(x) for x in re.findall(r'—\s*(\d{1,2})/20', score)]
@@ -79,4 +122,8 @@ print(f'Version: {version}')
 print(f'Required files: {len(REQUIRED)}/{len(REQUIRED)}')
 print('Machine-facing skill name: governed-coding-upgrade')
 print('Production Closure controls: PRESENT')
+print('Sequential Evidence Gates: PRESENT')
+print('Balanced machine verification: PRESENT')
+print('Terminal machine release gate: PRESENT')
+print('Governance-hold state: PRESENT')
 print('Semantic threshold: >=19/20 in all five areas')

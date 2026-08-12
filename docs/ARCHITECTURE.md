@@ -4,7 +4,7 @@
 
 Governed Coding Upgrade separates **universal change governance** from **repository-specific implementation facts**.
 
-The universal layer defines the non-bypassable lifecycle and proof requirements. The project adapter layer records the actual commands, invariants, CI behavior, external-call rules, and release controls of a specific repository.
+The universal layer defines non-bypassable lifecycle and proof requirements. The repository adapter layer records actual commands, invariants, CI behavior, controlled-test policies, and release controls.
 
 ## 2. Control layers
 
@@ -23,9 +23,15 @@ Governed Change Profile
                     ↓
 Frozen checklist
                     ↓
-Compiled execution plan
+Sequential Evidence Gates
                     ↓
-Implementation + proof
+Balanced machine verification
+                    ↓
+Terminal machine release gate
+                    ↓
+Independent exact-head audit
+                    ↓
+Release authority
 ```
 
 A lower layer cannot silently override a higher layer.
@@ -34,45 +40,131 @@ A lower layer cannot silently override a higher layer.
 
 ### Implementer
 
-Builds only the frozen checklist, produces direct evidence, runs required verification, and reports the exact candidate head.
+Builds only governed scope, produces direct evidence, closes ordered sections sequentially, and reports the exact candidate head. The implementer cannot override a failed terminal gate.
 
-### Verifier
+### Section verifier
 
-Executes deterministic repository and behavior checks. Verification must fail non-zero when a governed requirement is not satisfied.
+Runs the narrowest executable proof after each section. It verifies required negative behavior and checks earlier boundaries only when the new section can materially invalidate them.
+
+### Terminal verifier
+
+After all sections pass, runs cross-section review, full acceptance, full regression, invariant/scope checks, and the repository terminal machine release gate.
 
 ### Independent auditor
 
-Inspects the actual exact-head implementation and proof. The auditor does not accept an implementation report as proof by itself and does not authorize a different SHA than the one inspected.
+Inspects the actual exact-head implementation and proof. The auditor does not accept the implementation report as proof by itself and does not authorize a different SHA than the one inspected.
 
 ### Release authority
 
-Provides whatever merge, deploy, release, or activation approval the repository and current user instructions require. Passing audit is necessary but does not silently create release authorization.
+Provides merge, deploy, release, or activation approval required by repository and user instructions. Passing code verification does not silently create release authorization.
 
-## 4. Project adapter
+## 4. Governed Change Profile
 
-The `Governed Change Profile` prevents every work package from rediscovering the same repository facts. It records:
+The profile prevents every work package from rediscovering the same repository facts. It records:
 
 - package/runtime systems;
-- narrow, acceptance, regression, build, static-analysis, and security commands;
+- narrow, affected-integration, acceptance, regression, build, static-analysis, and security commands;
+- terminal machine release-gate command;
 - CI exact-head verification method;
 - protected invariants;
-- migration and lockfile policies;
+- migration, persistence, and rollback rules;
 - external-call restrictions;
-- rollback mechanism;
+- controlled-test credential isolation;
+- call-counter source;
 - merge/release authorization rules.
 
 Unknown facts remain `UNRESOLVED`; they are not guessed.
 
-## 5. Evidence architecture
+## 5. Sequential evidence architecture
 
-Evidence is attached to stable checklist IDs. A checklist item is complete only when its proof supports the exact governed claim.
+Large changes are decomposed into ordered sections that share architectural boundaries.
 
-Strong evidence includes assertions, state, artifacts, hashes, counts, commands, exact diffs, exact SHAs, and CI runs tied to those SHAs.
+```text
+section N
+  inspect
+  → define proof
+  → implement
+  → narrow verify
+  → section audit
+  → PASS
+      ↓
+section N+1
+```
 
-Weak evidence includes prose, test names, comments, confidence scores, and green CI with no connection to the specific requirement.
+Dependent work does not proceed through a failed section. Routine section PASS automatically continues unless the next step crosses an explicit authorization boundary.
 
-## 6. Correction architecture
+This reduces late defect accumulation without requiring the full repository suite after every edit.
 
-Independent audit failures are grouped into one bounded correction package containing only failed IDs. Accepted scope is not reopened unless the correction directly requires it. The corrected exact head is then fully verified and independently re-audited.
+## 6. Balanced verification architecture
+
+Verification has three levels:
+
+### A. Narrow section verification
+
+Fast direct proof for the current boundary.
+
+### B. Affected integration verification
+
+Runs only when a new section can invalidate an earlier boundary or contract.
+
+### C. Terminal verification
+
+Runs after all sections pass:
+
+```text
+cross-section review
+→ full production acceptance
+→ full regression
+→ static/build/security/invariant checks
+→ scope/diff verification
+→ terminal machine release gate
+```
+
+The full gate pays the expensive verification cost once at the release boundary rather than repeatedly during isolated section work.
+
+## 7. Evidence architecture
+
+Evidence is attached to stable checklist IDs. A checklist item is complete only when proof supports the exact governed claim.
+
+Strong evidence includes assertions, state, artifacts, hashes, counts, exact diffs, exact SHAs, production-path execution, transport/client counters, release-gate exit status, and CI runs tied to the exact SHA.
+
+Weak evidence includes prose, test names, comments, confidence scores, fabricated downstream success objects, hardcoded zero-call claims, and local substitutes for mandatory exact-head CI.
+
+## 8. Controlled external-call architecture
+
+Provider/model acceptance should place deterministic control **below real production adapters**.
+
+```text
+production adapter/service
+        ↓
+injected controlled transport/client
+        ↓
+deterministic fixture
+```
+
+Controlled test processes should isolate real credentials where technically feasible and fail unexpected live execution. Call counts are read from actual transport/client counters.
+
+## 9. Terminal release decision architecture
+
+The agent is not the release authority.
+
+A repository command such as `change:release-gate` evaluates machine-enforceable release conditions and exits non-zero when any mandatory condition is missing or failed.
+
+```text
+machine gate exit 0 + required independent audit + authorization
+→ RELEASE READY
+
+local code verification PASS + mandatory external CI unavailable
+→ CODE VERIFIED / GOVERNANCE HOLD
+
+repository-controlled required condition FAIL
+→ BLOCKED
+```
+
+This prevents prose from turning an environmental exception into a false governed PASS.
+
+## 10. Correction architecture
+
+When a section, terminal gate, or independent audit fails, assign the failure to the owning checklist ID, correct the smallest governed boundary, rerun its narrow proof and affected later sections, then rerun terminal verification and exact-head audit.
 
 This design reduces correction loops without lowering the acceptance threshold.
