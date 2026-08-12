@@ -19,6 +19,19 @@ REQUIRED = [
     '.github/workflows/repository-quality.yml',
 ]
 
+
+def normalized(text: str) -> str:
+    """Normalize formatting whitespace without weakening phrase requirements."""
+    return re.sub(r'\s+', ' ', text).strip().lower()
+
+
+def require_phrases(text: str, phrases, label: str, errors):
+    haystack = normalized(text)
+    for phrase in phrases:
+        if normalized(phrase) not in haystack:
+            errors.append(f'{label}: required control phrase absent: {phrase}')
+
+
 errors = []
 for rel in REQUIRED:
     p = ROOT / rel
@@ -32,7 +45,7 @@ for rel in ['SKILL.md', 'README.md', 'SCORECARD.md', 'REPOSITORY_DESCRIPTOR.md',
         errors.append(f'{rel}: does not contain VERSION {version}')
 
 skill = (ROOT/'SKILL.md').read_text(encoding='utf-8') if (ROOT/'SKILL.md').exists() else ''
-for phrase in [
+require_phrases(skill, [
     'FROZEN CHECKLIST',
     'EXACT-HEAD AUDIT',
     'Governed Change Profile',
@@ -46,15 +59,13 @@ for phrase in [
     'GOVERNANCE HOLD',
     'Interrupted-agent resume',
     'Controlled external-call and credential isolation',
-]:
-    if phrase.lower() not in skill.lower():
-        errors.append(f'SKILL.md: required control phrase absent: {phrase}')
+], 'SKILL.md', errors)
 
 if not re.search(r'^name:\s*governed-coding-upgrade\s*$', skill, re.MULTILINE):
     errors.append('SKILL.md: machine-facing skill name must remain governed-coding-upgrade')
 
 closure = (ROOT/'templates/PRODUCTION_CLOSURE_TEMPLATE.md').read_text(encoding='utf-8') if (ROOT/'templates/PRODUCTION_CLOSURE_TEMPLATE.md').exists() else ''
-for phrase in [
+require_phrases(closure, [
     'PRODUCTION_CLOSURE',
     'real production',
     'genuine external blocker',
@@ -63,31 +74,25 @@ for phrase in [
     'TERMINAL MACHINE RELEASE GATE',
     'GOVERNANCE HOLD',
     'Do not merge',
-]:
-    if phrase.lower() not in closure.lower():
-        errors.append(f'PRODUCTION_CLOSURE_TEMPLATE.md: required phrase absent: {phrase}')
+], 'PRODUCTION_CLOSURE_TEMPLATE.md', errors)
 
 machine = (ROOT/'templates/MACHINE_RELEASE_GATE_TEMPLATE.md').read_text(encoding='utf-8') if (ROOT/'templates/MACHINE_RELEASE_GATE_TEMPLATE.md').exists() else ''
-for phrase in [
+require_phrases(machine, [
     'Machine Release Gate Template',
     'exit `0`',
     'exact final SHA',
     'GOVERNANCE HOLD',
     'Local reruns do not substitute for mandatory exact-head CI',
     'controlled transports',
-]:
-    if phrase.lower() not in machine.lower():
-        errors.append(f'MACHINE_RELEASE_GATE_TEMPLATE.md: required phrase absent: {phrase}')
+], 'MACHINE_RELEASE_GATE_TEMPLATE.md', errors)
 
 global_rule = (ROOT/'GLOBAL_CLAUDE_RULE.md').read_text(encoding='utf-8') if (ROOT/'GLOBAL_CLAUDE_RULE.md').exists() else ''
-for phrase in [
+require_phrases(global_rule, [
     'automatically continue on PASS',
     'balanced machine verification',
     'terminal machine release gate',
     'CODE VERIFIED / GOVERNANCE HOLD',
-]:
-    if phrase.lower() not in global_rule.lower():
-        errors.append(f'GLOBAL_CLAUDE_RULE.md: required v1.2.0 control absent: {phrase}')
+], 'GLOBAL_CLAUDE_RULE.md', errors)
 
 score = (ROOT/'SCORECARD.md').read_text(encoding='utf-8') if (ROOT/'SCORECARD.md').exists() else ''
 nums = [int(x) for x in re.findall(r'—\s*(\d{1,2})/20', score)]
