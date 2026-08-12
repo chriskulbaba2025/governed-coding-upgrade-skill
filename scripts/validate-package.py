@@ -11,7 +11,9 @@ REQUIRED = [
     'templates/CHANGE_CHECKLIST_TEMPLATE.md',
     'templates/INDEPENDENT_AUDIT_TEMPLATE.md',
     'templates/CORRECTION_TEMPLATE.md', 'templates/FINAL_REPORT_TEMPLATE.md',
-    'branding/logo.svg', 'branding/icon.svg', 'branding/icon.png', 'branding/social-card.svg', 'branding/social-card.png', 'branding/README.md',
+    'templates/PRODUCTION_CLOSURE_TEMPLATE.md',
+    'branding/logo.svg', 'branding/icon.svg', 'branding/icon.png',
+    'branding/social-card.svg', 'branding/social-card.png', 'branding/README.md',
     '.github/PULL_REQUEST_TEMPLATE.md', '.github/CODEOWNERS',
     '.github/workflows/repository-quality.yml',
 ]
@@ -23,15 +25,31 @@ for rel in REQUIRED:
         errors.append(f'missing or empty: {rel}')
 
 version = (ROOT / 'VERSION').read_text(encoding='utf-8').strip() if (ROOT/'VERSION').exists() else ''
-for rel in ['SKILL.md', 'SCORECARD.md']:
+for rel in ['SKILL.md', 'README.md', 'SCORECARD.md', 'REPOSITORY_DESCRIPTOR.md', 'CHANGELOG.md']:
     p = ROOT / rel
     if p.exists() and version and version not in p.read_text(encoding='utf-8'):
         errors.append(f'{rel}: does not contain VERSION {version}')
 
 skill = (ROOT/'SKILL.md').read_text(encoding='utf-8') if (ROOT/'SKILL.md').exists() else ''
-for phrase in ['FROZEN CHECKLIST', 'EXACT-HEAD AUDIT', 'Governed Change Profile']:
+for phrase in [
+    'FROZEN CHECKLIST',
+    'EXACT-HEAD AUDIT',
+    'Governed Change Profile',
+    'PRODUCTION CLOSURE',
+    'repository-owned',
+    'real production',
+    'genuine external blocker',
+]:
     if phrase.lower() not in skill.lower():
         errors.append(f'SKILL.md: required control phrase absent: {phrase}')
+
+if not re.search(r'^name:\s*governed-coding-upgrade\s*$', skill, re.MULTILINE):
+    errors.append('SKILL.md: machine-facing skill name must remain governed-coding-upgrade')
+
+closure = (ROOT/'templates/PRODUCTION_CLOSURE_TEMPLATE.md').read_text(encoding='utf-8') if (ROOT/'templates/PRODUCTION_CLOSURE_TEMPLATE.md').exists() else ''
+for phrase in ['PRODUCTION_CLOSURE', 'real production', 'genuine external blocker', 'Do not merge']:
+    if phrase.lower() not in closure.lower():
+        errors.append(f'PRODUCTION_CLOSURE_TEMPLATE.md: required phrase absent: {phrase}')
 
 score = (ROOT/'SCORECARD.md').read_text(encoding='utf-8') if (ROOT/'SCORECARD.md').exists() else ''
 nums = [int(x) for x in re.findall(r'—\s*(\d{1,2})/20', score)]
@@ -59,4 +77,6 @@ if errors:
 print('PASS')
 print(f'Version: {version}')
 print(f'Required files: {len(REQUIRED)}/{len(REQUIRED)}')
+print('Machine-facing skill name: governed-coding-upgrade')
+print('Production Closure controls: PRESENT')
 print('Semantic threshold: >=19/20 in all five areas')
