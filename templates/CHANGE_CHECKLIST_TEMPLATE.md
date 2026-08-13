@@ -1,13 +1,31 @@
 # Governed Change Checklist
 
 **Change ID:**  
-**Protocol version:** 1.2.0  
+**Protocol version:** 2.1.0  
 **Checklist version:** 1.0.0  
 **Branch:**  
 **PR:**  
 **Required starting SHA:**  
 **Primary class:**  
+**Release intent:** CHANGE_ONLY / STAGING_READY / PRODUCTION_READY  
 **Objective:**  
+**Terminal result when applicable:**  
+
+## Production correctness
+
+- [ ] Production spine traced where applicable.
+- [ ] Producer → Contract → Consumer map complete.
+- [ ] Identity/access continuity mapped where applicable.
+- [ ] Terminal result identified for staging/production claims.
+
+## Acceptance freeze
+
+- [ ] Real production modules named.
+- [ ] Controlled dependency seam named.
+- [ ] Positive result frozen.
+- [ ] Negative result frozen.
+- [ ] Prohibited later effects frozen.
+- [ ] False-PASS scan method defined.
 
 ## Protected invariants
 
@@ -21,9 +39,7 @@
 
 - [ ] `path/**`
 
-## Ordered sections / requirements
-
-Use one section per architectural boundary when the change is multi-section. Complete sections sequentially.
+## Ordered sections
 
 ### SECTION A — Boundary name
 
@@ -34,39 +50,39 @@ Use one section per architectural boundary when the change is multi-section. Com
 - [ ] Positive/unit proof:
 - [ ] Acceptance/real-path proof:
 - [ ] Negative/failure proof:
-- [ ] Prohibited later calls/events/writes:
+- [ ] Prohibited later effects:
 - [ ] Protected invariant proof:
 - [ ] Narrow verification command:
-- [ ] Affected earlier/later sections:
+- [ ] Affected sections:
 - [ ] Final-report evidence:
 
 ### Section A gate
 
 - [ ] Existing real path inspected.
 - [ ] Proof defined before implementation.
-- [ ] Required failing proof reproduced when safe/feasible.
+- [ ] Failing proof reproduced when safe/feasible.
 - [ ] Narrow verification PASS.
-- [ ] Required negative proof PASS.
-- [ ] Earlier affected sections remain PASS.
+- [ ] Negative proof PASS when required.
+- [ ] Affected earlier sections remain PASS.
 - [ ] SECTION A PASS — automatic continuation permitted.
 
 ## Cross-section review
 
 - [ ] Upstream validated outputs match downstream consumers.
-- [ ] No downstream bypass of governed validation.
-- [ ] No mutation after validation where exact model/object identity is governed.
-- [ ] Cross-section defects corrected in owning section and affected sections rerun.
+- [ ] No downstream validation bypass.
+- [ ] No post-validation mutation where continuity is governed.
 
-## Balanced terminal verification
+## Terminal verification
 
 - [ ] Production acceptance PASS/N/A.
+- [ ] False-PASS scan PASS.
+- [ ] Terminal-path gate PASS/N/A.
+- [ ] Full-system readiness gate PASS/N/A.
 - [ ] Full regression PASS/N/A.
 - [ ] Static/type/build/security PASS/N/A.
-- [ ] Persistence/migration/recovery/idempotency PASS/N/A.
-- [ ] Controlled credential isolation/live-call guard PASS/N/A.
+- [ ] Persistence/recovery PASS/N/A.
 - [ ] Protected invariants PASS.
 - [ ] Scope check PASS — unexpected files = 0; prohibited files = 0.
-- [ ] Generated-artifact check PASS/N/A.
 - [ ] Complete diff inspected.
 - [ ] Terminal machine release gate PASS when required.
 - [ ] Exact-head CI PASS when required.
@@ -74,12 +90,8 @@ Use one section per architectural boundary when the change is multi-section. Com
 
 ## Completion state
 
-Select one supported state from evidence:
-
 - [ ] CODE VERIFIED
 - [ ] STAGING CANDIDATE
 - [ ] CODE VERIFIED / GOVERNANCE HOLD
 - [ ] RELEASE READY
 - [ ] BLOCKED
-
-Merge/release remains subject to required authorization.

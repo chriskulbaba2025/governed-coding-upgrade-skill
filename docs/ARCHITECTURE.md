@@ -1,170 +1,160 @@
 # Architecture
 
-## 1. Purpose
+## Purpose
 
-Governed Coding Upgrade separates **universal change governance** from **repository-specific implementation facts**.
+Governed Coding Upgrade separates universal change governance from repository-specific implementation facts. v2.1 adds production-spine and contract-boundary proof without removing v1.2 sequential execution and machine-gate controls.
 
-The universal layer defines non-bypassable lifecycle and proof requirements. The repository adapter layer records actual commands, invariants, CI behavior, controlled-test policies, and release controls.
-
-## 2. Control layers
+## Control layers
 
 ```text
 External safety / legal / security constraints
-                    ↓
-Current user authorization and scope
-                    ↓
-Repository governance and product contracts
-                    ↓
-Protected invariants
-                    ↓
-Governed Coding Upgrade skill
-                    ↓
-Governed Change Profile
-                    ↓
-Frozen checklist
-                    ↓
-Sequential Evidence Gates
-                    ↓
-Balanced machine verification
-                    ↓
-Terminal machine release gate
-                    ↓
-Independent exact-head audit
-                    ↓
-Release authority
+→ Current user authorization and scope
+→ Repository governance and product contracts
+→ Protected invariants
+→ Governed Coding Upgrade skill
+→ Governed Change Profile
+→ Release intent
+→ Production Spine + Producer/Contract/Consumer map
+→ Acceptance contract freeze + false-PASS scan
+→ Frozen checklist
+→ Sequential Evidence Gates
+→ Balanced verification
+→ Cross-section review
+→ Terminal-path gate
+→ Full-system readiness gate when PRODUCTION_READY
+→ Terminal machine release gate
+→ Independent exact-head audit
+→ Release authority
 ```
 
 A lower layer cannot silently override a higher layer.
 
-## 3. Runtime roles
+## Runtime roles
 
 ### Implementer
 
-Builds only governed scope, produces direct evidence, closes ordered sections sequentially, and reports the exact candidate head. The implementer cannot override a failed terminal gate.
+Builds only governed scope, produces direct evidence, closes ordered sections sequentially, and cannot override a failed terminal gate.
 
 ### Section verifier
 
-Runs the narrowest executable proof after each section. It verifies required negative behavior and checks earlier boundaries only when the new section can materially invalidate them.
+Runs the narrowest direct proof after each section and reruns affected earlier boundaries only when they can be invalidated.
 
 ### Terminal verifier
 
-After all sections pass, runs cross-section review, full acceptance, full regression, invariant/scope checks, and the repository terminal machine release gate.
+Runs cross-section review, full acceptance/regression, static/build/security/invariant checks, terminal-path/system-readiness checks as applicable, and the machine release gate.
 
 ### Independent auditor
 
-Inspects the actual exact-head implementation and proof. The auditor does not accept the implementation report as proof by itself and does not authorize a different SHA than the one inspected.
+Inspects the actual exact-head implementation and proof rather than accepting the implementation report as proof.
 
 ### Release authority
 
-Provides merge, deploy, release, or activation approval required by repository and user instructions. Passing code verification does not silently create release authorization.
+Provides merge/deploy/release authorization required by governance. Passing verification does not create authorization.
 
-## 4. Governed Change Profile
+## Governed Change Profile
 
-The profile prevents every work package from rediscovering the same repository facts. It records:
+The profile stores repository facts that should not be rediscovered in every change:
 
-- package/runtime systems;
-- narrow, affected-integration, acceptance, regression, build, static-analysis, and security commands;
-- terminal machine release-gate command;
-- CI exact-head verification method;
+- build/runtime/test systems;
+- narrow, affected, acceptance, regression, static, security, scope, and machine-gate commands;
+- migration and persistence/recovery policy;
+- external-call and controlled-test policy;
+- release-intent policy;
+- production-spine and contract-map locations;
+- acceptance-freeze and false-PASS method;
+- terminal promise and system-readiness method;
+- exact-head CI method;
 - protected invariants;
-- migration, persistence, and rollback rules;
-- external-call restrictions;
-- controlled-test credential isolation;
-- call-counter source;
-- merge/release authorization rules.
+- rollback and release authorization.
 
-Unknown facts remain `UNRESOLVED`; they are not guessed.
+Unknown facts remain `UNRESOLVED`.
 
-## 5. Sequential evidence architecture
+## Production Spine architecture
 
-Large changes are decomposed into ordered sections that share architectural boundaries.
+The production spine prevents isolated component PASS from being mistaken for end-to-end correctness.
 
 ```text
-section N
-  inspect
-  → define proof
-  → implement
-  → narrow verify
-  → section audit
-  → PASS
-      ↓
-section N+1
+real entry
+→ auth/validation when applicable
+→ service/application boundary
+→ persistence/durable state
+→ jobs/external services when applicable
+→ normalization/contracts
+→ decision/transformation
+→ rendering/publication/delivery
+→ terminal retrieval/outcome
 ```
 
-Dependent work does not proceed through a failed section. Routine section PASS automatically continues unless the next step crosses an explicit authorization boundary.
+Every material handoff is mapped as Producer → Contract → Consumer with state/artifact, validation point, failure behavior, authorization/tenant implication, and direct proof.
 
-This reduces late defect accumulation without requiring the full repository suite after every edit.
+## Acceptance architecture
 
-## 6. Balanced verification architecture
+Acceptance is designed before implementation. The frozen acceptance record names:
 
-Verification has three levels:
+- real production modules executed;
+- controlled dependency seam;
+- production contracts/validators;
+- persisted state/artifacts inspected;
+- positive terminal assertion;
+- negative/fail-closed assertion;
+- prohibited later effects;
+- external-call ceiling;
+- exact command.
 
-### A. Narrow section verification
+The false-PASS scan rejects proof that bypasses the production boundary being claimed.
 
-Fast direct proof for the current boundary.
-
-### B. Affected integration verification
-
-Runs only when a new section can invalidate an earlier boundary or contract.
-
-### C. Terminal verification
-
-Runs after all sections pass:
+## Sequential evidence architecture
 
 ```text
-cross-section review
-→ full production acceptance
-→ full regression
-→ static/build/security/invariant checks
-→ scope/diff verification
-→ terminal machine release gate
+inspect
+→ define proof
+→ reproduce failure when safe/feasible
+→ implement complete section
+→ narrow verify
+→ section audit
+→ PASS
+→ next section
 ```
 
-The full gate pays the expensive verification cost once at the release boundary rather than repeatedly during isolated section work.
+A failed section is corrected before dependent work proceeds. Routine PASS automatically continues unless the next action crosses an explicit authorization boundary.
 
-## 7. Evidence architecture
+## Balanced verification architecture
 
-Evidence is attached to stable checklist IDs. A checklist item is complete only when proof supports the exact governed claim.
+Three levels:
 
-Strong evidence includes assertions, state, artifacts, hashes, counts, exact diffs, exact SHAs, production-path execution, transport/client counters, release-gate exit status, and CI runs tied to the exact SHA.
+1. narrow section verification;
+2. affected integration verification;
+3. one terminal full verification after all sections pass.
 
-Weak evidence includes prose, test names, comments, confidence scores, fabricated downstream success objects, hardcoded zero-call claims, and local substitutes for mandatory exact-head CI.
+This reduces cycle time without weakening final acceptance.
 
-## 8. Controlled external-call architecture
+## Evidence and validated-object architecture
 
-Provider/model acceptance should place deterministic control **below real production adapters**.
+Strong proof includes exact assertions, persisted state, artifacts/hashes, production-path execution, measured call/task counts, restart proof, exact object equality/identity where governed, exact diffs/SHAs, terminal retrieval, machine-gate status, and exact-head audit.
+
+For governed boundaries:
 
 ```text
-production adapter/service
-        ↓
-injected controlled transport/client
-        ↓
-deterministic fixture
+assemble complete object
+→ validate
+→ retain/freeze when applicable
+→ persist/transition/render/publish/authorize/consume the validated object
 ```
 
-Controlled test processes should isolate real credentials where technically feasible and fail unexpected live execution. Call counts are read from actual transport/client counters.
+## External-call and durable-job architecture
 
-## 9. Terminal release decision architecture
+External integrations define task/request identity, timeouts, retry classification, budgets, cancellation, recovery/reuse, duplicate-work prevention, and measured counters. Controlled tests execute below production adapters and avoid unintended live execution where technically feasible.
 
-The agent is not the release authority.
+Asynchronous work persists enough state to recover from a fresh process without reconstructing required input from defaults.
 
-A repository command such as `change:release-gate` evaluates machine-enforceable release conditions and exits non-zero when any mandatory condition is missing or failed.
+## Terminal and system-readiness architecture
 
-```text
-machine gate exit 0 + required independent audit + authorization
-→ RELEASE READY
+`CHANGE_ONLY` proves the scoped change. `STAGING_READY` proves the governed staging promise. `PRODUCTION_READY` additionally proves the terminal user/business promise and applicable system responsibilities such as production composition, persistence/migrations, access isolation, executable contracts, adapters, durability/recovery, external-call controls, publication/retrieval, rollback, exact-head CI, machine gate, audit, and authorization.
 
-local code verification PASS + mandatory external CI unavailable
-→ CODE VERIFIED / GOVERNANCE HOLD
+A scoped PASS and system readiness are reported separately.
 
-repository-controlled required condition FAIL
-→ BLOCKED
-```
+## Correction architecture
 
-This prevents prose from turning an environmental exception into a false governed PASS.
+When a section, terminal gate, or audit fails, assign the failure to the owning checklist ID, correct the smallest governed boundary, rerun its direct proof and affected later sections, then rerun terminal verification and exact-head audit.
 
-## 10. Correction architecture
-
-When a section, terminal gate, or independent audit fails, assign the failure to the owning checklist ID, correct the smallest governed boundary, rerun its narrow proof and affected later sections, then rerun terminal verification and exact-head audit.
-
-This design reduces correction loops without lowering the acceptance threshold.
+If a production defect escaped earlier green proof, correct both the implementation and the proof system that allowed the false PASS.

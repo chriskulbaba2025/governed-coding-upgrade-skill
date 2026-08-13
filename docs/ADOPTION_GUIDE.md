@@ -2,7 +2,7 @@
 
 ## Objective
 
-Install Governed Coding Upgrade v1.2.0 so qualifying coding changes use the same governance lifecycle while each repository retains its own commands, invariants, CI, and release controls.
+Install Governed Coding Upgrade v2.1.0 so qualifying coding changes use the same production-correctness and sequential-governance lifecycle while each repository retains its own commands, invariants, CI, and release controls.
 
 ## 1. Install the skill
 
@@ -12,17 +12,15 @@ Place `SKILL.md` in the coding agent's reusable skill location under:
 governed-coding-upgrade
 ```
 
-The agent must load the file as an authoritative execution skill rather than optional reference material.
+Load it as an authoritative execution skill, not optional reference material.
 
 ## 2. Install the global invocation rule
 
-Add the contents of `GLOBAL_CLAUDE_RULE.md` to the global coding-agent instruction layer.
-
-This is required because an available skill is not equivalent to a mandatory skill.
+Add `GLOBAL_CLAUDE_RULE.md` to the global coding-agent instruction layer.
 
 ## 3. Create or upgrade the repository profile
 
-In each governed codebase, create or update:
+Create/update:
 
 ```text
 .governance/GOVERNED_CHANGE_PROFILE.md
@@ -30,38 +28,57 @@ In each governed codebase, create or update:
 
 Use [`../templates/GOVERNED_CHANGE_PROFILE_TEMPLATE.md`](../templates/GOVERNED_CHANGE_PROFILE_TEMPLATE.md).
 
-For v1.2.0, explicitly populate:
+For v2.1.0 explicitly populate:
 
-- narrow-test command;
-- affected-integration command;
-- acceptance/integration command;
-- full-regression command;
-- controlled-test credential isolation policy;
-- unexpected live-network behavior;
-- controlled/live call-counter source;
+- release-intent policy;
+- narrow and affected-integration commands;
+- acceptance and full-regression commands;
+- production-spine record path;
+- Producer → Contract → Consumer map path;
+- acceptance-contract/freeze path;
+- false-PASS scan method;
+- terminal user/business promise definition;
+- full-system production-readiness method;
+- persistence/recovery policy;
+- external-call/controlled-test policy;
 - terminal machine release-gate command;
-- exact-head CI verification method.
+- exact-head CI verification method;
+- merge/release authorization rule;
+- rollback mechanism.
 
-Mark unknown fields `UNRESOLVED` rather than inferring them.
+Unknown material fields are `UNRESOLVED`, not guessed.
 
 ## 4. Establish protected invariants
 
-Record repository behaviors and artifacts that a change must not alter unless explicitly authorized. Examples:
+Record behaviors/artifacts that may not change without explicit authorization, including applicable API/schema contracts, data/access isolation, lifecycle transitions, authentication/authorization, migrations, golden/reference artifacts, generated output, dependency compatibility, external-call restrictions, deployment, and rollback.
 
-- public APIs and schemas;
-- data isolation;
-- lifecycle/state transitions;
-- authentication and authorization;
-- migrations;
-- golden masters or snapshots;
-- generated output;
-- dependency compatibility;
-- external/paid provider restrictions;
-- deployment and rollback rules.
+## 5. Adopt release intent
 
-## 5. Adopt Sequential Evidence Gates
+Every governed change declares:
 
-For changes with multiple ordered boundaries, group checklist IDs into sections and execute:
+- `CHANGE_ONLY`;
+- `STAGING_READY`; or
+- `PRODUCTION_READY`.
+
+Do not let a green scoped change imply a higher readiness state than it proved.
+
+## 6. Adopt the Production Spine and contract map
+
+For cross-boundary production work, use [`../templates/PRODUCTION_SPINE_TEMPLATE.md`](../templates/PRODUCTION_SPINE_TEMPLATE.md).
+
+Trace the real path to its terminal outcome and map material handoffs as Producer → Contract → Consumer. Include tenant/account/security identity where it affects access.
+
+## 7. Freeze acceptance before implementation
+
+Use [`../templates/ACCEPTANCE_CONTRACT_TEMPLATE.md`](../templates/ACCEPTANCE_CONTRACT_TEMPLATE.md).
+
+Freeze real production modules, controlled seams, validators/contracts, positive/negative assertions, prohibited later effects, external-call ceiling, and exact command before production implementation.
+
+Run the false-PASS scan before accepting terminal green results.
+
+## 8. Adopt Sequential Evidence Gates
+
+For ordered multi-section work:
 
 ```text
 inspect
@@ -73,88 +90,76 @@ inspect
 → automatically continue on PASS
 ```
 
-Do not proceed past a failed section.
+Do not proceed through a failed section. Routine PASS does not require user approval unless the next action crosses an explicit authorization boundary.
 
-Do not require routine user approval between passed sections unless the next action crosses an explicit authorization boundary such as live provider execution, production mutation, deployment, merge, or release.
+## 9. Adopt balanced verification
 
-## 6. Adopt balanced verification
+Use three levels:
 
-Do not default to a full regression after every section.
+1. narrow section proof;
+2. affected integration proof only when a changed boundary can invalidate earlier behavior;
+3. one terminal full verification after all sections and cross-section review pass.
 
-Configure three levels:
+## 10. Configure controlled external-call and durable-work proof
 
-1. **Narrow section proof** after each section.
-2. **Affected integration proof** only when a changed boundary can invalidate earlier passed behavior.
-3. **Full terminal verification** after all sections and cross-section review pass.
+Where external services/models or asynchronous work exist:
 
-This is the default v1.2.0 balance between cycle time and release confidence.
+- inject deterministic controlled dependencies below real production adapters/services;
+- avoid unintended live execution where technically feasible;
+- measure actual call/task counters;
+- define retry/timeout/recovery/idempotency/cancellation obligations;
+- prove restart from a fresh process when durable recovery is part of the production claim.
 
-## 7. Isolate controlled tests from real credentials
+## 11. Add terminal-path and system-readiness proof
 
-Where external providers/models exist:
+For `STAGING_READY` or `PRODUCTION_READY`, define and prove the terminal user/business promise. For `PRODUCTION_READY`, prove all applicable full-system responsibilities defined by the skill.
 
-- inject deterministic controlled transports or clients below real production adapters;
-- unset, shadow, or sandbox real credentials for controlled acceptance when feasible;
-- fail unexpected live network/provider execution;
-- record actual controlled/live call counters;
-- do not hardcode zero-call or zero-cost PASS results.
+A scoped PASS and system readiness must be reported separately.
 
-## 8. Add the terminal machine release gate
+## 12. Add the terminal machine release gate
 
 Use [`../templates/MACHINE_RELEASE_GATE_TEMPLATE.md`](../templates/MACHINE_RELEASE_GATE_TEMPLATE.md).
 
-Implement one stable repository command, preferably:
+Prefer one stable repository command such as:
 
 ```text
 change:release-gate
 ```
 
-or a repository-native equivalent.
+The gate exits 0 only when all machine-enforceable mandatory conditions are satisfied at the exact candidate head.
 
-The command should exit `0` only when every machine-enforceable mandatory release condition is satisfied at the exact candidate head.
+Mandatory exact-head CI unavailable is `CODE VERIFIED / GOVERNANCE HOLD`, not final PASS.
 
-When exact-head CI is mandatory but temporarily unavailable, the gate must not silently accept local substitution. The correct disposition is:
+## 13. Audit and correct
 
-```text
-CODE VERIFIED / GOVERNANCE HOLD
-```
+Use [`../templates/INDEPENDENT_AUDIT_TEMPLATE.md`](../templates/INDEPENDENT_AUDIT_TEMPLATE.md) against the exact final head.
 
-Rerun the external proof and gate against the unchanged exact SHA when available.
+If blocked, correct the owning checklist IDs/boundaries, rerun narrow and affected checks, rerun terminal verification, and audit the corrected exact head.
 
-## 9. Verify and audit
+If a production defect escaped earlier green proof, correct both the defect and the proof system that missed it.
 
-Run repository-specific terminal verification from the Governed Change Profile, then use [`../templates/INDEPENDENT_AUDIT_TEMPLATE.md`](../templates/INDEPENDENT_AUDIT_TEMPLATE.md) against the exact final head.
+## 14. Resume interrupted sessions
 
-If audit blocks the change, compile a bounded correction, rerun the owning section and affected later sections, then run terminal verification and audit the corrected exact head.
+After interruption, reopen the same repository/branch, inspect HEAD/diff/checklist/test evidence, identify the last directly proven section, preserve valid work, and continue from the first unproven/failing section.
 
-## 10. Recover interrupted agent sessions
+## 15. Close with evidence
 
-After an API/agent/terminal interruption:
-
-1. reopen the same repository and branch;
-2. inspect HEAD, working tree, diff, checklist/task state, and test evidence;
-3. identify the last directly proven section;
-4. resume from the first unproven or failed section;
-5. do not restart completed valid work solely because the conversational response ended.
-
-## 11. Close with evidence
-
-Use [`../templates/FINAL_REPORT_TEMPLATE.md`](../templates/FINAL_REPORT_TEMPLATE.md).
-
-Do not replace missing proof with confidence language or prose assertions.
+Use [`../templates/FINAL_REPORT_TEMPLATE.md`](../templates/FINAL_REPORT_TEMPLATE.md). Do not replace missing proof with confidence language.
 
 ## Repository-level acceptance
 
-v1.2.0 adoption is complete when:
+v2.1.0 adoption is complete when:
 
-- the skill is installed;
-- the global invocation rule is active;
-- the repository profile contains no material guessed facts;
+- the skill and global rule are installed;
+- the profile contains no material guessed facts;
 - protected invariants are registered;
-- sequential section checks map to executable commands;
-- affected integration verification is defined;
-- controlled credential/live-call policy is defined where applicable;
-- full terminal verification is executable;
-- the machine release gate is implemented;
+- release intent is declared per change;
+- production-spine/contract-map records are used for cross-boundary production work;
+- acceptance architecture is frozen before implementation;
+- false-PASS controls are active;
+- sequential and affected-integration checks map to executable commands;
+- terminal-path and system-readiness claims are distinguishable from scoped PASS;
+- controlled external-call/durable-work policy is defined where applicable;
+- full terminal verification and machine release gate are executable;
 - exact-head audit can be performed;
 - merge/release authorization remains explicit.

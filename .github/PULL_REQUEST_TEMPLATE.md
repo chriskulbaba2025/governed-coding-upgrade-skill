@@ -5,12 +5,21 @@
 **Starting SHA:**  
 **Final SHA:**  
 **Primary class:**  
+**Release intent:** CHANGE_ONLY / STAGING_READY / PRODUCTION_READY  
 
 ### Scope
 
 - [ ] Changed files are inside the permitted list.
 - [ ] Prohibited files are untouched.
 - [ ] Complete diff was reviewed.
+
+### Production correctness
+
+- [ ] Production spine is traced when applicable.
+- [ ] Producer → Contract → Consumer map is complete when applicable.
+- [ ] Acceptance contract was frozen before implementation.
+- [ ] False-PASS scan completed.
+- [ ] Terminal-path/full-system readiness proof matches the declared release intent.
 
 ### Proof
 

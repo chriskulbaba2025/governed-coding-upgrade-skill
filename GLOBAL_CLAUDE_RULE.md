@@ -1,58 +1,55 @@
 # Mandatory Global Invocation Rule
 
-Add this rule to the global coding-agent instruction layer so the skill is invoked consistently rather than merely being available:
+Add this rule to the global coding-agent instruction layer:
 
 ```text
 MANDATORY GOVERNED CODING CHANGES
 
 For every task that changes code, tests, schemas, dependencies, executable
-configuration, infrastructure-as-code, build/release logic, migrations,
-persistence, or runtime behavior, invoke and obey the
-`governed-coding-upgrade` skill before editing.
+configuration, infrastructure, migrations, persistence, build/release logic,
+or runtime behavior, invoke and obey `governed-coding-upgrade` before editing.
 
-Do not bypass the skill because a change appears small.
+Declare release intent as CHANGE_ONLY, STAGING_READY, or PRODUCTION_READY.
 Do not begin implementation until repository preflight, protected invariants,
-permitted/prohibited file scope, and the frozen checklist are established.
+permitted/prohibited scope, production-spine/contract mapping when applicable,
+acceptance proof architecture, and the frozen checklist are established.
 
-When the user asks to finish production readiness, fix all known blockers, make
-the complete path work, or continue until clean, activate PRODUCTION_CLOSURE.
-Repository-owned missing infrastructure required by an already-governed contract
-is implementation work, not a final blocker.
+For cross-boundary production work, trace the real production spine and each
+Producer → Contract → Consumer handoff before editing. Freeze the acceptance
+contract before production implementation. Reject false-PASS proof such as
+unconditional assertions, always-valid validators, fabricated normalized success,
+pre-seeded terminal state, hardcoded external-call claims, or mocks above the
+production boundary being proved.
 
-For multi-section closure, execute sections sequentially:
+For multi-section work, execute sequentially:
 inspect → define proof → reproduce failure when safe → implement → narrow verify
-→ section audit → automatically continue on PASS. Do not proceed past a failed
-section. Do not ask for routine approval between passed sections unless the next
-step crosses an explicit authorization boundary.
+→ section audit → automatically continue on PASS. Do not proceed through a failed
+section. Routine section PASS does not require approval unless the next action
+crosses an explicit authorization boundary.
 
-Use balanced machine verification: narrow checks at each section, affected
-integration checks only when a boundary can be invalidated, then cross-section
-review plus full acceptance/regression/invariant/scope verification once all
-sections pass.
+Use balanced verification: narrow checks at each section, affected integration
+only when a boundary can be invalidated, then one terminal cross-section/full
+verification after all sections pass.
 
-Acceptance must exercise the real production implementation with controlled
-injected dependencies rather than fabricated downstream success objects.
-Controlled tests should isolate real provider/LLM credentials when technically
-possible, fail unexpected live network execution, and measure actual controlled
-and live call counts rather than hardcoding PASS.
+Acceptance must exercise real production modules with controlled dependencies
+below the production boundary. Controlled tests should prevent unexpected live
+external execution where technically feasible and use measured call/task counters.
 
-If an API/agent/terminal response is interrupted, resume from repository state,
-inspect the current diff/task/checklist evidence, identify the last directly
-proven section, and continue from the first unproven section. Do not restart
-completed valid work merely because the connection ended.
+If the agent/API/terminal session is interrupted, resume from repository state and
+continue from the first unproven section; preserve valid completed work.
 
-Do not claim RELEASE READY unless the repository's required terminal machine
-release gate exits 0, required exact-head CI passes for the exact final SHA, and
-the independent exact-head audit passes. Agent prose, confidence, local
-substitutes, and environmental explanations cannot override a failed required
-gate.
+A scoped PASS is not production readiness. For STAGING_READY or PRODUCTION_READY,
+prove the terminal user/business promise. For PRODUCTION_READY, also prove the
+applicable full-system readiness responsibilities defined by the skill.
 
-If local controlled verification passes but mandatory external CI/platform proof
-is temporarily unavailable, report CODE VERIFIED / GOVERNANCE HOLD rather than
-final PASS. Rerun the external proof and machine gate against the unchanged exact
-SHA when the external dependency becomes available.
+Do not claim RELEASE READY unless the required terminal machine gate exits 0,
+required exact-head CI passes for the exact final SHA, the independent exact-head
+audit passes, and required release authorization exists.
 
-Do not merge, deploy, release, activate, or make prohibited live paid/provider
-or LLM calls without the authorization required by repository governance and
-the current user instruction.
+If code verification passes but a mandatory external release condition is
+unavailable, report CODE VERIFIED / GOVERNANCE HOLD rather than final PASS.
+
+Do not merge, deploy, release, activate, or make prohibited live paid/provider/model
+calls without the authorization required by repository governance and current user
+instruction.
 ```
