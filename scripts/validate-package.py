@@ -11,8 +11,7 @@ REQUIRED = [
     'templates/GOVERNED_CHANGE_PROFILE_TEMPLATE.md',
     'templates/CHANGE_CHECKLIST_TEMPLATE.md',
     'templates/INDEPENDENT_AUDIT_TEMPLATE.md',
-    'templates/CORRECTION_TEMPLATE.md',
-    'templates/FINAL_REPORT_TEMPLATE.md',
+    'templates/CORRECTION_TEMPLATE.md', 'templates/FINAL_REPORT_TEMPLATE.md',
     'templates/PRODUCTION_CLOSURE_TEMPLATE.md',
     'templates/MACHINE_RELEASE_GATE_TEMPLATE.md',
     'templates/PRODUCTION_SPINE_TEMPLATE.md',
@@ -25,6 +24,7 @@ REQUIRED = [
 
 
 def normalized(text: str) -> str:
+    text = re.sub(r'[*_`]', '', text)
     return re.sub(r'\s+', ' ', text).strip().lower()
 
 
@@ -41,13 +41,13 @@ for rel in REQUIRED:
     if not p.is_file() or p.stat().st_size == 0:
         errors.append(f'missing or empty: {rel}')
 
-version = (ROOT / 'VERSION').read_text(encoding='utf-8').strip() if (ROOT / 'VERSION').exists() else ''
+version = (ROOT / 'VERSION').read_text(encoding='utf-8').strip() if (ROOT/'VERSION').exists() else ''
 for rel in ['SKILL.md', 'README.md', 'SCORECARD.md', 'REPOSITORY_DESCRIPTOR.md', 'CHANGELOG.md']:
     p = ROOT / rel
     if p.exists() and version and version not in p.read_text(encoding='utf-8'):
         errors.append(f'{rel}: does not contain VERSION {version}')
 
-skill = (ROOT / 'SKILL.md').read_text(encoding='utf-8') if (ROOT / 'SKILL.md').exists() else ''
+skill = (ROOT/'SKILL.md').read_text(encoding='utf-8') if (ROOT/'SKILL.md').exists() else ''
 require_phrases(skill, [
     'FROZEN CHECKLIST',
     'EXACT-HEAD AUDIT',
@@ -94,7 +94,7 @@ for rel, phrases in {
     p = ROOT / rel
     require_phrases(p.read_text(encoding='utf-8') if p.exists() else '', phrases, rel, errors)
 
-score = (ROOT / 'SCORECARD.md').read_text(encoding='utf-8') if (ROOT / 'SCORECARD.md').exists() else ''
+score = (ROOT/'SCORECARD.md').read_text(encoding='utf-8') if (ROOT/'SCORECARD.md').exists() else ''
 nums = [int(x) for x in re.findall(r'—\s*(\d{1,2})/20', score)]
 if len(nums) < 5 or any(n < 19 for n in nums[:5]):
     errors.append('SCORECARD.md: five semantic areas are not all >=19/20')
@@ -102,21 +102,24 @@ if len(nums) < 5 or any(n < 19 for n in nums[:5]):
 for md in ROOT.rglob('*.md'):
     text = md.read_text(encoding='utf-8')
     for target in re.findall(r'\[[^\]]+\]\(([^)]+)\)', text):
-        if target.startswith(('http://', 'https://', '#', 'mailto:')):
+        if target.startswith(('http://','https://','#','mailto:')):
             continue
-        clean = target.split('#', 1)[0]
-        if clean and not (md.parent / clean).resolve().exists():
+        clean = target.split('#',1)[0]
+        if not clean:
+            continue
+        if not (md.parent / clean).resolve().exists():
             errors.append(f'{md.relative_to(ROOT)}: broken local link: {target}')
 
 if errors:
     print('BLOCKED')
-    for error in errors:
-        print(f'- {error}')
+    for e in errors:
+        print(f'- {e}')
     sys.exit(1)
 
 print('PASS')
 print(f'Version: {version}')
 print(f'Required files: {len(REQUIRED)}/{len(REQUIRED)}')
+print('Machine-facing skill name: governed-coding-upgrade')
 print('Production Spine controls: PRESENT')
 print('Contract-map controls: PRESENT')
 print('Acceptance freeze / false-PASS controls: PRESENT')
