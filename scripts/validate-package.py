@@ -9,7 +9,7 @@ REQUIRED = [
     'VERSION', 'CHANGELOG.md', 'NOTICE.md', 'CONTRIBUTING.md', 'SECURITY.md',
     'REPOSITORY_DESCRIPTOR.md', 'docs/ARCHITECTURE.md', 'docs/ADOPTION_GUIDE.md',
     'docs/UNIVERSAL_PROJECT_MODEL.md', 'docs/AGENT_ORCHESTRATION.md',
-    'docs/TEST_AREAS.md',
+    'docs/EXECUTION_CONTROL_PLANE_INTEGRATION.md', 'docs/TEST_AREAS.md',
     'templates/GOVERNED_CHANGE_PROFILE_TEMPLATE.md',
     'templates/PROJECT_ADAPTER_TEMPLATE.md',
     'templates/AGENT_ROSTER_TEMPLATE.md',
@@ -98,15 +98,25 @@ for rel, phrases in {
     'docs/AGENT_ORCHESTRATION.md': [
         'Scout', 'Planner', 'Builder', 'Challenger', 'Verifier', 'Auditor', 'SELF_AUDIT'
     ],
+    'docs/EXECUTION_CONTROL_PLANE_INTEGRATION.md': [
+        'gcu-execution-control', 'capability_floor', 'Escalation contract',
+        'Persistent usage receipts', 'execution-resource cost',
+        'GCU MUST NOT choose a provider or concrete model', 'Fail-closed behavior'
+    ],
     'docs/TEST_AREAS.md': [
         'STRUCTURE', 'UNIT', 'CONTRACT', 'INTEGRATION', 'END_TO_END',
         'SECURITY / PRIVACY', 'RELEASE / DEPLOYMENT'
     ],
     'templates/PROJECT_ADAPTER_TEMPLATE.md': [
-        'Adapter schema version: 1.0.0', 'Project kind(s)', 'Default agent roster'
+        'Adapter schema version: 1.0.0', 'Project kind(s)', 'Default agent roster',
+        'Execution control plane', 'Usage-ledger authority'
     ],
     'templates/AGENT_ROSTER_TEMPLATE.md': [
-        'Scout', 'Challenger', 'Auditor', 'Release Authority'
+        'Scout', 'Challenger', 'Auditor', 'Release Authority', 'Capability floor',
+        'Escalation record'
+    ],
+    'templates/FINAL_REPORT_TEMPLATE.md': [
+        'EXECUTION CONTROL PLANE', 'usage-receipt', 'EXECUTION COST STATUS'
     ],
     'templates/TEST_AREA_MAP_TEMPLATE.md': [
         'STRUCTURE', 'CONTRACT', 'RELIABILITY / RECOVERY', 'RELEASE / DEPLOYMENT'
@@ -122,7 +132,8 @@ for rel, phrases in {
     ],
     'GLOBAL_CLAUDE_RULE.md': [
         'T1_LOCAL', 'PROJECT_ADAPTER', 'Test Areas', 'Challenger', 'SELF_AUDIT',
-        'CHANGE_ONLY', 'PRODUCTION_READY', 'Producer → Contract → Consumer', 'false-PASS'
+        'CHANGE_ONLY', 'PRODUCTION_READY', 'Producer → Contract → Consumer', 'false-PASS',
+        'gcu-execution-control/1.0.0', 'usage-receipt'
     ],
     'templates/CHANGE_CHECKLIST_TEMPLATE.md': [
         'Protocol version: 2.2.0', 'Test Area Map', 'Challenger gate', 'Acceptance freeze'
@@ -160,6 +171,7 @@ print('Machine-facing skill name: governed-coding-upgrade')
 print('Project Discovery / Adapter controls: PRESENT')
 print('Change Tier controls: PRESENT')
 print('Agent orchestration controls: PRESENT')
+print('Execution control plane integration: PRESENT')
 print('Universal Test Area Map controls: PRESENT')
 print('Production Spine controls: PRESENT')
 print('Contract-map controls: PRESENT')
