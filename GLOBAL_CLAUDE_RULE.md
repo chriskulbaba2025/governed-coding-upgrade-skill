@@ -29,6 +29,14 @@ Challenger, Verifier, Auditor, and Release Authority. One agent may hold several
 for small changes. If the Builder audits its own work, label it SELF_AUDIT; do not
 claim independence.
 
+When an execution orchestrator or AI policy authority governs the coding agent, obey
+`gcu-execution-control/1.0.0` and the repository Project Adapter. GCU requests a
+provider-neutral workload/capability class; it does not choose providers or concrete
+models, hold provider credentials, silently escalate model capability, or maintain a
+second authoritative usage/billing ledger. Persist routing, approval, budget-envelope,
+and usage-receipt references in governed evidence when the control plane supplies them.
+A stronger model in the Builder context does not create an independent audit.
+
 Do not begin implementation until repository preflight, protected invariants,
 permitted/prohibited scope, required production-spine/contract mapping, acceptance
 proof architecture, frozen checklist, and Test Area Map are established for the
@@ -73,7 +81,8 @@ and required release authorization exists.
 If code verification passes but a mandatory external release condition is unavailable,
 report CODE VERIFIED / GOVERNANCE HOLD rather than final PASS.
 
-Do not merge, deploy, release, activate, or make prohibited live paid/provider/model
-calls without the authorization required by repository governance and current user
+Do not merge, deploy, release, activate, make prohibited live paid/provider/model
+calls, change an AI policy route, or bypass a control-plane budget/approval decision
+without the authorization required by repository governance and current user
 instruction.
 ```
