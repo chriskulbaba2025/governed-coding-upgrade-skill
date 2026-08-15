@@ -2,6 +2,41 @@
 
 All notable Governed Coding Upgrade releases are recorded here. The machine-facing skill name remains `governed-coding-upgrade`.
 
+## [2.2.0] — 2026-08-14
+
+### Added
+
+- Project Discovery before planning so repository facts are inspected rather than assumed.
+- Universal Project Adapter with independent adapter schema version `1.0.0`.
+- Change Tiers: `T1_LOCAL`, `T2_BOUNDARY`, `T3_SYSTEM`, and `T4_RELEASE`.
+- Vendor-neutral agent orchestration roles: Scout, Planner, Builder, Challenger, Verifier, Auditor, and Release Authority.
+- Truthful `SELF_AUDIT` state when the Builder and Auditor are not independent.
+- Universal Test Area Map covering structure, unit, contract, integration, acceptance, data/migration, security/privacy, reliability/recovery, external-call/cost, performance/resource, compatibility, and release/deployment proof.
+- Durable change-workspace template for interrupted sessions and multi-agent handoff.
+- Monorepo/multi-component adaptation and affected-component selection rules.
+- Challenger gate for T2+ work to actively falsify assumptions and proof before terminal acceptance.
+- Universal project model, agent-orchestration guide, test-area guide, Project Adapter template, agent roster template, Test Area Map template, and change workspace template.
+
+### Changed
+
+- Human-visible release name: **Governed Coding Upgrade v2.2.0 — Universal Project Orchestration**.
+- The governing lifecycle now includes Project Discovery / Adapter Check, Change Tier, optional Agent Roster, Test Area Map, and Challenger gate.
+- Testing is expressed as capability-based proof areas instead of assumed folder/framework layouts.
+- The legacy Governed Change Profile remains compatible while new installations prefer `.governance/PROJECT_ADAPTER.md`.
+- Audit language now distinguishes independent exact-head audit from same-context `SELF_AUDIT`.
+- Generalization now explicitly covers monorepos, multi-component repositories, and multiple project kinds in one repository.
+
+### Retained from v2.1.0
+
+- Release intent: `CHANGE_ONLY`, `STAGING_READY`, `PRODUCTION_READY`.
+- Production Spine gate and Producer → Contract → Consumer mapping.
+- Acceptance-contract freeze and false-PASS scan.
+- Sequential Evidence Gates and balanced verification.
+- Single validated-object and evidence-preservation rules.
+- External-call and durable-job contracts.
+- Terminal-path and full-system production-readiness gates.
+- Machine release gate, exact-head audit, Governance Hold, Production Closure, and escaped-proof regression.
+
 ## [2.1.0] — 2026-08-13
 
 ### Added
