@@ -11,8 +11,9 @@ generated production artifacts, or runtime behavior, invoke and obey
 `governed-coding-upgrade` before editing.
 
 Do not assume the project stack. Run Project Discovery and verify the repository's
-Project Adapter / governed profile. Record material unknowns as UNRESOLVED rather
-than guessing commands, architecture, or boundaries.
+Project Adapter / governed profile. Prefer `.governance/PROJECT_ADAPTER.md` for new
+installations. Record material unknowns as UNRESOLVED rather than guessing commands,
+architecture, or boundaries.
 
 Classify Change Tier as T1_LOCAL, T2_BOUNDARY, T3_SYSTEM, or T4_RELEASE, and declare
 Release Intent as CHANGE_ONLY, STAGING_READY, or PRODUCTION_READY. Change Tier
