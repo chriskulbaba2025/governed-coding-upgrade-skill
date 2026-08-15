@@ -2,7 +2,9 @@
 
 ## Objective
 
-Install Governed Coding Upgrade v2.1.0 so qualifying coding changes use the same production-correctness and sequential-governance lifecycle while each repository retains its own commands, invariants, CI, and release controls.
+Install Governed Coding Upgrade v2.2.0 so qualifying coding changes use one universal governance lifecycle while each repository supplies its own facts through a Project Adapter and, where present, integrates cleanly with an external execution control plane.
+
+The goal is portability without weakening proof or duplicating routing, billing, orchestration, or release authority.
 
 ## 1. Install the skill
 
@@ -18,41 +20,58 @@ Load it as an authoritative execution skill, not optional reference material.
 
 Add `GLOBAL_CLAUDE_RULE.md` to the global coding-agent instruction layer.
 
-## 3. Create or upgrade the repository profile
+## 3. Run Project Discovery
 
-Create/update:
+Before creating an adapter, inspect the repository and record directly supported facts:
+
+- project kinds and component/workspace boundaries;
+- languages/runtimes/build systems;
+- test frameworks and commands;
+- CI/release mechanisms;
+- persistence/migrations/background work;
+- external systems and controlled-test seams;
+- security/privacy/tenant boundaries;
+- execution orchestrator / AI policy authority when present;
+- generated/protected paths;
+- rollback/recovery mechanisms;
+- repository governance.
+
+Unknown material facts are `UNRESOLVED`, not guessed.
+
+See [`UNIVERSAL_PROJECT_MODEL.md`](UNIVERSAL_PROJECT_MODEL.md).
+
+## 4. Create the Project Adapter
+
+Preferred path:
 
 ```text
-.governance/GOVERNED_CHANGE_PROFILE.md
+.governance/PROJECT_ADAPTER.md
 ```
 
-Use [`../templates/GOVERNED_CHANGE_PROFILE_TEMPLATE.md`](../templates/GOVERNED_CHANGE_PROFILE_TEMPLATE.md).
+Use [`../templates/PROJECT_ADAPTER_TEMPLATE.md`](../templates/PROJECT_ADAPTER_TEMPLATE.md).
 
-For v2.1.0 explicitly populate:
+The adapter maps universal GCU test/proof capabilities to the repository's real commands and boundaries.
 
-- release-intent policy;
-- narrow and affected-integration commands;
-- acceptance and full-regression commands;
-- production-spine record path;
-- Producer → Contract → Consumer map path;
-- acceptance-contract/freeze path;
-- false-PASS scan method;
-- terminal user/business promise definition;
-- full-system production-readiness method;
-- persistence/recovery policy;
-- external-call/controlled-test policy;
-- terminal machine release-gate command;
-- exact-head CI verification method;
-- merge/release authorization rule;
-- rollback mechanism.
+Existing repositories using `.governance/GOVERNED_CHANGE_PROFILE.md` remain compatible. They may keep it, add the adapter beside it, or migrate facts gradually.
 
-Unknown material fields are `UNRESOLVED`, not guessed.
+## 5. Establish protected invariants
 
-## 4. Establish protected invariants
+Record behaviors/artifacts that may not change without explicit authorization, including applicable API/schema contracts, data/access isolation, lifecycle transitions, authentication/authorization, migrations, golden/reference artifacts, generated output, dependency compatibility, external-call restrictions, deployment, model-route authority when applicable, and rollback.
 
-Record behaviors/artifacts that may not change without explicit authorization, including applicable API/schema contracts, data/access isolation, lifecycle transitions, authentication/authorization, migrations, golden/reference artifacts, generated output, dependency compatibility, external-call restrictions, deployment, and rollback.
+## 6. Classify Change Tier
 
-## 5. Adopt release intent
+For each change, declare one:
+
+- `T1_LOCAL`
+- `T2_BOUNDARY`
+- `T3_SYSTEM`
+- `T4_RELEASE`
+
+Change Tier scales governance depth based on affected boundaries.
+
+It does not replace Release Intent.
+
+## 7. Declare Release Intent
 
 Every governed change declares:
 
@@ -62,23 +81,134 @@ Every governed change declares:
 
 Do not let a green scoped change imply a higher readiness state than it proved.
 
-## 6. Adopt the Production Spine and contract map
+## 8. Select an agent roster when useful
 
-For cross-boundary production work, use [`../templates/PRODUCTION_SPINE_TEMPLATE.md`](../templates/PRODUCTION_SPINE_TEMPLATE.md).
+Use [`../templates/AGENT_ROSTER_TEMPLATE.md`](../templates/AGENT_ROSTER_TEMPLATE.md).
+
+Available governance roles:
+
+- Scout;
+- Planner;
+- Builder;
+- Challenger;
+- Verifier;
+- Auditor;
+- Release Authority.
+
+A small T1 change may use one agent for several roles. A higher-risk T3/T4 change should use stronger separation when practical or required.
+
+If the Builder audits its own work, label it `SELF_AUDIT`.
+
+**Release Authority is not an AI execution role.** It remains human/repository controlled and may not be model-dispatched.
+
+See [`AGENT_ORCHESTRATION.md`](AGENT_ORCHESTRATION.md).
+
+## 9. Register the Execution Control Plane when present
+
+If the coding agent runs behind an execution orchestrator, model gateway, or AI policy platform, adopt [`EXECUTION_CONTROL_PLANE_INTEGRATION.md`](EXECUTION_CONTROL_PLANE_INTEGRATION.md) and record the authority boundaries in the Project Adapter.
+
+Contract:
+
+```text
+gcu-execution-control/1.0.0
+```
+
+Record, when applicable:
+
+```text
+Execution orchestrator
+AI policy authority
+Capability mapping owner
+Budget-envelope authority
+Model-route approval authority
+Usage-ledger authority
+Usage-receipt lookup method
+Escalation / human-wait mechanism
+Independent-context mechanism
+Direct-provider/model-call policy
+```
+
+GCU requests provider-neutral capability only:
+
+```text
+ECONOMY
+STANDARD
+ADVANCED
+PREMIUM
+```
+
+GCU does not choose concrete providers/models, hold provider credentials, silently escalate, maintain provider price tables, or create a competing authoritative usage ledger.
+
+When the control plane returns evidence, retain compact references such as:
+
+```text
+orchestrator task/run refs
+routing-decision refs
+approval/escalation refs
+budget-envelope ref
+usage-receipt refs
+execution-cost status
+provider/model bypass result
+```
+
+Keep coding-agent execution-resource cost separate from the `EXTERNAL CALL / COST` proof for provider/API calls made by the software under test.
+
+## 10. Create the Test Area Map
+
+Use [`../templates/TEST_AREA_MAP_TEMPLATE.md`](../templates/TEST_AREA_MAP_TEMPLATE.md).
+
+Consider these universal areas:
+
+- STRUCTURE;
+- UNIT;
+- CONTRACT;
+- INTEGRATION;
+- END_TO_END / ACCEPTANCE;
+- DATA / MIGRATION;
+- SECURITY / PRIVACY;
+- RELIABILITY / RECOVERY;
+- EXTERNAL CALL / COST;
+- PERFORMANCE / RESOURCE;
+- COMPATIBILITY;
+- RELEASE / DEPLOYMENT.
+
+Activate only applicable areas, but do not convert unknowns into N/A.
+
+See [`TEST_AREAS.md`](TEST_AREAS.md).
+
+## 11. Use a durable change workspace for material work
+
+Recommended layout:
+
+```text
+.governance/changes/<CHANGE-ID>/
+```
+
+Use [`../templates/CHANGE_WORKSPACE_TEMPLATE.md`](../templates/CHANGE_WORKSPACE_TEMPLATE.md).
+
+This gives interrupted sessions and multiple agents a durable source of truth for scope, evidence, open failures, audit state, and safe execution-control references.
+
+Do not copy provider credentials, sensitive prompts, or duplicate billing transactions into the GCU workspace.
+
+## 12. Adopt the Production Spine and contract map
+
+For T3/T4 cross-boundary production work, use [`../templates/PRODUCTION_SPINE_TEMPLATE.md`](../templates/PRODUCTION_SPINE_TEMPLATE.md).
 
 Trace the real path to its terminal outcome and map material handoffs as Producer → Contract → Consumer. Include tenant/account/security identity where it affects access.
 
-## 7. Freeze acceptance before implementation
+T2 boundary work still requires the relevant Producer → Contract → Consumer mapping even if a full Production Spine is not needed.
 
-Use [`../templates/ACCEPTANCE_CONTRACT_TEMPLATE.md`](../templates/ACCEPTANCE_CONTRACT_TEMPLATE.md).
+## 13. Freeze acceptance before implementation
 
-Freeze real production modules, controlled seams, validators/contracts, positive/negative assertions, prohibited later effects, external-call ceiling, and exact command before production implementation.
+Use [`../templates/ACCEPTANCE_CONTRACT_TEMPLATE.md`](../templates/ACCEPTANCE_CONTRACT_TEMPLATE.md) whenever correctness depends on a real path or controlled dependency boundary.
+
+Freeze real project modules, controlled seams, validators/contracts, positive/negative assertions, prohibited later effects, external-call ceiling, and exact command before implementation.
 
 Run the false-PASS scan before accepting terminal green results.
 
-## 8. Adopt Sequential Evidence Gates
+## 14. Adopt Sequential Evidence Gates
 
-For ordered multi-section work:
+For ordered work:
 
 ```text
 inspect
@@ -90,33 +220,57 @@ inspect
 → automatically continue on PASS
 ```
 
-Do not proceed through a failed section. Routine PASS does not require user approval unless the next action crosses an explicit authorization boundary.
+Do not proceed through a failed dependent section.
 
-## 9. Adopt balanced verification
+Do not auto-continue through a required model-route approval, execution budget approval, human-wait state, or other explicit authorization boundary.
+
+## 15. Run the Challenger gate
+
+For T2+ work, challenge the plan/proof before terminal acceptance.
+
+Ask whether:
+
+- a mock sits above the boundary being claimed;
+- a negative path is missing;
+- a downstream consumer is unproved;
+- a compatibility/migration/auth/recovery condition was overlooked;
+- the Project Adapter is stale;
+- the test would still pass if the defect remained;
+- routing/billing/orchestration authority is duplicated;
+- a model/provider fallback could happen silently;
+- audit independence is being confused with model capability.
+
+Fix proof defects before terminal acceptance.
+
+## 16. Adopt balanced verification
 
 Use three levels:
 
-1. narrow section proof;
-2. affected integration proof only when a changed boundary can invalidate earlier behavior;
-3. one terminal full verification after all sections and cross-section review pass.
+1. narrow active test areas;
+2. affected test areas only when a changed boundary can invalidate them;
+3. one terminal verification after all sections and cross-section review pass.
 
-## 10. Configure controlled external-call and durable-work proof
+## 17. Configure controlled external-call and durable-work proof
 
-Where external services/models or asynchronous work exist:
+Where external services/models or asynchronous work exist in the software under test:
 
-- inject deterministic controlled dependencies below real production adapters/services;
+- inject deterministic controlled dependencies below real adapters/services;
 - avoid unintended live execution where technically feasible;
 - measure actual call/task counters;
 - define retry/timeout/recovery/idempotency/cancellation obligations;
-- prove restart from a fresh process when durable recovery is part of the production claim.
+- prove restart from a fresh process when durable recovery is part of the claim.
 
-## 11. Add terminal-path and system-readiness proof
+This is separate from model usage consumed by coding agents, which belongs to the execution control plane when present.
 
-For `STAGING_READY` or `PRODUCTION_READY`, define and prove the terminal user/business promise. For `PRODUCTION_READY`, prove all applicable full-system responsibilities defined by the skill.
+## 18. Add terminal-path and system-readiness proof
+
+For `STAGING_READY` or `PRODUCTION_READY`, define and prove the terminal user/business promise.
+
+For `PRODUCTION_READY`, prove all applicable full-system responsibilities defined by the skill, including required execution-control-plane evidence when that integration is part of the governed environment.
 
 A scoped PASS and system readiness must be reported separately.
 
-## 12. Add the terminal machine release gate
+## 19. Add the terminal machine release gate
 
 Use [`../templates/MACHINE_RELEASE_GATE_TEMPLATE.md`](../templates/MACHINE_RELEASE_GATE_TEMPLATE.md).
 
@@ -130,36 +284,65 @@ The gate exits 0 only when all machine-enforceable mandatory conditions are sati
 
 Mandatory exact-head CI unavailable is `CODE VERIFIED / GOVERNANCE HOLD`, not final PASS.
 
-## 13. Audit and correct
+A model route or model-generated recommendation cannot substitute for Release Authority.
+
+## 20. Audit and correct
 
 Use [`../templates/INDEPENDENT_AUDIT_TEMPLATE.md`](../templates/INDEPENDENT_AUDIT_TEMPLATE.md) against the exact final head.
 
-If blocked, correct the owning checklist IDs/boundaries, rerun narrow and affected checks, rerun terminal verification, and audit the corrected exact head.
+If the audit is performed in the Builder's same context, record `SELF_AUDIT`. Do not claim independence.
 
-If a production defect escaped earlier green proof, correct both the defect and the proof system that missed it.
+A stronger model in the same context does not change that result.
 
-## 14. Resume interrupted sessions
+If blocked, correct the owning checklist IDs/boundaries/test areas, rerun narrow and affected checks, rerun terminal verification, and audit the corrected head.
 
-After interruption, reopen the same repository/branch, inspect HEAD/diff/checklist/test evidence, identify the last directly proven section, preserve valid work, and continue from the first unproven/failing section.
+If a production or execution-control defect escaped earlier green proof, correct both the defect and the proof system that missed it.
 
-## 15. Close with evidence
+## 21. Monorepo adoption
+
+For a monorepo, the Project Adapter should define component roots and shared boundaries.
+
+Per change:
+
+- select affected components;
+- select shared contract consumers;
+- run narrow tests in affected components;
+- run shared-boundary tests when invalidated;
+- reserve unrelated expensive full-workspace verification for terminal checks unless governance requires otherwise.
+
+## 22. Resume interrupted sessions
+
+After interruption, reopen the same repository/branch, inspect HEAD/diff/change workspace/test evidence, identify the last directly proven section, preserve valid work, and continue from the first unproven/failing obligation.
+
+When external task/run/routing/usage references exist, preserve them across resume rather than reconstructing them from agent memory.
+
+## 23. Close with evidence
 
 Use [`../templates/FINAL_REPORT_TEMPLATE.md`](../templates/FINAL_REPORT_TEMPLATE.md). Do not replace missing proof with confidence language.
 
+When execution control is active, store the authoritative receipt references and final policy status; do not duplicate the provider's billing transaction.
+
 ## Repository-level acceptance
 
-v2.1.0 adoption is complete when:
+v2.2.0 adoption is complete when:
 
 - the skill and global rule are installed;
-- the profile contains no material guessed facts;
+- Project Discovery has been performed;
+- a Project Adapter exists or the legacy profile is explicitly retained;
+- material adapter facts are supported or `UNRESOLVED`;
 - protected invariants are registered;
-- release intent is declared per change;
-- production-spine/contract-map records are used for cross-boundary production work;
-- acceptance architecture is frozen before implementation;
+- Change Tier and Release Intent are declared per change;
+- agent roles are assigned truthfully when used;
+- Release Authority remains outside model execution;
+- execution-control authorities and receipt methods are registered when an external control plane is present;
+- capability/model-route escalation is provider-neutral at the GCU boundary;
+- execution usage is referenced rather than duplicated;
+- Test Area Map selection is evidence-based;
+- production-spine/contract-map records are used when required;
+- acceptance architecture is frozen before real-path implementation;
 - false-PASS controls are active;
-- sequential and affected-integration checks map to executable commands;
-- terminal-path and system-readiness claims are distinguishable from scoped PASS;
+- challenge/proof-falsification is used for T2+ changes;
 - controlled external-call/durable-work policy is defined where applicable;
-- full terminal verification and machine release gate are executable;
+- terminal verification and machine release gate are executable when required;
 - exact-head audit can be performed;
 - merge/release authorization remains explicit.

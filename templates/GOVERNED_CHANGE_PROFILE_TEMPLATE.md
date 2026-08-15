@@ -1,28 +1,37 @@
 # Governed Change Profile
 
 **Repository:**  
-**Profile version:** 2.1.0  
+**Profile version:** 2.2.0  
 **Last verified SHA:**  
+
+> v2.2 prefers `.governance/PROJECT_ADAPTER.md` for new installations. This profile remains supported for backward compatibility and may be used beside the Project Adapter during migration.
 
 ## Repository identity
 
 - Repository root:
 - Primary branch:
+- Project kind(s):
+- Monorepo/workspace: YES / NO / UNRESOLVED
 - Package/build system:
 - Runtime(s):
 - Test framework(s):
+- Major component roots:
 
-## Verification commands
+## Verification commands by universal test area
 
-- Static analysis:
-- Type check:
-- Build:
-- Narrow tests:
-- Affected integration tests:
-- Acceptance/integration:
-- Full regression:
+- STRUCTURE / static analysis / type / build:
+- UNIT:
+- CONTRACT:
+- INTEGRATION:
+- END_TO_END / ACCEPTANCE:
+- DATA / MIGRATION:
+- SECURITY / PRIVACY:
+- RELIABILITY / RECOVERY:
+- EXTERNAL CALL / COST:
+- PERFORMANCE / RESOURCE:
+- COMPATIBILITY:
+- RELEASE / DEPLOYMENT:
 - Scope/diff check:
-- Security/secret scan:
 - Generated-artifact check:
 - Terminal machine release gate:
 - Audit-support command:
@@ -41,6 +50,16 @@
 - Merge/release authorization rule:
 - Rollback mechanism:
 
+## Universal adaptation
+
+- Project Adapter path when used:
+- Adapter schema version:
+- Adapter last verified SHA:
+- Default Change Tier examples:
+- Default agent separation rule:
+- Default Test Area Map path:
+- Durable change workspace path:
+
 ## Production correctness profile
 
 - Release-intent policy:
@@ -48,6 +67,7 @@
 - Producer → Contract → Consumer map path:
 - Acceptance-contract/freeze path:
 - False-PASS scan command/method:
+- Challenger gate method:
 - Terminal user/business promise definition:
 - Full-system production-readiness command/method:
 - Tenant/account authorization boundary when applicable:

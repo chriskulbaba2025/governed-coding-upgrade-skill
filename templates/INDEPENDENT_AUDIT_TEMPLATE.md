@@ -1,26 +1,46 @@
-# Independent Exact-Head Audit
+# Exact-Head Audit
 
 Audit the governed change at exact head `[SHA]`.
 
+**Audit separation:** INDEPENDENT / SELF_AUDIT  
+**Change Tier:** T1_LOCAL / T2_BOUNDARY / T3_SYSTEM / T4_RELEASE  
+**Release Intent:** CHANGE_ONLY / STAGING_READY / PRODUCTION_READY  
+
 Do not modify, merge, deploy, release, or activate during the audit.
+
+If the Builder and Auditor are the same agent/context, mark `SELF_AUDIT`. Do not claim independence.
 
 ## Read
 
 - `SKILL.md`
-- repository Governed Change Profile
+- repository Project Adapter and/or legacy Governed Change Profile
+- change intake/discovery record when used
 - frozen change checklist
+- Agent Roster when used
+- Test Area Map
 - production-spine/contract-map record when applicable
 - frozen acceptance contract when applicable
 - governing repository contracts/invariants
 - terminal machine-gate evidence when configured
 
+## Adaptation checks
+
+- [ ] Project Adapter facts used by the change are supported at the recorded verified SHA or were re-verified.
+- [ ] Material unknowns were not converted to N/A.
+- [ ] Affected components/workspaces are correctly identified.
+- [ ] Change Tier matches the changed boundaries.
+- [ ] Agent/audit separation is labeled truthfully.
+- [ ] Every active Test Area has direct evidence.
+- [ ] Every N/A Test Area has a direct reason.
+
 ## Production correctness checks
 
-- [ ] Declared release intent matches the claim being made.
-- [ ] Production spine is complete for the declared release intent.
+- [ ] Declared Release Intent matches the claim being made.
+- [ ] Production Spine is complete where required.
 - [ ] Material Producer → Contract → Consumer handoffs are mapped and proven.
 - [ ] Acceptance architecture was frozen before implementation where required.
 - [ ] False-PASS scan found no prohibited proof substitute.
+- [ ] Challenger findings are resolved or explicitly block the result.
 - [ ] Validated-object continuity holds at governed boundaries.
 - [ ] Terminal result is proven for staging/production claims.
 - [ ] Full-system readiness is complete when PRODUCTION_READY is claimed.
@@ -31,13 +51,13 @@ Do not modify, merge, deploy, release, or activate during the audit.
 - [ ] Ordered work used stable checklist sections.
 - [ ] Each section has direct PASS evidence before dependent sections rely on it.
 - [ ] Failed sections were corrected before progression.
-- [ ] Affected earlier boundaries were rerun when later work could invalidate them.
+- [ ] Affected earlier boundaries/test areas were rerun when later work could invalidate them.
 - [ ] Cross-section integration was reviewed before terminal verification.
 
 ## Real-path checks
 
-- [ ] Acceptance uses real production modules with controlled dependencies.
-- [ ] Fabricated downstream success does not substitute for production execution.
+- [ ] Acceptance uses real project/production modules with controlled dependencies.
+- [ ] Fabricated downstream success does not substitute for real execution.
 - [ ] Measured counters/state/artifacts support side-effect claims where applicable.
 
 ## Repository checks
@@ -72,7 +92,7 @@ Otherwise return:
 
 ```text
 BLOCKED or GOVERNANCE HOLD
-Failed checklist IDs or release condition:
+Failed checklist IDs / Test Areas / release condition:
 Exact evidence:
 Smallest required correction/action:
 ```

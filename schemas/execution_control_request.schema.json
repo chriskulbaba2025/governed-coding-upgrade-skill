@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/chriskulbaba2025/governed-coding-upgrade-skill/schemas/execution_control_request.schema.json",
+  "title": "GCU Execution Control Request",
+  "description": "Canonical provider-neutral request schema for gcu-execution-control/1.0.0. Release Authority is intentionally excluded from AI execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "changeId",
+    "repository",
+    "branch",
+    "changeTier",
+    "releaseIntent",
+    "role",
+    "workloadClass",
+    "capabilityFloor",
+    "independenceRequired"
+  ],
+  "properties": {
+    "contract": {
+      "const": "gcu-execution-control/1.0.0"
+    },
+    "changeId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repository": {
+      "type": "string",
+      "minLength": 1
+    },
+    "branch": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidateSha": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{7,64}$"
+    },
+    "changeTier": {
+      "enum": ["T1_LOCAL", "T2_BOUNDARY", "T3_SYSTEM", "T4_RELEASE"]
+    },
+    "releaseIntent": {
+      "enum": ["CHANGE_ONLY", "STAGING_READY", "PRODUCTION_READY"]
+    },
+    "role": {
+      "enum": ["SCOUT", "PLANNER", "BUILDER", "CHALLENGER", "VERIFIER", "AUDITOR"]
+    },
+    "workloadClass": {
+      "enum": ["DISCOVERY", "PLANNING", "CODING", "VERIFICATION", "CHALLENGE", "AUDIT", "SUMMARIZATION"]
+    },
+    "capabilityFloor": {
+      "enum": ["ECONOMY", "STANDARD", "ADVANCED", "PREMIUM"]
+    },
+    "independenceRequired": {
+      "type": "boolean"
+    },
+    "sectionOrGate": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authorizationBoundary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "budgetEnvelopeRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "escalationReason": {
+      "enum": [
+        "CAPABILITY_INSUFFICIENT",
+        "INDEPENDENCE_REQUIRED",
+        "CONTEXT_LIMIT",
+        "REPEATED_PROOF_FAILURE",
+        "POLICY_REQUIREMENT",
+        "MATERIAL_AMBIGUITY"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["escalationReason"]
+      },
+      "then": {
+        "properties": {
+          "capabilityFloor": {
+            "enum": ["STANDARD", "ADVANCED", "PREMIUM"]
+          }
+        }
+      }
+    }
+  ]
+}
