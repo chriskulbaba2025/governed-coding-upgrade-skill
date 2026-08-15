@@ -59,6 +59,11 @@ require_phrases(skill, [
     'Project Adapter',
     'Change Tier',
     'Agent orchestration',
+    'Execution control plane integration',
+    'gcu-execution-control/1.0.0',
+    'Release Authority is not an AI model-execution role',
+    'Execution cost versus product external-call cost',
+    'usage-receipt references',
     'Test Area Map',
     'Challenger gate',
     'SELF_AUDIT',
@@ -102,6 +107,10 @@ for rel, phrases in {
         'gcu-execution-control', 'capability_floor', 'Escalation contract',
         'Persistent usage receipts', 'execution-resource cost',
         'GCU MUST NOT choose a provider or concrete model', 'Fail-closed behavior'
+    ],
+    'docs/ARCHITECTURE.md': [
+        'Execution Control Plane architecture', 'Release Authority is not model-dispatched',
+        'Persistent usage architecture', 'Execution-resource cost'
     ],
     'docs/TEST_AREAS.md': [
         'STRUCTURE', 'UNIT', 'CONTRACT', 'INTEGRATION', 'END_TO_END',
