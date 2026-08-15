@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
+import json
 import re
 import sys
 
@@ -10,6 +11,7 @@ REQUIRED = [
     'REPOSITORY_DESCRIPTOR.md', 'docs/ARCHITECTURE.md', 'docs/ADOPTION_GUIDE.md',
     'docs/UNIVERSAL_PROJECT_MODEL.md', 'docs/AGENT_ORCHESTRATION.md',
     'docs/EXECUTION_CONTROL_PLANE_INTEGRATION.md', 'docs/TEST_AREAS.md',
+    'schemas/execution_control_request.schema.json',
     'templates/GOVERNED_CHANGE_PROFILE_TEMPLATE.md',
     'templates/PROJECT_ADAPTER_TEMPLATE.md',
     'templates/AGENT_ROSTER_TEMPLATE.md',
@@ -151,6 +153,28 @@ for rel, phrases in {
     p = ROOT / rel
     require_phrases(p.read_text(encoding='utf-8') if p.exists() else '', phrases, rel, errors)
 
+schema_path = ROOT / 'schemas/execution_control_request.schema.json'
+if schema_path.exists():
+    try:
+        schema = json.loads(schema_path.read_text(encoding='utf-8'))
+        if schema.get('properties', {}).get('contract', {}).get('const') != 'gcu-execution-control/1.0.0':
+            errors.append('execution-control schema: contract version is not canonical')
+        roles = schema.get('properties', {}).get('role', {}).get('enum', [])
+        if roles != ['SCOUT', 'PLANNER', 'BUILDER', 'CHALLENGER', 'VERIFIER', 'AUDITOR']:
+            errors.append('execution-control schema: AI-executable role enum is not canonical')
+        capability = schema.get('properties', {}).get('capabilityFloor', {}).get('enum', [])
+        if capability != ['ECONOMY', 'STANDARD', 'ADVANCED', 'PREMIUM']:
+            errors.append('execution-control schema: capabilityFloor enum is not canonical')
+        reasons = schema.get('properties', {}).get('escalationReason', {}).get('enum', [])
+        expected_reasons = [
+            'CAPABILITY_INSUFFICIENT', 'INDEPENDENCE_REQUIRED', 'CONTEXT_LIMIT',
+            'REPEATED_PROOF_FAILURE', 'POLICY_REQUIREMENT', 'MATERIAL_AMBIGUITY'
+        ]
+        if reasons != expected_reasons:
+            errors.append('execution-control schema: escalationReason enum is not canonical')
+    except json.JSONDecodeError as exc:
+        errors.append(f'execution-control schema: invalid JSON: {exc}')
+
 score = (ROOT/'SCORECARD.md').read_text(encoding='utf-8') if (ROOT/'SCORECARD.md').exists() else ''
 nums = [int(x) for x in re.findall(r'—\s*(\d{1,2})/20', score)]
 if len(nums) < 5 or any(n < 19 for n in nums[:5]):
@@ -181,6 +205,7 @@ print('Project Discovery / Adapter controls: PRESENT')
 print('Change Tier controls: PRESENT')
 print('Agent orchestration controls: PRESENT')
 print('Execution control plane integration: PRESENT')
+print('Canonical execution-control request schema: PRESENT')
 print('Universal Test Area Map controls: PRESENT')
 print('Production Spine controls: PRESENT')
 print('Contract-map controls: PRESENT')
