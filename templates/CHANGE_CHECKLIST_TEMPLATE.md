@@ -1,26 +1,36 @@
 # Governed Change Checklist
 
 **Change ID:**  
-**Protocol version:** 2.1.0  
-**Checklist version:** 1.0.0  
+**Protocol version:** 2.2.0  
+**Checklist version:** 1.1.0  
 **Branch:**  
 **PR:**  
 **Required starting SHA:**  
-**Primary class:**  
+**Change Tier:** T1_LOCAL / T2_BOUNDARY / T3_SYSTEM / T4_RELEASE  
 **Release intent:** CHANGE_ONLY / STAGING_READY / PRODUCTION_READY  
 **Objective:**  
+**Project Adapter verified SHA:**  
 **Terminal result when applicable:**  
+
+## Discovery and adaptation
+
+- [ ] Repository/component boundaries inspected.
+- [ ] Project Adapter verified or material gaps marked `UNRESOLVED`.
+- [ ] Governing sources identified.
+- [ ] Change Tier justified.
+- [ ] Agent roster/separation recorded when used.
+- [ ] Test Area Map created; N/A reasons are explicit.
 
 ## Production correctness
 
 - [ ] Production spine traced where applicable.
-- [ ] Producer → Contract → Consumer map complete.
+- [ ] Producer → Contract → Consumer map complete where applicable.
 - [ ] Identity/access continuity mapped where applicable.
 - [ ] Terminal result identified for staging/production claims.
 
 ## Acceptance freeze
 
-- [ ] Real production modules named.
+- [ ] Real project/production modules named.
 - [ ] Controlled dependency seam named.
 - [ ] Positive result frozen.
 - [ ] Negative result frozen.
@@ -31,13 +41,13 @@
 
 - [ ] `INV-ID` — exact invariant
 
-## Permitted files
+## Permitted files / boundaries
 
-- [ ] `path`
+- [ ] `path or boundary`
 
-## Prohibited files
+## Prohibited files / boundaries
 
-- [ ] `path/**`
+- [ ] `path/** or boundary`
 
 ## Ordered sections
 
@@ -47,13 +57,15 @@
 
 - [ ] Behavior:
 - [ ] Implementation boundary:
+- [ ] Active test areas:
 - [ ] Positive/unit proof:
-- [ ] Acceptance/real-path proof:
+- [ ] Contract/integration proof when applicable:
+- [ ] Acceptance/real-path proof when applicable:
 - [ ] Negative/failure proof:
 - [ ] Prohibited later effects:
 - [ ] Protected invariant proof:
 - [ ] Narrow verification command:
-- [ ] Affected sections:
+- [ ] Affected sections/test areas:
 - [ ] Final-report evidence:
 
 ### Section A gate
@@ -61,32 +73,44 @@
 - [ ] Existing real path inspected.
 - [ ] Proof defined before implementation.
 - [ ] Failing proof reproduced when safe/feasible.
-- [ ] Narrow verification PASS.
+- [ ] Narrow active Test Areas PASS.
 - [ ] Negative proof PASS when required.
-- [ ] Affected earlier sections remain PASS.
+- [ ] Affected earlier sections/boundaries remain PASS.
 - [ ] SECTION A PASS — automatic continuation permitted.
+
+## Challenger gate
+
+- [ ] Assumptions challenged.
+- [ ] False-PASS risks challenged.
+- [ ] Downstream consumer/compatibility gaps checked.
+- [ ] Missing negative/recovery/security cases checked.
+- [ ] Adapter staleness checked.
+- [ ] Proof would fail if the governed defect remained.
 
 ## Cross-section review
 
 - [ ] Upstream validated outputs match downstream consumers.
 - [ ] No downstream validation bypass.
 - [ ] No post-validation mutation where continuity is governed.
+- [ ] Shared monorepo/component boundaries PASS when applicable.
 
 ## Terminal verification
 
+- [ ] All ACTIVE Test Areas PASS.
+- [ ] All N/A Test Areas have direct reasons.
+- [ ] Material UNRESOLVED Test Areas = 0 for declared result.
 - [ ] Production acceptance PASS/N/A.
 - [ ] False-PASS scan PASS.
+- [ ] Challenger gate PASS/N/A.
 - [ ] Terminal-path gate PASS/N/A.
 - [ ] Full-system readiness gate PASS/N/A.
 - [ ] Full regression PASS/N/A.
-- [ ] Static/type/build/security PASS/N/A.
-- [ ] Persistence/recovery PASS/N/A.
 - [ ] Protected invariants PASS.
 - [ ] Scope check PASS — unexpected files = 0; prohibited files = 0.
 - [ ] Complete diff inspected.
 - [ ] Terminal machine release gate PASS when required.
 - [ ] Exact-head CI PASS when required.
-- [ ] Independent exact-head audit PASS when required.
+- [ ] Audit PASS and separation truthfully labeled.
 
 ## Completion state
 
