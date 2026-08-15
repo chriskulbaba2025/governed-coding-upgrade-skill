@@ -12,7 +12,7 @@ description: >-
 
 ## Governing purpose
 
-Governed Coding Upgrade (GCU) turns software changes into an evidence-based lifecycle without assuming a language, framework, CI provider, cloud, repository shape, or agent runtime.
+Governed Coding Upgrade (GCU) turns software changes into an evidence-based lifecycle without assuming a language, framework, CI provider, cloud, repository shape, agent runtime, model provider, or billing system.
 
 v2.2 preserves the v2.1 production-correctness and sequential-evidence controls and adds:
 
@@ -20,6 +20,7 @@ v2.2 preserves the v2.1 production-correctness and sequential-evidence controls 
 - a reusable Project Adapter;
 - Change Tier scaling;
 - optional agent orchestration;
+- a provider-neutral execution-control-plane integration contract;
 - a capability-based Test Area Map;
 - monorepo/multi-component selection;
 - durable change workspaces for interruption and agent handoff.
@@ -32,6 +33,7 @@ INTAKE
 → PROJECT DISCOVERY / ADAPTER CHECK
 → CHANGE TIER + RELEASE INTENT
 → AGENT ROSTER when useful
+→ EXECUTION CONTROL PLANE CHECK when present
 → PRODUCTION SPINE / CONTRACT MAP when applicable
 → ACCEPTANCE FREEZE
 → FROZEN CHECKLIST + TEST AREA MAP
@@ -60,6 +62,8 @@ Resolve conflicts in this order:
 
 A lower layer cannot override a higher layer.
 
+An external execution orchestrator or AI policy authority may constrain whether/how an AI execution occurs, but it does not override GCU scope, proof, audit, or release-readiness obligations. GCU likewise cannot override a denied budget, route, approval, security, or tenant-policy decision from a higher applicable control plane.
+
 ## 2. Mandatory invocation
 
 Invoke this skill for intentional changes to source, tests, schemas, APIs, dependencies, executable configuration, migrations, persistence, jobs, external integrations, security controls, infrastructure, build/release logic, generated production artifacts, or runtime behavior.
@@ -80,6 +84,7 @@ active PR when relevant
 governing sources
 Project Adapter / Governed Change Profile
 authorization boundaries
+execution orchestrator / AI policy authority when applicable
 ```
 
 Starting-SHA mismatch is a stop condition. Never discard pre-existing user work without authorization.
@@ -93,6 +98,8 @@ When the user explicitly asks to continue the same correction, preserve valid ex
 After an agent/API/terminal interruption, resume the same repository and branch, inspect HEAD/diff/change workspace/checklist/test evidence, identify the last directly proven section, preserve valid work, and continue from the first unproven or failing section.
 
 Repository state and recorded evidence outrank agent memory.
+
+When an execution control plane supplies durable task/run/routing/usage references, preserve those references across resume; do not reconstruct or silently replace them from conversational memory.
 
 ## 4. Project Discovery
 
@@ -109,6 +116,7 @@ Before planning, discover directly supported facts relevant to the change:
 - persistence, migrations, queues, caches, artifacts, and background jobs;
 - authentication, authorization, tenant/account, privacy, and secret boundaries;
 - external providers, paid/side-effecting calls, and controlled-test seams;
+- execution orchestrator, AI policy authority, model-route/usage authority, and worker boundary when applicable;
 - rollback/recovery mechanisms;
 - protected/generated paths and repository-specific governance.
 
@@ -140,6 +148,12 @@ protected/generated paths
 migration/persistence/recovery policies
 security/privacy/tenant boundaries
 external-call and controlled-test policy
+execution orchestrator / AI policy authority
+execution-control contract/version
+capability mapping owner
+budget/model-route approval authority
+usage-ledger authority and receipt lookup method
+independent-context mechanism
 release/CI/rollback methods
 terminal promises
 repository-specific stop conditions
@@ -195,7 +209,107 @@ For T3/T4 work, prefer separate contexts for challenge, terminal verification, a
 
 Parallel agents are allowed only for genuinely independent, non-overlapping sections with explicit boundary ownership, shared-contract handling, merge order, and integration ownership.
 
+**Release Authority is not an AI model-execution role.** A human or repository-controlled authority may hold that responsibility. An execution-control adapter MUST reject attempts to model-dispatch `RELEASE_AUTHORITY` as though a model could authorize its own protected operation.
+
 See `docs/AGENT_ORCHESTRATION.md` and `templates/AGENT_ROSTER_TEMPLATE.md`.
+
+### Execution control plane integration
+
+When a coding agent runs behind an execution orchestrator or AI policy authority, use:
+
+```text
+gcu-execution-control/1.0.0
+```
+
+See `docs/EXECUTION_CONTROL_PLANE_INTEGRATION.md`.
+
+GCU owns the change-governance lifecycle. It does not become a second model router, credential broker, billing system, or orchestration ledger.
+
+GCU emits provider-neutral execution context when needed:
+
+```text
+change_id
+repository / branch / candidate_sha
+change_tier
+release_intent
+role
+workload_class
+capability_floor
+independence_required
+section_or_gate
+authorization_boundary
+budget_envelope_ref when supplied
+escalation_reason when applicable
+```
+
+AI-executable roles are limited to:
+
+```text
+SCOUT
+PLANNER
+BUILDER
+CHALLENGER
+VERIFIER
+AUDITOR
+```
+
+Capability floors are:
+
+```text
+ECONOMY
+STANDARD
+ADVANCED
+PREMIUM
+```
+
+These are minimum capability requests, not provider/model aliases.
+
+Rules:
+
+- GCU MUST NOT select a concrete provider/model as an execution side effect.
+- GCU MUST NOT store provider credentials.
+- GCU MUST NOT silently escalate to a more capable or more expensive model.
+- GCU MUST NOT maintain a second authoritative execution-usage/billing ledger.
+- An external orchestrator may own task/run/approval/escalation state.
+- An AI policy authority may own provider/model resolution, credentials, budget enforcement, and authoritative usage accounting.
+- Returned task/run, route, approval, budget-envelope, and usage-receipt references become governed evidence when applicable.
+- A premium/stronger model in the same Builder context does not create an independent audit.
+- Required independent Auditor/Challenger separation must be established by distinct context/assignment when repository governance requires it.
+
+When capability is insufficient, record an escalation request rather than switching models directly. Allowed reasons are:
+
+```text
+CAPABILITY_INSUFFICIENT
+INDEPENDENCE_REQUIRED
+CONTEXT_LIMIT
+REPEATED_PROOF_FAILURE
+POLICY_REQUIREMENT
+MATERIAL_AMBIGUITY
+```
+
+A denied or expired route/approval is not permission to fallback.
+
+### Execution cost versus product external-call cost
+
+Keep these domains separate:
+
+1. **Product external-call cost** — provider/API/model calls made by the software under test. GCU governs these through the `EXTERNAL CALL / COST` Test Area and external-call contract.
+2. **Execution-resource cost** — model usage consumed by agents performing the coding change. The execution control plane owns authoritative pricing/enforcement/accounting; GCU stores references and status.
+
+Recommended GCU evidence:
+
+```text
+execution_control_contract
+orchestrator_task_run_refs
+routing_decision_refs
+approval_escalation_refs
+budget_envelope_ref
+usage_receipt_refs
+execution_cost_status
+provider_model_bypass_check
+```
+
+Hardcoded execution-cost claims are not evidence.
 
 ## 9. Governed change workspace
 
@@ -215,6 +329,8 @@ For material or interruptible work, prefer:
 Small T1 changes may use a reduced record if repository governance permits it.
 
 The workspace exists so another agent/session can resume from evidence rather than hidden conversational state.
+
+When execution-control receipts exist, retain only durable references and safe policy status needed for reconciliation. Do not copy provider credentials, sensitive prompts, or a duplicate billing transaction into GCU evidence.
 
 See `templates/CHANGE_WORKSPACE_TEMPLATE.md`.
 
@@ -340,6 +456,8 @@ A section passes only when the requirement, real path where applicable, direct p
 
 Correct failed sections before dependent work proceeds. Routine SECTION PASS does not require user approval unless the next action crosses an explicit authorization boundary.
 
+A required route escalation, human-wait state, budget approval, or denied control-plane decision is an authorization boundary; do not auto-continue through it.
+
 ## 16. Balanced verification
 
 Use three layers:
@@ -387,6 +505,8 @@ raw response/reference
 
 Prove provenance, field preservation, validation, canonical persistence, governed consumer loading, and that fallback/replay/cache paths cannot bypass validation or fabricate evidence.
 
+Execution-control usage receipts are references to authoritative execution evidence; they do not replace the product evidence chain under test.
+
 ## 19. External-call contract
 
 Tests and CI use zero live paid/provider/model calls unless explicitly authorized.
@@ -396,6 +516,8 @@ Where applicable define operation identity, request/task ID persistence, timeout
 A retryable failure after task creation must not create a second paid task unless the provider contract explicitly requires it.
 
 Controlled tests should isolate real credentials where technically feasible and fail unexpected live execution.
+
+This section governs calls made by the **software under test**. Coding-agent/model execution cost is governed separately by the Execution Control Plane integration contract when present.
 
 ## 20. Single validated-object rule
 
@@ -432,6 +554,8 @@ protected prior state remains unchanged when required
 
 An exception alone is insufficient.
 
+For execution-control integration, applicable negative proof includes denied/expired escalation not falling back, budget denial before execution, provider/model bypass rejection, missing mandatory usage receipt blocking closure, and Release Authority rejection from AI execution.
+
 ## 22. Challenger gate
 
 Before terminal verification for T2+ work, and earlier when risk warrants it, challenge the proof system.
@@ -444,6 +568,9 @@ Ask:
 - Is any mock above the boundary being claimed?
 - Is the Project Adapter stale or overgeneralized?
 - Would the same evidence still pass if the defect remained?
+- Does an execution-control integration duplicate authority that belongs to an orchestrator or AI policy system?
+- Could a model/provider fallback or capability escalation happen without a durable decision/approval?
+- Is audit independence being confused with model capability?
 
 Record actionable findings. Correct proof defects before terminal acceptance.
 
@@ -457,11 +584,15 @@ Repository-owned required infrastructure is implementation work, not a final blo
 
 Complete repository-controlled work first.
 
+A required external execution-policy authorization or unavailable mandatory policy service may create `GOVERNANCE HOLD`; it does not convert an unexecuted route into PASS.
+
 ## 24. Durable-job contract
 
 For background/asynchronous work, persist enough state before asynchronous acceptance to resume the exact operation without reconstructing required inputs from defaults.
 
 Prove fresh-process recovery, governed retry budget/classification, task reuse, duplicate-work prevention, cancellation propagation, and zero prohibited side effects after abort where applicable.
+
+When an orchestrator owns agent task/run durability, GCU records its task/run references and verifies correlation continuity rather than creating a competing execution ledger.
 
 ## 25. Cross-section review
 
@@ -472,6 +603,16 @@ upstream governed output → contract/validation → downstream consumer
 ```
 
 Confirm the consumer receives the governed result, does not bypass validation, and does not mutate required fields after proof. Correct defects in the owning section and rerun affected later areas.
+
+When execution control is active, also verify:
+
+```text
+GCU context
+→ orchestrator task/run/approval
+→ AI policy route/budget decision
+→ authoritative usage receipt
+→ returned GCU evidence reference
+```
 
 ## 26. Terminal-path gate
 
@@ -494,12 +635,14 @@ Report separately:
 CHANGE RESULT: PASS / BLOCKED
 CHANGE TIER: T1_LOCAL / T2_BOUNDARY / T3_SYSTEM / T4_RELEASE
 RELEASE INTENT: CHANGE_ONLY / STAGING_READY / PRODUCTION_READY
+EXECUTION CONTROL PLANE: PASS / N/A / BLOCKED
+EXECUTION COST STATUS: WITHIN_BUDGET / BLOCKED / UNAVAILABLE / N/A
 SYSTEM READINESS: NOT ASSESSED / BLOCKED / READY
 ```
 
 ### Full-system production-readiness gate
 
-For `PRODUCTION_READY`, verify every applicable responsibility: real production composition, persistence/migrations, authentication/authorization/tenant isolation, secrets handling, executable contracts, production adapters with controlled acceptance dependencies, durable jobs/recovery/retry/idempotency/cancellation, external-call cost controls, canonical artifact/evidence integrity, governed downstream consumers, rendering/publication/delivery/final retrieval, negative cross-account access when applicable, required observability, rollback/recovery, no fabricated success on the proven path, no remaining repository-controlled blocker, exact-head CI, machine gate, audit, and required authorization.
+For `PRODUCTION_READY`, verify every applicable responsibility: real production composition, persistence/migrations, authentication/authorization/tenant isolation, secrets handling, executable contracts, production adapters with controlled acceptance dependencies, durable jobs/recovery/retry/idempotency/cancellation, product external-call cost controls, execution-control-plane authority/receipts when applicable, canonical artifact/evidence integrity, governed downstream consumers, rendering/publication/delivery/final retrieval, negative cross-account access when applicable, required observability, rollback/recovery, no fabricated success on the proven path, no remaining repository-controlled blocker, exact-head CI, machine gate, audit, and required authorization.
 
 `N/A` requires direct evidence.
 
@@ -515,21 +658,25 @@ When mandatory exact-head CI is temporarily unavailable while controlled local v
 CODE VERIFIED / GOVERNANCE HOLD
 ```
 
+A model route, stronger model, or AI-generated release recommendation cannot substitute for Release Authority.
+
 ## 29. Independent exact-head audit
 
 The auditor inspects the actual candidate commit, not the Builder report alone.
 
-Verify exact SHA, exact-head CI where required, scope, checklist IDs, active Test Area Map, real acceptance behavior, negative state/calls/writes, Production Spine, contract map, false-PASS scan, validated-object continuity, terminal/system-readiness claims, external-call evidence, protected invariants, complete diff, machine gate, and truthful authorization/release state.
+Verify exact SHA, exact-head CI where required, scope, checklist IDs, active Test Area Map, real acceptance behavior, negative state/calls/writes, Production Spine, contract map, false-PASS scan, validated-object continuity, terminal/system-readiness claims, product external-call evidence, execution-control task/run/routing/approval/budget/usage references when applicable, protected invariants, complete diff, machine gate, and truthful authorization/release state.
 
 Return PASS only when every mandatory condition for the declared result is directly proven. Otherwise return BLOCKED or GOVERNANCE HOLD with exact failed evidence.
 
-If the Builder and Auditor are the same agent/context, label the audit `SELF_AUDIT`; it does not satisfy a repository rule requiring independence.
+If the Builder and Auditor are the same agent/context, label the audit `SELF_AUDIT`; it does not satisfy a repository rule requiring independence. A different model in the same Builder context does not change that classification.
 
 ## 30. Correction and escaped-proof regression
 
 On failure, map to the owning checklist ID/boundary/test area, correct the smallest governed boundary, repair direct proof first when the claim was unproven, rerun narrow and affected checks, then terminal verification and exact-head audit.
 
 If a production defect escaped earlier green proof, fix both the production defect and the proof system that allowed the false PASS. A producer/consumer escape updates the contract map and acceptance harness.
+
+If an execution-control defect escaped proof, correct both the integration and the receipt/approval/bypass proof that allowed it.
 
 ## 31. Governed states
 
@@ -540,7 +687,7 @@ If a production defect escaped earlier green proof, fix both the production defe
 - `RELEASE READY`
 - `BLOCKED`
 
-Never infer merge, deployment, activation, or release authorization from green tests.
+Never infer merge, deployment, activation, model-route approval, budget approval, or release authorization from green tests.
 
 ## 32. New-application vertical-spine rule
 
@@ -572,7 +719,7 @@ Do not assume the repository root is the only build/test boundary.
 
 ## 34. Automation and efficiency
 
-Automate stable repeatable rules where feasible: project discovery facts, adapter staleness checks, preflight, protected-work checks, permitted/prohibited diff, invariants, schema/migration checks, generated artifacts, external-call guards, test-area commands, affected integration, full regression, production acceptance, recovery tests, exact-head CI lookup, PR state, machine release gate, and final evidence collection.
+Automate stable repeatable rules where feasible: project discovery facts, adapter staleness checks, preflight, protected-work checks, permitted/prohibited diff, invariants, schema/migration checks, generated artifacts, external-call guards, execution-control contract/version checks, route/approval/usage-receipt correlation, test-area commands, affected integration, full regression, production acceptance, recovery tests, exact-head CI lookup, PR state, machine release gate, and final evidence collection.
 
 Default WIP: one active governed change, one active correction package, zero unplanned files unless explicitly authorized.
 
@@ -593,6 +740,16 @@ PR:
 Exact files changed:
 Agent roster / audit separation:
 
+Execution control plane: PASS/N/A/BLOCKED — evidence
+Execution-control contract/version:
+Orchestrator task/run refs:
+Routing-decision refs:
+Escalation/approval refs:
+Budget-envelope ref:
+Usage-receipt refs:
+Execution cost status: WITHIN_BUDGET / BLOCKED / UNAVAILABLE / N/A
+Provider/model bypass check:
+
 Production spine: PASS/N/A — evidence
 Contract map: PASS/N/A — evidence
 Acceptance freeze: PASS/N/A — evidence
@@ -608,13 +765,15 @@ Scope result:
 Machine gate:
 Exact-head CI:
 Audit: INDEPENDENT / SELF_AUDIT / N/A — result
-External-call evidence:
+Product external-call evidence:
 Working tree / PR / release state:
 
 CHANGE RESULT: PASS / BLOCKED
 SYSTEM READINESS: NOT ASSESSED / BLOCKED / READY
 FINAL STATUS: CODE VERIFIED / STAGING CANDIDATE / GOVERNANCE HOLD / RELEASE READY / BLOCKED
 ```
+
+Do not duplicate an authoritative provider billing transaction in the final report; preserve receipt references and the evidence needed for reconciliation.
 
 No prose-only completion, hidden failed requirements, confidence in place of proof, local substitute for mandatory exact-head CI, or unearned release claim.
 
@@ -626,17 +785,20 @@ A reliable installation includes a global/project rule equivalent to:
 For every qualifying coding change, invoke governed-coding-upgrade before editing.
 Inspect the repository and verify the Project Adapter. Classify Change Tier and Release
 Intent. Select only applicable Test Areas, but do not convert unknowns into N/A. Use
-agent roles when they improve separation; do not multiply agents without value. Trace
-Production Spine and Producer → Contract → Consumer handoffs for cross-boundary work.
-Freeze acceptance before implementation. Reject false-PASS proof. Execute dependent
-sections sequentially. Challenge the proof before terminal acceptance. Do not call a
-scoped PASS production-ready without terminal-path and full-system readiness proof.
-Do not claim RELEASE READY unless required machine gate, exact-head CI, audit, and
-authorization pass.
+agent roles when they improve separation; do not multiply agents without value. When
+an execution orchestrator or AI policy authority governs agent execution, use the
+provider-neutral gcu-execution-control/1.0.0 contract; do not let GCU choose concrete
+providers/models, store provider credentials, silently escalate, or duplicate the
+usage ledger. Trace Production Spine and Producer → Contract → Consumer handoffs for
+cross-boundary work. Freeze acceptance before implementation. Reject false-PASS proof.
+Execute dependent sections sequentially. Challenge the proof before terminal acceptance.
+Do not call a scoped PASS production-ready without terminal-path and full-system
+readiness proof. Do not claim RELEASE READY unless required machine gate, exact-head
+CI, audit, and authorization pass.
 ```
 
 ## 37. Self-check
 
-Before final closure, verify from evidence that starting state, pre-existing work, Project Discovery, adapter validity, Change Tier, Release Intent, agent-role truthfulness, active Test Area Map, Production Spine, contract map, acceptance freeze, false-PASS scan, frozen scope, sequential section proof, challenge findings, real-path acceptance, controlled external-call evidence, fail-closed paths, validated-object continuity, repository-owned requirements, durability/recovery, cross-section integration, terminal promise, system readiness when claimed, protected invariants, exact changed-file scope, complete diff, machine gate, exact-head CI, audit separation/result, escaped-proof correction, and truthful release state satisfy the declared result.
+Before final closure, verify from evidence that starting state, pre-existing work, Project Discovery, adapter validity, Change Tier, Release Intent, agent-role truthfulness, execution-control authority separation when applicable, capability/escalation decisions, budget/route approvals, durable usage-receipt references, provider/model bypass checks, audit-context independence, active Test Area Map, Production Spine, contract map, acceptance freeze, false-PASS scan, frozen scope, sequential section proof, challenge findings, real-path acceptance, controlled product external-call evidence, fail-closed paths, validated-object continuity, repository-owned requirements, durability/recovery, cross-section integration, terminal promise, system readiness when claimed, protected invariants, exact changed-file scope, complete diff, machine gate, exact-head CI, audit separation/result, escaped-proof correction, and truthful release state satisfy the declared result.
 
-If controlled code verification passes but a mandatory external release condition is unavailable, report `CODE VERIFIED / GOVERNANCE HOLD`. If any repository-controlled mandatory condition is unproved or failed, report `BLOCKED`.
+If controlled code verification passes but a mandatory external release or execution-policy condition is unavailable, report `CODE VERIFIED / GOVERNANCE HOLD`. If any repository-controlled mandatory condition is unproved or failed, report `BLOCKED`.
