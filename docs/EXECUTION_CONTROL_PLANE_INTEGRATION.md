@@ -4,6 +4,7 @@
 **Contract version:** `1.0.0`
 **Protocol:** Governed Coding Upgrade v2.2.0
 **Status:** Governing integration contract
+**Canonical request schema:** `schemas/execution_control_request.schema.json`
 
 ## Purpose
 
@@ -62,9 +63,11 @@ budget_envelope_ref when supplied
 escalation_reason when applicable
 ```
 
+The canonical machine-readable representation is `schemas/execution_control_request.schema.json`. Product-specific adapters may maintain receiving mirrors, but the GCU schema remains the contract authority.
+
 ### `role`
 
-Allowed GCU roles:
+GCU governance roles may include:
 
 ```text
 SCOUT
@@ -76,7 +79,18 @@ AUDITOR
 RELEASE_AUTHORITY
 ```
 
-`RELEASE_AUTHORITY` is a governance role and is not a request for an AI model to approve its own release.
+Only these roles are AI-executable through `gcu-execution-control/1.0.0`:
+
+```text
+SCOUT
+PLANNER
+BUILDER
+CHALLENGER
+VERIFIER
+AUDITOR
+```
+
+`RELEASE_AUTHORITY` is deliberately excluded from the canonical execution request schema. It is a human or repository-controlled governance role, never a request for an AI model to approve its own release.
 
 ### `workload_class`
 
@@ -199,7 +213,8 @@ GCU MUST stop or report `BLOCKED` / `GOVERNANCE HOLD` when a mandatory execution
 - policy authority reports budget exceeded;
 - provider/model bypass is detected;
 - silent fallback is detected where prohibited;
-- independent context is required but not provided.
+- independent context is required but not provided;
+- `RELEASE_AUTHORITY` appears in an AI execution request.
 
 ## Product-specific adapters
 
@@ -216,7 +231,7 @@ GCU execution context
 → receipt references returned to GCU evidence
 ```
 
-Product-specific adapters MUST NOT redefine GCU's change-proof authority or create a second routing/billing authority inside GCU.
+Product-specific adapters MUST NOT redefine GCU's change-proof authority, redefine the canonical request schema, or create a second routing/billing authority inside GCU.
 
 ## Project Adapter fields
 
