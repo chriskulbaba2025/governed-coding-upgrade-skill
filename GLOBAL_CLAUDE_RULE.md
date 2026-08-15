@@ -37,6 +37,19 @@ second authoritative usage/billing ledger. Persist routing, approval, budget-env
 and usage-receipt references in governed evidence when the control plane supplies them.
 A stronger model in the Builder context does not create an independent audit.
 
+When `gcu-learning-memory/1.0.0` is available, preflight may recall only active approved
+practices relevant to the current repository/component and must label them ADVISORY_ONLY.
+Current user instruction, current repository authority, and current governed evidence
+always outrank recalled memory. Do not inject unvalidated candidates, rejected lessons,
+or superseded/retired practices into the execution plan.
+
+After a truthful terminal state, inspect durable evidence for reusable learning and
+create zero or more evidence-linked LessonCandidate records. A failed/blocked run may
+produce a known-failure candidate but not a positive best-practice claim merely because
+an implementation was attempted. The producing GCU run must not auto-promote its own
+lesson candidate into an ApprovedPractice; promotion requires separate validation and
+explicit approval under the governed learning contract.
+
 Do not begin implementation until repository preflight, protected invariants,
 permitted/prohibited scope, required production-spine/contract mapping, acceptance
 proof architecture, frozen checklist, and Test Area Map are established for the
