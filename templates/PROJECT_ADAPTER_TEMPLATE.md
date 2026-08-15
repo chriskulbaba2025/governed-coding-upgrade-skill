@@ -119,6 +119,35 @@ Use `N/A` only when the area truly does not apply to the repository. Use `UNRESO
 
 A single agent may own several roles unless repository governance requires separation.
 
+## Execution control plane
+
+Use this section only when agent/model execution is governed by an external orchestrator or AI policy authority. See `docs/EXECUTION_CONTROL_PLANE_INTEGRATION.md`.
+
+- Integration contract/version: `gcu-execution-control/1.0.0` / N/A / UNRESOLVED
+- Execution orchestrator:
+- AI policy authority:
+- Capability mapping owner:
+- Budget-envelope authority:
+- Model-route approval authority:
+- Usage-ledger authority:
+- Usage-receipt lookup method:
+- Escalation/human-wait mechanism:
+- Independent-context mechanism:
+- Direct provider/model calls from coding agents: FORBIDDEN / CONTROLLED / N/A / UNRESOLVED
+- Provider/model credentials accessible to coding agents: NO / CONTROLLED / N/A / UNRESOLVED
+- Silent model/provider fallback: FORBIDDEN / CONTROLLED / N/A / UNRESOLVED
+
+### Execution evidence returned to GCU
+
+- Orchestrator task/run reference format:
+- Routing-decision reference format:
+- Approval/escalation reference format:
+- Budget-envelope reference format:
+- Usage-receipt reference format:
+- Provider/model bypass check:
+
+The Project Adapter records authority locations and evidence mechanisms. It MUST NOT duplicate provider credentials, provider price tables, model-routing algorithms, or authoritative usage transactions.
+
 ## Change-tier defaults
 
 - T1 LOCAL examples:
@@ -139,4 +168,6 @@ A single agent may own several roles unless repository governance requires separ
 - persistence/migration changes;
 - security/tenant-boundary changes;
 - external-provider changes;
+- execution orchestrator / AI policy authority changes;
+- capability, budget, routing, escalation, or usage-ledger authority changes;
 - other:
