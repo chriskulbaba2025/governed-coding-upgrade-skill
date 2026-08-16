@@ -16,9 +16,10 @@ Preferred layout:
       TEST_AREA_MAP.md
       EVIDENCE.md
       AUDIT.md
+      LEARNING.md
 ```
 
-Small T1 changes may use a reduced package if repository governance permits it.
+Small T1 changes may use a reduced package if repository governance permits it. `LEARNING.md` is required only when `gcu-learning-memory/1.0.0` is active for the change.
 
 ## INTAKE.md
 
@@ -41,6 +42,8 @@ Record only directly supported facts relevant to this change:
 - Project Adapter gaps/staleness;
 - boundaries/contracts;
 - risks and unknowns.
+
+When governed learning memory is available, record the IDs of active approved practices recalled for this repository/component. Recalled memory remains `ADVISORY_ONLY` and never outranks current repository/user authority.
 
 ## CHECKLIST.md
 
@@ -68,6 +71,21 @@ Do not paste secrets or unnecessary sensitive data into evidence files.
 
 Record exact-head audit state, including whether the audit was independent or `SELF_AUDIT`.
 
+## LEARNING.md
+
+When the governed learning loop is active, record references only:
+
+```text
+Contract: gcu-learning-memory/1.0.0
+Run-history refs: ...
+Approved practices recalled: none | <ids>
+Lesson candidates emitted: none | <ids>
+Stale/conflicting practices flagged: none | <ids>
+Practice promotion performed by producing run: NO
+```
+
+The workspace does not become the authoritative Agentic OS lesson/practice ledger. Do not copy full practice stores into the change workspace.
+
 ## Resume rule
 
 After interruption or role handoff:
@@ -77,4 +95,4 @@ After interruption or role handoff:
 3. inspect current diff and test evidence;
 4. continue from the first unproven obligation.
 
-The workspace does not override higher-order repository governance or current user authorization.
+The workspace does not override higher-order repository governance, current user authorization, or current evidence. Approved practices are advisory context only.
