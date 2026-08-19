@@ -38,8 +38,10 @@ GCU must not choose concrete providers/models, store provider credentials, silen
 escalate, duplicate the usage ledger, or model-dispatch Release Authority. Preserve
 applicable usage-receipt and approval references.
 
-If governed learning memory is present, recalled practices are ADVISORY_ONLY and the
-producing run must not auto-promote its own lesson candidate.
+When `gcu-learning-memory/1.0.0` is present, recall only active approved practices and
+label them ADVISORY_ONLY. Current user instruction and current repository authority
+outrank recalled memory. Keep LessonCandidate and ApprovedPractice distinct. The
+producing run must not auto-promote its own LessonCandidate into an ApprovedPractice.
 
 After implementation, run the Causal Necessity Audit. Every material changed boundary
 must map to a frozen requirement and direct causal evidence. If Builder and Auditor are
