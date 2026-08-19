@@ -11,6 +11,7 @@ Preferred layout:
     <CHANGE-ID>/
       INTAKE.md
       DISCOVERY.md
+      SURGICAL_CHANGE.md
       CHECKLIST.md
       AGENT_ROSTER.md
       TEST_AREA_MAP.md
@@ -19,7 +20,7 @@ Preferred layout:
       LEARNING.md
 ```
 
-Small T1 changes may use a reduced package if repository governance permits it. `LEARNING.md` is required only when `gcu-learning-memory/1.0.0` is active for the change.
+Small T1 changes may use a reduced package if repository governance permits it, but the Requirement Preservation and Surgical Change Determinacy obligations still apply. `LEARNING.md` is required only when `gcu-learning-memory/1.0.0` is active for the change.
 
 ## INTAKE.md
 
@@ -45,6 +46,24 @@ Record only directly supported facts relevant to this change:
 
 When governed learning memory is available, record the IDs of active approved practices recalled for this repository/component. Recalled memory remains `ADVISORY_ONLY` and never outranks current repository/user authority.
 
+## SURGICAL_CHANGE.md
+
+Use `templates/SURGICAL_CHANGE_CONTRACT_TEMPLATE.md` or an equivalent durable record.
+
+Freeze:
+
+- Requirement Preservation;
+- direct evidence and change hypothesis;
+- causal boundary;
+- expected and protected surfaces;
+- structural change budget;
+- acceptance proof;
+- expansion conditions.
+
+Record reopen events before implementation expands into any newly justified boundary. Discovery alone never authorizes expansion.
+
+After implementation, add the Causal Necessity Audit and Surgical Determinacy Audit evidence.
+
 ## CHECKLIST.md
 
 Use the governed checklist with stable IDs and binary completion.
@@ -69,7 +88,7 @@ Do not paste secrets or unnecessary sensitive data into evidence files.
 
 ## AUDIT.md
 
-Record exact-head audit state, including whether the audit was independent or `SELF_AUDIT`.
+Record exact-head audit state, including Surgical Determinacy and whether the audit was independent or `SELF_AUDIT`.
 
 ## LEARNING.md
 
@@ -92,7 +111,8 @@ After interruption or role handoff:
 
 1. inspect repository/branch/HEAD;
 2. inspect this workspace;
-3. inspect current diff and test evidence;
-4. continue from the first unproven obligation.
+3. inspect the frozen Surgical Change Contract and any reopen history;
+4. inspect current diff and test evidence;
+5. continue from the first unproven obligation.
 
 The workspace does not override higher-order repository governance, current user authorization, or current evidence. Approved practices are advisory context only.
