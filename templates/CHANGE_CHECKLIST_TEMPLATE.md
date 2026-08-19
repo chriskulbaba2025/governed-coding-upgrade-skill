@@ -1,8 +1,8 @@
 # Governed Change Checklist
 
 **Change ID:**  
-**Protocol version:** 2.2.0  
-**Checklist version:** 1.1.0  
+**Protocol version:** 2.3.0  
+**Checklist version:** 1.2.0  
 **Branch:**  
 **PR:**  
 **Required starting SHA:**  
@@ -21,9 +21,29 @@
 - [ ] Agent roster/separation recorded when used.
 - [ ] Test Area Map created; N/A reasons are explicit.
 
+## Requirement Preservation
+
+- [ ] Original requested outcome recorded faithfully.
+- [ ] Governed interpretation remains implementation-independent.
+- [ ] Explicit exclusions/non-goals recorded.
+- [ ] Observable acceptance condition frozen.
+
+## Surgical Change Determinacy Gate
+
+- [ ] Direct evidence recorded.
+- [ ] Change hypothesis is PROVEN; material causal facts are not UNRESOLVED.
+- [ ] Causal boundary identified.
+- [ ] REQUIRED/EXPECTED/PROHIBITED change surface frozen.
+- [ ] Protected surface frozen.
+- [ ] Structural change budget frozen.
+- [ ] Acceptance proof frozen.
+- [ ] Expansion conditions frozen.
+- [ ] Incidental findings do not create authorization.
+- [ ] Gate status = PASS before implementation.
+
 ## Production correctness
 
-- [ ] Production spine traced where applicable.
+- [ ] Production Spine traced where applicable.
 - [ ] Producer → Contract → Consumer map complete where applicable.
 - [ ] Identity/access continuity mapped where applicable.
 - [ ] Terminal result identified for staging/production claims.
@@ -73,14 +93,26 @@
 - [ ] Existing real path inspected.
 - [ ] Proof defined before implementation.
 - [ ] Failing proof reproduced when safe/feasible.
+- [ ] Implementation stayed inside frozen determinacy boundary or gate was formally reopened first.
 - [ ] Narrow active Test Areas PASS.
 - [ ] Negative proof PASS when required.
 - [ ] Affected earlier sections/boundaries remain PASS.
 - [ ] SECTION A PASS — automatic continuation permitted.
 
+## Causal Necessity Audit
+
+- [ ] Every material changed boundary maps to a Requirement ID.
+- [ ] Each mapping states why the requirement remains incorrect if the boundary is unchanged.
+- [ ] Each mapping has direct evidence.
+- [ ] Unjustified material changes removed or separately authorized.
+- [ ] Selective revert proof used where necessity remained disputed.
+
 ## Challenger gate
 
-- [ ] Assumptions challenged.
+- [ ] Original requirement versus governed interpretation challenged.
+- [ ] Change hypothesis and causal boundary challenged.
+- [ ] Structural change budget and any reopen events challenged.
+- [ ] Incidental-finding adoption challenged.
 - [ ] False-PASS risks challenged.
 - [ ] Downstream consumer/compatibility gaps checked.
 - [ ] Missing negative/recovery/security cases checked.
@@ -108,6 +140,7 @@
 - [ ] Protected invariants PASS.
 - [ ] Scope check PASS — unexpected files = 0; prohibited files = 0.
 - [ ] Complete diff inspected.
+- [ ] Surgical Determinacy Audit PASS.
 - [ ] Terminal machine release gate PASS when required.
 - [ ] Exact-head CI PASS when required.
 - [ ] Audit PASS and separation truthfully labeled.

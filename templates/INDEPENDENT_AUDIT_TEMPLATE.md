@@ -15,6 +15,7 @@ If the Builder and Auditor are the same agent/context, mark `SELF_AUDIT`. Do not
 - `SKILL.md`
 - repository Project Adapter and/or legacy Governed Change Profile
 - change intake/discovery record when used
+- frozen Surgical Change Contract
 - frozen change checklist
 - Agent Roster when used
 - Test Area Map
@@ -32,6 +33,21 @@ If the Builder and Auditor are the same agent/context, mark `SELF_AUDIT`. Do not
 - [ ] Agent/audit separation is labeled truthfully.
 - [ ] Every active Test Area has direct evidence.
 - [ ] Every N/A Test Area has a direct reason.
+
+## Requirement and surgical determinacy checks
+
+- [ ] Original requested outcome was preserved faithfully.
+- [ ] Governed interpretation did not silently add implementation scope.
+- [ ] Change hypothesis was proven before implementation or the gate was formally reopened after contrary evidence.
+- [ ] Causal boundary is directly supported.
+- [ ] Expected and protected surfaces were frozen before implementation.
+- [ ] Structural change budget measures architectural surface, not line count/diff size.
+- [ ] Budget exceedance caused a stop/reopen before new-boundary implementation.
+- [ ] Discovery did not create authorization for incidental work.
+- [ ] Every material changed boundary has Causal Necessity Audit evidence.
+- [ ] Unauthorized scope expansion = 0.
+- [ ] Unjustified architectural/contract/dependency changes = 0.
+- [ ] Surgical Determinacy Audit = PASS.
 
 ## Production correctness checks
 
@@ -64,7 +80,7 @@ If the Builder and Auditor are the same agent/context, mark `SELF_AUDIT`. Do not
 
 - [ ] Reported final SHA equals inspected head.
 - [ ] Required CI ran against that exact SHA.
-- [ ] Changed files remain inside permitted scope.
+- [ ] Changed files remain inside permitted/frozen causal scope.
 - [ ] Prohibited files are untouched.
 - [ ] Every completion claim has direct proof.
 - [ ] No `A OR B` assertion replaces one governed result.
@@ -92,7 +108,7 @@ Otherwise return:
 
 ```text
 BLOCKED or GOVERNANCE HOLD
-Failed checklist IDs / Test Areas / release condition:
+Failed requirement/checklist IDs / Test Areas / determinacy or release condition:
 Exact evidence:
-Smallest required correction/action:
+Smallest causally justified correction/action:
 ```

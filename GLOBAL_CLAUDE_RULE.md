@@ -1,101 +1,58 @@
-# Mandatory Global Invocation Rule
+# Claude Code — Mandatory GCU Invocation Rule
 
-Add this rule to the global coding-agent instruction layer:
+`GLOBAL_CLAUDE_RULE.md` is retained for backward compatibility with existing Claude Code installations.
+
+The canonical vendor-neutral instruction is [`GLOBAL_AGENT_RULE.md`](GLOBAL_AGENT_RULE.md). Claude Code installations should enforce an equivalent rule in their persistent instruction layer and load the authoritative [`SKILL.md`](SKILL.md) before qualifying edits.
+
+## Claude Code rule
 
 ```text
-MANDATORY GOVERNED CODING CHANGES
+For every qualifying coding change, invoke and obey `governed-coding-upgrade` before
+editing. Read the authoritative SKILL.md and the repository Project Adapter/governed
+profile.
 
-For every task that changes code, tests, schemas, dependencies, executable
-configuration, infrastructure, migrations, persistence, build/release logic,
-generated production artifacts, or runtime behavior, invoke and obey
-`governed-coding-upgrade` before editing.
+Run Project Discovery. Preserve the original requested requirement. Before editing,
+pass the Surgical Change Determinacy Gate by freezing the required outcome, evidence,
+change hypothesis, causal boundary, expected change surface, protected surface,
+structural change budget, acceptance proof, and expansion conditions.
 
-Do not assume the project stack. Run Project Discovery and verify the repository's
-Project Adapter / governed profile. Prefer `.governance/PROJECT_ADAPTER.md` for new
-installations. Record material unknowns as UNRESOLVED rather than guessing commands,
-architecture, or boundaries.
+Discovery does not create authorization. Incidental defects, refactors, cleanup,
+hardening, dependency changes, renames, reorganization, and adjacent features stay out
+of the active change unless direct evidence proves they are causally required for the
+frozen outcome.
 
-Classify Change Tier as T1_LOCAL, T2_BOUNDARY, T3_SYSTEM, or T4_RELEASE, and declare
-Release Intent as CHANGE_ONLY, STAGING_READY, or PRODUCTION_READY. Change Tier
-controls governance depth; Release Intent controls the readiness claim.
+If implementation needs a boundary outside the frozen contract, STOP and reopen the
+Surgical Change Determinacy Gate. Never broaden scope automatically. The change budget
+measures architectural surface, not line count or arbitrary diff size.
 
-Select applicable universal Test Areas from STRUCTURE, UNIT, CONTRACT, INTEGRATION,
-END_TO_END/ACCEPTANCE, DATA/MIGRATION, SECURITY/PRIVACY, RELIABILITY/RECOVERY,
-EXTERNAL CALL/COST, PERFORMANCE/RESOURCE, COMPATIBILITY, and RELEASE/DEPLOYMENT.
-Do not convert missing knowledge into N/A.
+Classify Change Tier as T1_LOCAL, T2_BOUNDARY, T3_SYSTEM, or T4_RELEASE. Declare
+Release Intent as CHANGE_ONLY, STAGING_READY, or PRODUCTION_READY. Select applicable
+Test Areas and do not convert unknowns to N/A.
 
-Use agent roles only when they add value. Available roles are Scout, Planner, Builder,
-Challenger, Verifier, Auditor, and Release Authority. One agent may hold several roles
-for small changes. If the Builder audits its own work, label it SELF_AUDIT; do not
-claim independence.
+Use Production Spine and Producer → Contract → Consumer mapping where applicable.
+Freeze acceptance and reject false-PASS proof. Use the Sequential Evidence Gate for
+ordered work and a Challenger gate before terminal acceptance for T2+ work.
 
-When an execution orchestrator or AI policy authority governs the coding agent, obey
-`gcu-execution-control/1.0.0` and the repository Project Adapter. GCU requests a
-provider-neutral workload/capability class; it does not choose providers or concrete
-models, hold provider credentials, silently escalate model capability, or maintain a
-second authoritative usage/billing ledger. Persist routing, approval, budget-envelope,
-and usage-receipt references in governed evidence when the control plane supplies them.
-A stronger model in the Builder context does not create an independent audit.
+When an external execution control plane is present, obey `gcu-execution-control/1.0.0`.
+GCU must not choose concrete providers/models, store provider credentials, silently
+escalate, duplicate the usage ledger, or model-dispatch Release Authority. Preserve
+applicable usage-receipt and approval references.
 
-When `gcu-learning-memory/1.0.0` is available, preflight may recall only active approved
-practices relevant to the current repository/component and must label them ADVISORY_ONLY.
-Current user instruction, current repository authority, and current governed evidence
-always outrank recalled memory. Do not inject unvalidated candidates, rejected lessons,
-or superseded/retired practices into the execution plan.
+If governed learning memory is present, recalled practices are ADVISORY_ONLY and the
+producing run must not auto-promote its own lesson candidate.
 
-After a truthful terminal state, inspect durable evidence for reusable learning and
-create zero or more evidence-linked LessonCandidate records. A failed/blocked run may
-produce a known-failure candidate but not a positive best-practice claim merely because
-an implementation was attempted. The producing GCU run must not auto-promote its own
-lesson candidate into an ApprovedPractice; promotion requires separate validation and
-explicit approval under the governed learning contract.
+After implementation, run the Causal Necessity Audit. Every material changed boundary
+must map to a frozen requirement and direct causal evidence. If Builder and Auditor are
+the same Claude Code context, label the result SELF_AUDIT; a different model in the
+same context does not create independence.
 
-Do not begin implementation until repository preflight, protected invariants,
-permitted/prohibited scope, required production-spine/contract mapping, acceptance
-proof architecture, frozen checklist, and Test Area Map are established for the
-change's tier and release intent.
+For staging/production claims, prove the terminal path and applicable system readiness.
+At exact head, run the Surgical Determinacy Audit, complete diff review, required CI,
+machine gate, and exact-head audit.
 
-For cross-boundary production work, trace the real Production Spine and each
-Producer → Contract → Consumer handoff before editing. Freeze the acceptance
-contract before production implementation. Reject false-PASS proof such as
-unconditional assertions, always-valid validators, fabricated normalized success,
-pre-seeded terminal state, hardcoded external-call claims, or mocks above the
-production boundary being proved.
-
-For ordered multi-section work, execute sequentially:
-inspect → define proof → reproduce failure when safe → implement → narrow verify
-→ section audit → automatically continue on PASS. Do not proceed through a failed
-dependent section.
-
-Before terminal acceptance for T2+ work, run a Challenger pass that tries to falsify
-the plan, implementation assumptions, and proof system. Correct any proof defect
-before terminal PASS.
-
-Use balanced verification: narrow active Test Areas at each section, affected areas
-only when a boundary can be invalidated, then one terminal cross-section/full
-verification after all sections pass.
-
-Acceptance must exercise real project/production modules with controlled dependencies
-below the boundary being proved. Controlled tests should prevent unexpected live
-external execution where technically feasible and use measured call/task counters.
-
-If the agent/API/terminal session is interrupted, resume from repository state and the
-durable change workspace. Continue from the first unproven obligation and preserve
-valid completed work.
-
-A scoped PASS is not production readiness. For STAGING_READY or PRODUCTION_READY,
-prove the terminal user/business promise. For PRODUCTION_READY, also prove the
-applicable full-system readiness responsibilities defined by the skill.
-
-Do not claim RELEASE READY unless the required terminal machine gate exits 0,
-required exact-head CI passes for the exact final SHA, the audit requirement passes,
-and required release authorization exists.
-
-If code verification passes but a mandatory external release condition is unavailable,
-report CODE VERIFIED / GOVERNANCE HOLD rather than final PASS.
-
-Do not merge, deploy, release, activate, make prohibited live paid/provider/model
-calls, change an AI policy route, or bypass a control-plane budget/approval decision
-without the authorization required by repository governance and current user
-instruction.
+Do not claim RELEASE READY without all mandatory proof and authorization. If code is
+verified but a mandatory external condition is unavailable, report CODE VERIFIED /
+GOVERNANCE HOLD.
 ```
+
+See [`docs/CLAUDE_CODE_QUICKSTART.md`](docs/CLAUDE_CODE_QUICKSTART.md) for installation and use.

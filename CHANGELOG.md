@@ -2,6 +2,53 @@
 
 All notable Governed Coding Upgrade releases are recorded here. The machine-facing skill name remains `governed-coding-upgrade`.
 
+## [2.3.0] — 2026-08-19
+
+### Added
+
+- Requirement Preservation before implementation planning so the governed interpretation remains faithful to the original requested outcome.
+- Surgical Change Determinacy Gate with required outcome, direct evidence, change hypothesis, causal boundary, expected/protected change surface, structural change budget, acceptance proof, and explicit expansion conditions.
+- Structural change budgets based on architectural surface rather than line count or arbitrary diff size.
+- Mandatory stop-and-reopen behavior when implementation needs a boundary outside the frozen determinacy contract.
+- Explicit principle: **Discovery does not create authorization.**
+- Incidental-finding rule preventing nearby cleanup, refactoring, dependency work, hardening, renaming, reorganization, or adjacent defects from entering the active change without causal necessity or separate authorization.
+- Causal Necessity Audit mapping each material changed boundary to the requirement, causal justification, and direct evidence.
+- Exact-head Surgical Determinacy Audit covering requirement preservation, hypothesis validity, causal necessity, protected surfaces, change budget, incidental findings, and unauthorized scope expansion.
+- Canonical vendor-neutral `GLOBAL_AGENT_RULE.md`.
+- `templates/SURGICAL_CHANGE_CONTRACT_TEMPLATE.md`.
+- Plain-language GCU explainer and surgical-determinacy deep-dive documentation.
+- Claude Code quickstart.
+- ChatGPT Project/custom GPT usage guide.
+- LLM-agnostic integration guide.
+
+### Changed
+
+- Human-visible release name: **Governed Coding Upgrade v2.3.0 — Surgical Determinacy**.
+- GCU is now explicitly documented as LLM-agnostic; vendor-specific files are adapters rather than the canonical protocol.
+- `GLOBAL_CLAUDE_RULE.md` remains supported for backward compatibility but defers to the vendor-neutral global rule.
+- Change checklist, change workspace, final report, and exact-head audit templates now include surgical-determinacy evidence.
+- Challenger review now also attacks requirement drift, causal assumptions, change-budget expansion, and incidental-work adoption.
+- Correction must reopen determinacy before a newly discovered boundary is modified.
+- Package validation now machine-checks the presence of the v2.3 surgical controls and user-facing adoption documentation.
+
+### Design constraint
+
+v2.3 intentionally stops at one strong pre-change determinacy gate and one strong post-change surgical audit. It does not add separate lifecycle gates for each sub-control, mandatory per-line justification, arbitrary line limits, or mathematical minimality proofs. This keeps the protocol enforceable without turning it into process bureaucracy.
+
+### Retained from v2.2.0
+
+- Project Discovery and Project Adapter schema `1.0.0`.
+- Change Tiers and Release Intent.
+- Vendor-neutral agent roles and truthful `SELF_AUDIT` state.
+- Execution-control contract `gcu-execution-control/1.0.0` and cost/authority separation.
+- Universal Test Area Map.
+- Production Spine and Producer → Contract → Consumer mapping.
+- Acceptance freeze and false-PASS scan.
+- Sequential Evidence Gates and balanced verification.
+- Real-path, negative-path, single-validated-object, external-call, durability/recovery, terminal-path and full-system proof.
+- Machine release gate, exact-head audit, Governance Hold, Production Closure, monorepo support, interruption resume, and escaped-proof regression.
+- Optional governed learning-memory integration.
+
 ## [2.2.0] — 2026-08-14
 
 ### Added

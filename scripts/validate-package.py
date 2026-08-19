@@ -6,17 +6,21 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED = [
-    'README.md', 'SKILL.md', 'GLOBAL_CLAUDE_RULE.md', 'SCORECARD.md',
+    'README.md', 'SKILL.md', 'GLOBAL_AGENT_RULE.md', 'GLOBAL_CLAUDE_RULE.md', 'SCORECARD.md',
     'VERSION', 'CHANGELOG.md', 'NOTICE.md', 'CONTRIBUTING.md', 'SECURITY.md',
     'REPOSITORY_DESCRIPTOR.md', 'docs/ARCHITECTURE.md', 'docs/ADOPTION_GUIDE.md',
     'docs/UNIVERSAL_PROJECT_MODEL.md', 'docs/AGENT_ORCHESTRATION.md',
     'docs/EXECUTION_CONTROL_PLANE_INTEGRATION.md', 'docs/TEST_AREAS.md',
+    'docs/WHAT_GCU_DOES.md', 'docs/SURGICAL_CHANGE_DETERMINACY.md',
+    'docs/CLAUDE_CODE_QUICKSTART.md', 'docs/CHATGPT_AND_CUSTOM_GPT_USAGE.md',
+    'docs/LLM_AGNOSTIC_USAGE.md',
     'schemas/execution_control_request.schema.json',
     'templates/GOVERNED_CHANGE_PROFILE_TEMPLATE.md',
     'templates/PROJECT_ADAPTER_TEMPLATE.md',
     'templates/AGENT_ROSTER_TEMPLATE.md',
     'templates/TEST_AREA_MAP_TEMPLATE.md',
     'templates/CHANGE_WORKSPACE_TEMPLATE.md',
+    'templates/SURGICAL_CHANGE_CONTRACT_TEMPLATE.md',
     'templates/CHANGE_CHECKLIST_TEMPLATE.md',
     'templates/INDEPENDENT_AUDIT_TEMPLATE.md',
     'templates/CORRECTION_TEMPLATE.md', 'templates/FINAL_REPORT_TEMPLATE.md',
@@ -57,48 +61,54 @@ for rel in ['SKILL.md', 'README.md', 'SCORECARD.md', 'REPOSITORY_DESCRIPTOR.md',
 
 skill = (ROOT/'SKILL.md').read_text(encoding='utf-8') if (ROOT/'SKILL.md').exists() else ''
 require_phrases(skill, [
-    'Project Discovery',
-    'Project Adapter',
-    'Change Tier',
-    'Agent orchestration',
-    'Execution control plane integration',
-    'gcu-execution-control/1.0.0',
-    'Release Authority is not an AI model-execution role',
-    'Execution cost versus product external-call cost',
-    'usage-receipt references',
-    'Test Area Map',
-    'Challenger gate',
-    'SELF_AUDIT',
-    'monorepo',
-    'FROZEN CHECKLIST',
-    'EXACT-HEAD AUDIT',
-    'Production Spine gate',
-    'Producer → Contract → Consumer map',
-    'Acceptance contract freeze',
-    'False-PASS scan',
-    'Sequential Evidence Gate',
-    'Balanced verification',
-    'Real production path acceptance',
-    'Evidence preservation',
-    'External-call contract',
-    'Single validated-object rule',
-    'Production Closure Mode',
-    'Durable-job contract',
-    'Terminal-path gate',
-    'Change PASS is not Production Ready',
-    'Full-system production-readiness gate',
-    'Machine release gate',
-    'Independent exact-head audit',
-    'escaped-proof regression',
-    'vertical-spine rule',
-    'GOVERNANCE HOLD',
-    'Interrupted-agent resume',
+    'Project Discovery', 'Project Adapter', 'Requirement Preservation',
+    'Surgical Change Determinacy Gate', 'Discovery does not create authorization',
+    'Structural change budget', 'Causal Necessity Audit', 'Surgical Determinacy Audit',
+    'Change Tier', 'Agent orchestration', 'Execution control plane integration',
+    'gcu-execution-control/1.0.0', 'Release Authority is not an AI model-execution role',
+    'Execution cost versus product external-call cost', 'usage-receipt references',
+    'Test Area Map', 'Challenger gate', 'SELF_AUDIT', 'monorepo', 'FROZEN CHECKLIST',
+    'EXACT-HEAD AUDIT', 'Production Spine gate', 'Producer → Contract → Consumer map',
+    'Acceptance contract freeze', 'False-PASS scan', 'Sequential Evidence Gate',
+    'Balanced verification', 'Real production path acceptance', 'Evidence preservation',
+    'External-call contract', 'Single validated-object rule', 'Production Closure Mode',
+    'Durable-job contract', 'Terminal-path gate', 'Change PASS is not Production Ready',
+    'Full-system production-readiness gate', 'Machine release gate',
+    'Independent exact-head audit', 'escaped-proof regression', 'vertical-spine rule',
+    'GOVERNANCE HOLD', 'Interrupted-agent resume',
 ], 'SKILL.md', errors)
 
 if not re.search(r'^name:\s*governed-coding-upgrade\s*$', skill, re.MULTILINE):
     errors.append('SKILL.md: machine-facing skill name must remain governed-coding-upgrade')
 
 for rel, phrases in {
+    'GLOBAL_AGENT_RULE.md': [
+        'Surgical Change Determinacy Gate', 'Discovery does not create authorization',
+        'Causal Necessity Audit', 'Surgical Determinacy Audit', 'T1_LOCAL',
+        'PRODUCTION_READY', 'SELF_AUDIT', 'gcu-execution-control/1.0.0'
+    ],
+    'GLOBAL_CLAUDE_RULE.md': [
+        'T1_LOCAL', 'Project Adapter', 'Test Areas', 'Challenger gate', 'SELF_AUDIT',
+        'CHANGE_ONLY', 'PRODUCTION_READY', 'Producer → Contract → Consumer', 'false-PASS',
+        'gcu-execution-control/1.0.0', 'usage-receipt', 'Surgical Change Determinacy Gate',
+        'Causal Necessity Audit'
+    ],
+    'docs/SURGICAL_CHANGE_DETERMINACY.md': [
+        'Requirement Preservation', 'Structural change budget',
+        'Discovery does not create authorization', 'Causal Necessity Audit',
+        'Surgical Determinacy Audit', 'Why only two gates'
+    ],
+    'docs/CLAUDE_CODE_QUICKSTART.md': [
+        'Claude Code', 'GLOBAL_AGENT_RULE.md', 'Project Adapter',
+        'Surgical Change Determinacy Gate', 'SELF_AUDIT'
+    ],
+    'docs/CHATGPT_AND_CUSTOM_GPT_USAGE.md': [
+        'ChatGPT Project', 'Custom GPT', 'Project instructions', 'Knowledge',
+        'GLOBAL_AGENT_RULE.md', 'Surgical Change Determinacy Gate'
+    ],
+    'docs/LLM_AGNOSTIC_USAGE.md': [
+        'LLM-Agnostic', 'SKILL.md', 'GLOBAL_AGENT_RULE.md', 'Project Adapter'
+    ],
     'docs/UNIVERSAL_PROJECT_MODEL.md': [
         'Project Discovery', 'Project Adapter', 'T1', 'T4', 'Monorepo'
     ],
@@ -118,6 +128,10 @@ for rel, phrases in {
         'STRUCTURE', 'UNIT', 'CONTRACT', 'INTEGRATION', 'END_TO_END',
         'SECURITY / PRIVACY', 'RELEASE / DEPLOYMENT'
     ],
+    'templates/SURGICAL_CHANGE_CONTRACT_TEMPLATE.md': [
+        'Protocol version: 2.3.0', 'Requirement Preservation', 'Structural Change Budget',
+        'Causal Necessity Audit', 'Surgical Determinacy Audit'
+    ],
     'templates/PROJECT_ADAPTER_TEMPLATE.md': [
         'Adapter schema version: 1.0.0', 'Project kind(s)', 'Default agent roster',
         'Execution control plane', 'Usage-ledger authority'
@@ -127,13 +141,15 @@ for rel, phrases in {
         'Escalation record'
     ],
     'templates/FINAL_REPORT_TEMPLATE.md': [
+        'Skill version: 2.3.0', 'Surgical Change Determinacy Gate',
+        'Causal Necessity Audit', 'Surgical Determinacy Audit',
         'EXECUTION CONTROL PLANE', 'usage-receipt', 'EXECUTION COST STATUS'
     ],
     'templates/TEST_AREA_MAP_TEMPLATE.md': [
         'STRUCTURE', 'CONTRACT', 'RELIABILITY / RECOVERY', 'RELEASE / DEPLOYMENT'
     ],
     'templates/CHANGE_WORKSPACE_TEMPLATE.md': [
-        'INTAKE.md', 'TEST_AREA_MAP.md', 'EVIDENCE.md', 'AUDIT.md'
+        'INTAKE.md', 'SURGICAL_CHANGE.md', 'TEST_AREA_MAP.md', 'EVIDENCE.md', 'AUDIT.md'
     ],
     'templates/PRODUCTION_SPINE_TEMPLATE.md': [
         'Production Spine', 'Producer → Contract → Consumer map', 'Terminal-path proof'
@@ -141,13 +157,10 @@ for rel, phrases in {
     'templates/ACCEPTANCE_CONTRACT_TEMPLATE.md': [
         'Acceptance Contract Template', 'False-PASS scan'
     ],
-    'GLOBAL_CLAUDE_RULE.md': [
-        'T1_LOCAL', 'PROJECT_ADAPTER', 'Test Areas', 'Challenger', 'SELF_AUDIT',
-        'CHANGE_ONLY', 'PRODUCTION_READY', 'Producer → Contract → Consumer', 'false-PASS',
-        'gcu-execution-control/1.0.0', 'usage-receipt'
-    ],
     'templates/CHANGE_CHECKLIST_TEMPLATE.md': [
-        'Protocol version: 2.2.0', 'Test Area Map', 'Challenger gate', 'Acceptance freeze'
+        'Protocol version: 2.3.0', 'Requirement Preservation',
+        'Surgical Change Determinacy Gate', 'Causal Necessity Audit',
+        'Surgical Determinacy Audit', 'Test Area Map', 'Challenger gate', 'Acceptance freeze'
     ],
 }.items():
     p = ROOT / rel
@@ -201,6 +214,12 @@ print('PASS')
 print(f'Version: {version}')
 print(f'Required files: {len(REQUIRED)}/{len(REQUIRED)}')
 print('Machine-facing skill name: governed-coding-upgrade')
+print('Requirement Preservation controls: PRESENT')
+print('Surgical Change Determinacy Gate: PRESENT')
+print('Structural change budget controls: PRESENT')
+print('Causal Necessity Audit: PRESENT')
+print('Surgical Determinacy Audit: PRESENT')
+print('LLM-agnostic invocation rule: PRESENT')
 print('Project Discovery / Adapter controls: PRESENT')
 print('Change Tier controls: PRESENT')
 print('Agent orchestration controls: PRESENT')
