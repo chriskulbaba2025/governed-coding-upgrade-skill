@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/gcu/governed_state_capsule.schema.json",
+  "title": "GCU Governed State Capsule",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "changeId",
+    "repository",
+    "branch",
+    "startingSha",
+    "currentSha",
+    "changeTier",
+    "releaseIntent",
+    "phase",
+    "executionState",
+    "lastProvenObligation",
+    "nextObligation",
+    "activeFiles",
+    "protectedBoundaries",
+    "unresolved",
+    "decisionRefs",
+    "validProofRefs",
+    "invalidatedProofRefs",
+    "nextAuthorizationBoundary",
+    "contextManifest",
+    "updatedAt"
+  ],
+  "properties": {
+    "contract": {
+      "const": "gcu-state-capsule/1.0.0"
+    },
+    "changeId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repository": {
+      "type": "string",
+      "minLength": 1
+    },
+    "branch": {
+      "type": "string",
+      "minLength": 1
+    },
+    "startingSha": {
+      "type": "string",
+      "minLength": 7
+    },
+    "currentSha": {
+      "type": "string",
+      "minLength": 7
+    },
+    "changeTier": {
+      "enum": ["T1_LOCAL", "T2_BOUNDARY", "T3_SYSTEM", "T4_RELEASE"]
+    },
+    "releaseIntent": {
+      "enum": ["CHANGE_ONLY", "STAGING_READY", "PRODUCTION_READY"]
+    },
+    "phase": {
+      "enum": [
+        "PREFLIGHT",
+        "DISCOVERY",
+        "DETERMINACY",
+        "BUILD",
+        "VERIFY",
+        "CHALLENGE",
+        "AUDIT",
+        "RELEASE",
+        "CLOSED",
+        "BLOCKED"
+      ]
+    },
+    "executionState": {
+      "enum": ["READY", "BLOCKED", "GOVERNANCE_HOLD", "CLOSED"]
+    },
+    "lastProvenObligation": {
+      "type": ["string", "null"]
+    },
+    "nextObligation": {
+      "type": ["string", "null"]
+    },
+    "activeFiles": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "protectedBoundaries": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "unresolved": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "claim", "blocking"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "claim": {"type": "string", "minLength": 1},
+          "blocking": {"type": "boolean"}
+        }
+      }
+    },
+    "decisionRefs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "validProofRefs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "invalidatedProofRefs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "nextAuthorizationBoundary": {
+      "type": ["string", "null"]
+    },
+    "contextManifest": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
