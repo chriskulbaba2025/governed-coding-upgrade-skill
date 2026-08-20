@@ -17,6 +17,17 @@ Do not assume the project stack. Run Project Discovery and verify the repository
 Project Adapter / governed profile. Record material unknowns as UNRESOLVED rather than
 guessing architecture, commands, contracts, or boundaries.
 
+For material or interruptible work, maintain
+`.governance/changes/<CHANGE-ID>/STATE.json` under `gcu-state-capsule/1.0.0`.
+The capsule is a derived resume index, never a replacement for repository truth or
+governed evidence. On a fresh context, handoff, interruption, or context-limit recovery,
+verify repository/branch/HEAD first, read STATE.json, then load only the references in
+`contextManifest` plus code required by the active causal boundary. Continue from
+`nextObligation`. Do not re-investigate a referenced proven decision or rerun a
+referenced valid intermediate proof unless its documented invalidation condition has
+been triggered. If STATE.json conflicts with repository state or direct evidence,
+repository/evidence wins and the capsule must be repaired before continuing.
+
 Before implementation, preserve the requested requirement and pass the Surgical
 Change Determinacy Gate. Freeze the required outcome, supporting evidence, change
 hypothesis, causal boundary, expected change surface, protected surface, structural
