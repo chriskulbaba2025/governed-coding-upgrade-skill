@@ -82,9 +82,9 @@ def capsule_is_stale(capsule: dict, repository_sha: str) -> bool:
 
 def require_phrases(path: Path, phrases: tuple[str, ...]) -> None:
     require(path.is_file(), f"required file exists: {path.relative_to(ROOT)}")
-    text = path.read_text(encoding="utf-8")
+    text = path.read_text(encoding="utf-8").casefold()
     for phrase in phrases:
-        require(phrase in text, f"{path.name} contains: {phrase}")
+        require(phrase.casefold() in text, f"{path.name} contains: {phrase}")
 
 
 def main() -> int:
