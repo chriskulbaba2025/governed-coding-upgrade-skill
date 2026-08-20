@@ -9,6 +9,7 @@ Preferred layout:
   PROJECT_ADAPTER.md
   changes/
     <CHANGE-ID>/
+      STATE.json
       INTAKE.md
       DISCOVERY.md
       SURGICAL_CHANGE.md
@@ -20,7 +21,17 @@ Preferred layout:
       LEARNING.md
 ```
 
-Small T1 changes may use a reduced package if repository governance permits it, but the Requirement Preservation and Surgical Change Determinacy obligations still apply. `LEARNING.md` is required only when `gcu-learning-memory/1.0.0` is active for the change.
+Small T1 changes may use a reduced package if repository governance permits it, but the Requirement Preservation and Surgical Change Determinacy obligations still apply. `LEARNING.md` is required only when `gcu-learning-memory/1.0.0` is active for the change. `STATE.json` is preferred for any material, multi-context, interruptible, or long-running change.
+
+## STATE.json
+
+For resumable work, use `gcu-state-capsule/1.0.0` with `templates/GOVERNED_STATE_CAPSULE_TEMPLATE.json`.
+
+The capsule is a compact derived index over authoritative repository state and governed evidence. Record only the current phase, `nextObligation`, active/protected boundaries, unresolved items, decision/proof references, authorization boundary, and `contextManifest` needed for the next action.
+
+Do not copy full evidence, transcripts, prompts, secrets, provider credentials, or authoritative usage/billing transactions into the capsule.
+
+At each meaningful governed transition, update the capsule. Do not update it for every command or conversational turn.
 
 ## INTAKE.md
 
@@ -107,12 +118,14 @@ The workspace does not become the authoritative Agentic OS lesson/practice ledge
 
 ## Resume rule
 
-After interruption or role handoff:
+After interruption, context-limit recovery, or role handoff:
 
-1. inspect repository/branch/HEAD;
-2. inspect this workspace;
-3. inspect the frozen Surgical Change Contract and any reopen history;
-4. inspect current diff and test evidence;
-5. continue from the first unproven obligation.
+1. inspect repository/branch/HEAD and working-tree state;
+2. read `STATE.json` first when present and verify its `currentSha` against repository truth;
+3. load only the `contextManifest` references plus code required by the active causal boundary;
+4. inspect the frozen Surgical Change Contract only where referenced or when scope has reopened;
+5. preserve referenced valid proof and decision state unless its invalidation condition has triggered;
+6. continue from `nextObligation`, not from the beginning of discovery;
+7. if the capsule conflicts with repository state or direct evidence, repair the capsule before continuing.
 
-The workspace does not override higher-order repository governance, current user authorization, or current evidence. Approved practices are advisory context only.
+Repository state and direct evidence outrank the capsule. The capsule outranks agent/session memory only as a compact resume index. Approved practices remain advisory context only.

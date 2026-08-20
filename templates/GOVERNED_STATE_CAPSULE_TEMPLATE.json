@@ -1,0 +1,26 @@
+{
+  "contract": "gcu-state-capsule/1.0.0",
+  "changeId": "CHANGE-ID",
+  "repository": "owner/repository",
+  "branch": "feature/change-id",
+  "startingSha": "0000000",
+  "currentSha": "0000000",
+  "changeTier": "T2_BOUNDARY",
+  "releaseIntent": "CHANGE_ONLY",
+  "phase": "PREFLIGHT",
+  "executionState": "READY",
+  "lastProvenObligation": null,
+  "nextObligation": "PREFLIGHT-01",
+  "activeFiles": [],
+  "protectedBoundaries": [],
+  "unresolved": [],
+  "decisionRefs": [],
+  "validProofRefs": [],
+  "invalidatedProofRefs": [],
+  "nextAuthorizationBoundary": null,
+  "contextManifest": [
+    "PROJECT_ADAPTER.md#relevant-section",
+    "INTAKE.md"
+  ],
+  "updatedAt": "2000-01-01T00:00:00Z"
+}

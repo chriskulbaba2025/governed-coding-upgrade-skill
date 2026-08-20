@@ -11,6 +11,15 @@ For every qualifying coding change, invoke and obey `governed-coding-upgrade` be
 editing. Read the authoritative SKILL.md and the repository Project Adapter/governed
 profile.
 
+For material or interruptible work, maintain
+`.governance/changes/<CHANGE-ID>/STATE.json` under `gcu-state-capsule/1.0.0`.
+On a fresh context, handoff, interruption, or context-limit recovery, verify repository
+identity/branch/HEAD first, then read STATE.json and load only its `contextManifest`
+references plus code inside the active causal boundary. Continue from `nextObligation`.
+Do not re-investigate referenced proven decisions or rerun referenced valid intermediate
+proofs unless their invalidation condition has triggered. Repository state and direct
+evidence override stale capsule state.
+
 Run Project Discovery. Preserve the original requested requirement. Before editing,
 pass the Surgical Change Determinacy Gate by freezing the required outcome, evidence,
 change hypothesis, causal boundary, expected change surface, protected surface,
